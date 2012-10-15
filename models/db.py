@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from gluon import *
 
-db = DAL("mysql://nds:test@172.30.136.176/ndsreport_new", pool_size=10)
-#db = DAL("mysql://root:111@localhost/test", pool_size=10)
+#db = DAL("mysql://nds:test@172.30.136.176/ndsreport_new", pool_size=10)
+db = DAL("mysql://root:111@localhost/test", pool_size=10)
 
 migrate = False
 

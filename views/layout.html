@@ -41,14 +41,14 @@
           {{=MENU(response.menu, _class='nav' ,li_class='dropdown',ul_class='dropdown-menu')}}
           {{pass}}
         </div><!--/.nav-collapse -->
-      </div>
+      </div>web2web2web2
     </div>
 
     <!-- {{=response.basket}} -->
     <button id="test">vasea</button>
     <button id="test2">vasea</button>
     <div class="dropdown">
-    <h5 class="dropdown-menu2"  data-toggle="dropdown">SHORT LABEL PREVIEW<b class="caret"></b></h5>
+    <h5 class="dropdown-menu2">SHORT LABEL PREVIEW<b class="caret"></b></h5>
     <ul class="dropdown-menu" >
     <li><div class="mydivider"></div></li>
     <li class="factrunnings"><h8>FACT Runnings</h8></li>
@@ -56,8 +56,8 @@
     <li><div id="vsrunningsdivider" class="mydivider"></div></li>
     <li id="vsrunnings" class="factrunnings"><h8>VS Runnings</h8></li>
     <li id="nonevsrunnings" class="none"><h8>none</h8></li>
-     <li><div class="mydivider"></div></li>
-    <li><button id="savelabel" style="margin-left:60px;" class="savelabel btn btn-primary">Save label</button></li>
+    <li><div class="mydivider"></div></li>
+    <li><button id="savelabel" data-toggle="modal" data-target="#myModal" style="margin-left:60px;" class="savelabel btn btn-primary">Save label</button></li>
 
     </ul>
     </div>
@@ -65,18 +65,25 @@
   </div><!--/top navbar -->
 
   <div class="container">
+
+       <form action="/web2py_birt/fact/saveLabel" class="modal hide fade" id="myModal">
+             <div class="modal-header">
+               <a class="close" data-dismiss="modal">×</a>
+               <h3>Modal header</h3>
+             </div>
+             <div class="modal-body">
+               <p>One fine body…</p>
+             </div>
+             <div class="modal-footer">
+               <a href="#" class="btn">Close</a>
+               <button type="submit" class="btn btn-primary">Save changes</button>
+             </div>
+           </form>
+
     <!-- Masthead ================================================== -->
     <header class="mastheader row" id="header">
         <div class="span12">
-            <!--  <div class="sixteen columns statusbar">
-                    <div id="menu" class="clearfix">{{=MENU(response.menu,_class='sf-menu')}}
-                  </div>
-              </div> -->
 
-
-            <div class="page-header">
-              
-            </div>
         </div>
     </header>
 
@@ -122,13 +129,6 @@
         });
 
         jQuery('.dropdown-menu').live('click',function () {
-          if($("#vsrunningsdivider").prev().length==0){
-            $('#vsrunningsdivider').before($('<li id="nonefactrunnings" class="none"><h8>none</h8></li>'))
-          }
-
-          if($("#vsrunnings").next().length==0){
-            $('#vsrunnings').after($('<li id="nonevsrunnings" class="none"><h8>none</h8></li>'))
-          }
            event.stopPropagation();
         });
 
@@ -141,7 +141,14 @@
               type: "POST",
               url: "/web2py_birt/fact/removeLabelFromSession",
               data: "testsuitename=" + testsuitename
-              }).done(function( msg ) {});
+              }).done(function( msg ) {
+                 if (msg == 0){
+                    $('#vsrunningsdivider').before($('<li id="nonefactrunnings" class="none"><h8>none</h8></li>'))
+                 }
+              });
+             // if($("#vsrunnings").next().length==0){
+             //   $('#vsrunnings').after($('<li id="nonevsrunnings" class="none"><h8>none</h8></li>'))
+             // }
         });
 
 
@@ -183,7 +190,6 @@
           var myOptions = {
               val2 : '<a value="10" href="#"><i class="icon-remove"></i>Vs gagaga</a>'
           };
-          var mySelect = $('.dropdown-menu');
           $.each(myOptions, function(val, text) {
             $('#vsrunnings').after($('<li></li>').val(val).html(text));
           });

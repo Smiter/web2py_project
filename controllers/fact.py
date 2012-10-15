@@ -68,7 +68,7 @@ def saveLabelList():
     logging.error("AJAX CALL")
     labelList = json.loads(request.post_vars.array)
     resultList = []
-    for u in labelList:
+    for u in labelList:  
         if session.vasea:
             if not u in session.vasea:
                 resultList.append(u)
@@ -84,3 +84,9 @@ def saveLabelList():
 def removeLabelFromSession():
     logging.error("AJAX CALL2")
     session.vasea.remove(request.post_vars.testsuitename)
+    return len(session.vasea)
+
+
+
+def saveLabel():
+    logging.error("EEE")
