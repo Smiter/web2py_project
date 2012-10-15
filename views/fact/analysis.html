@@ -1,0 +1,59 @@
+{{extend 'layout.html'}}
+
+<script type="text/javascript">
+var t = {{=XML(response.json(m))}}
+console.log(t)
+
+var tableId = "analysistable"
+var analyzeButtonid = "Save"
+var analyzeButtonStyle = "analyzeButton btn btn-primary"
+var dataTableHandler = "/myapp1/fact/analyzeHandler"
+
+var tableColumns = [
+  { "sTitle": "Select", "bSortable": false ,"sWidth": "1%","mData" : null,
+    "sDefaultContent": '<input type = "checkbox">'},
+  { "sTitle": "Testcase name","sWidth": "10%","mData" : "testdescription.name"},
+  { "sTitle": "Testcase description","bSortable": false,"sWidth": "90%", "mData": "testdescription.testdescription" },
+  { "sTitle": "Status","sWidth": "10%", "mData": "testresult.testresult" },
+  { "sTitle": "Error description", "bSortable": false,"sWidth": "20%", "mData": "testresult.failuredescription" },
+  { "sTitle": "Bug type","sWidth": "10%", "mData": "analysis.errortype" },
+  { "sTitle": "Jira Id","sWidth": "20%", "mData": "analysis.elvis_id" },
+  { "sTitle": "Comment", "bSortable": false,"sWidth": "20%", "mData": "analysis.comment" },
+  { "sTitle": "Testresult id", "bVisible" : false, "mData" : "testresult.id"}
+  ]
+
+var sorting = [[ 3,"asc" ]]
+
+MyApp.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid]);
+MyApp.addButton(analyzeButtonid,tableId,analyzeButtonStyle);
+MyApp.addMultiClickRawHandler([analyzeButtonid],tableId);
+MyApp.addSaveButtonHandler();
+MyApp.addFiltering();
+MyApp.testsuiteid = t
+</script>
+
+<div id="demo">
+<form id="form" method = "POST" action = "/myapp1/fact/saveAnalyze">
+<table cellpadding="0" cellspacing="0" border="0" class="display" id="analysistable">
+  <tbody width="100%">
+    <tr>
+      <td colspan="55" class="dataTables_empty">Loading data from server</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <th><input type="hidden" name="search_id" class="search_init_focus_of"/></th>
+      <th><input type="text" name="search_name" value="Search" class="search_init_focus_of" /></th>
+      <th><input type="hidden" name="search_desc" value="Search" class="search_init_focus_of" /></th>
+      <th><input type="hidden" name="search_status" value="Search" class="search_init_focus_of" /></th>
+      <th><input type="hidden" name="search_error" value="Search" class="search_init_focus_of" /></th>
+      <th><input type="hidden"  value="Search" class="search_init_focus_of" /></th>
+      <th><input type="text" name="search_jira" value="Search" class="search_init_focus_of" /></th>
+      <th><input type="hidden" name="search_coment" value="Search" class="search_init_focus_of" /></th>
+      <th></th>
+    </tr>
+  </tfoot>
+</table>
+</form>
+</div>
+

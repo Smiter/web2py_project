@@ -1,0 +1,56 @@
+{{extend 'layout.html'}}
+
+<script type="text/javascript">
+var tableId = "testsuitetable"
+var analyzeButtonid = "analyze"
+var addtolabelid= 'addtolabel'
+var buttonStyle = "analyzeButton btn btn-primary"
+var dataTableHandler = "/myapp1/fact/runsHandler"
+
+var tableColumns = [
+  { "sTitle": "Select", "bSortable": false ,"sWidth": "1%","mData" : null,
+    "sDefaultContent": '<input type = "checkbox">'},
+  { "sTitle": "Id","sWidth": "8%", "mData": "testsuite.id" },
+  { "sTitle": "Name", "bSortable": false ,"sWidth": "15%", "mData": "testsuite.testsuitename" },
+  { "sTitle": "Start date" ,"sWidth": "13%", "mData": "testsuite.starttime" },
+  { "sTitle": "Finish date" ,"sWidth": "13%", "mData": "testsuite.endtime" },
+  { "sTitle": "User","sWidth": "15%", "mData": "testsuite.user" },
+  { "sTitle": "Anaconda branch" , "bSortable": false,"sWidth": "25%", "mData": "anaconda.name" },
+  { "sTitle": "CL" , "bSortable": false,"sWidth": "13%", "mData": "anaconda.changelist" },
+  { "sTitle": "Analyzed","bSortable": false,"sWidth": "0%", "mData": "testsuite.analyzed" }]
+
+var sorting = [[ 1, "desc" ]]
+
+MyApp.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid]);
+MyApp.addButton(addtolabelid,tableId,buttonStyle,"button");
+MyApp.addButton(analyzeButtonid,tableId,buttonStyle,"submit");
+MyApp.addMultiClickRawHandler([analyzeButtonid,addtolabelid],tableId);
+MyApp.addAnalyzeButtonHandler();
+MyApp.addFiltering();
+</script>
+
+<div id="demo">
+<form id="form" method = "POST" action = "/myapp1/fact/analysis">
+<table cellpadding="0" cellspacing="0" border="0" class="display" id="testsuitetable">
+  <tbody width="100%">
+    <tr>
+      <td colspan="55" class="dataTables_empty">Loading data from server</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <th><input type="hidden" name="search_id" class="search_init_focus_of"/></th>
+      <th><input type="text" name="search_id" value="Search" class="search_init_focus_of" /></th>
+      <th><input type="text" name="search_name" value="Search" class="search_init_focus_of" /></th>
+      <th><input type="text" name="search_starttime" value="Search" class="search_init_focus_of" /></th>
+      <th><input type="text" name="search_endtime" value="Search" class="search_init_focus_of" /></th>
+      <th><input type="text" name="search_user" value="Search" class="search_init_focus_of" /></th>
+      <th><input type="text" name="search_branch" value="Search" class="search_init_focus_of" /></th>
+      <th><input type="text" name="search_cl" value="Search" class="search_init_focus_of" /></th>
+      <th></th>
+    </tr>
+  </tfoot>
+</table>
+</form>
+</div>
+
