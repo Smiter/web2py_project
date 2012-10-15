@@ -56,6 +56,8 @@
     <li><div id="vsrunningsdivider" class="mydivider"></div></li>
     <li id="vsrunnings" class="factrunnings"><h8>VS Runnings</h8></li>
     <li id="nonevsrunnings" class="none"><h8>none</h8></li>
+     <li><div class="mydivider"></div></li>
+    <li><button style="margin-left:60px;" class="savelabel btn btn-primary">Save label</button></li>
 
     </ul>
     </div>
@@ -137,7 +139,7 @@
           $(this).closest('li').remove()
              $.ajax({
               type: "POST",
-              url: "/myapp1/fact/removeLabelFromSession",
+              url: "/web2py_birt/fact/removeLabelFromSession",
               data: "testsuitename=" + testsuitename
               }).done(function( msg ) {});
         });
@@ -163,7 +165,7 @@
             }
             $.ajax({
               type: "POST",
-              url: "/myapp1/fact/saveLabelList",
+              url: "/web2py_birt/fact/saveLabelList",
               data: "array="+JSON.stringify(tempArray)
               }).done(function( msg ) {
                 var contact = JSON.parse(msg);
