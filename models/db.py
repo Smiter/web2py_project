@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from gluon import *
 
-#db = DAL("mysql://nds:test@172.30.136.176/ndsreport_new", pool_size=10)
-db = DAL("mysql://root:111@localhost/test", pool_size=10)
+db = DAL("mysql://nds:test@172.30.136.176/ndsreport_new", pool_size=10)
+#db = DAL("mysql://root:111@localhost/test", pool_size=10)
 
 migrate = False
 
@@ -66,6 +66,7 @@ db.define_table('label',
                 Field('user', type='text'),
                 Field('releaserecommendationswqs', type='text'),
                 Field('ctrssnapshotid', type='integer'),
+                Field('date', type='text'),
                 primarykey=['id', 'id'],
                 migrate=migrate)
 

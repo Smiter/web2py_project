@@ -61,14 +61,14 @@ def saveAnalyze():
 
     logging.error(request.vars.testsuiteid)
     db(db.testsuite.id == request.vars.testsuiteid).update(analyzed=1)
-    redirect(URL('myapp1', 'fact', 'runs'))
+    redirect(URL('web2py_birt', 'fact', 'runs'))
 
 
 def saveLabelList():
     logging.error("AJAX CALL")
     labelList = json.loads(request.post_vars.array)
     resultList = []
-    for u in labelList:  
+    for u in labelList:
         if session.vasea:
             if not u in session.vasea:
                 resultList.append(u)
@@ -84,9 +84,43 @@ def saveLabelList():
 def removeLabelFromSession():
     logging.error("AJAX CALL2")
     session.vasea.remove(request.post_vars.testsuitename)
-    return len(session.vasea)
-
 
 
 def saveLabel():
-    logging.error("EEE")
+    logging.error("saveLabel")
+    logging.error(request.post_vars.username)
+    logging.error(request.post_vars.labelname)
+
+    # db.label.insert(     
+    #     releasename=request.post_vars.labelname,
+    #     user=request.post_vars.username )
+
+    for u in session.vasea:
+        logging.error(u)
+
+    #  analysisListOfMaps = json.loads(request.vars.analysisMap)
+    # for map_item in analysisListOfMaps:
+    #     testresult_id = map_item["testresult_id"]
+    #     errortype = map_item["errortype"]
+    #     comment = map_item["comment"]
+    #     jira_id = map_item["jira_id"]
+    #     row = db(db.analysis.testresult_id == testresult_id).select().first()
+    #     if row:
+    #         db(db.analysis.testresult_id == testresult_id).update(
+    #             id=row.id,
+    #             testresult_id=testresult_id,
+    #             errortype=errortype,
+    #             comment=comment,
+    #             elvis_id=jira_id)
+    #     else:
+    #         db.analysis.insert(
+    #             testresult_id=testresult_id,
+    #             errortype=errortype,
+    #             comment=comment,
+    #             elvis_id=jira_id)
+
+    # logging.error(request.vars.testsuiteid)
+    # db(db.testsuite.id == request.vars.testsuiteid).update(analyzed=1)
+
+
+    # redirect(URL('web2py_birt', 'labels', 'list'))

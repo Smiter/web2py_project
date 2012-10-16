@@ -8,6 +8,22 @@ response.menu = [
     (T('Report preview'), False, URL('reportprev', 'preview'))]
     # (T('Short label preview'), False, A('Short label preview', _class='labelpreview', _id='label_preview'))  ]
 
+# fields = ['releasename','user']
+# form = SQLFORM(db.label,fields = fields)
+
+
+
+# form['_class']='modal hide fade'
+# form['_id']='myModal'
+
+
+# if form.process().accepted:
+#     response.flash = 'form accepted'
+# elif form.errors:
+#     response.flash = 'form has errors'
+# else:
+#     response.flash = 'please fill out the form'
+
 
 # response.menu += [
 #     (SPAN('Short Label preview', _style='color:yellow;margin-left: 305px;',_id="t5"), False, '', [
@@ -46,4 +62,3 @@ response.menu = [
 
 
 response.basket = (DIV(DIV('Short label preview', _class='dropdown-menu2'), _class='dropdown', _id="t5"))
-

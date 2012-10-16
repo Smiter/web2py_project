@@ -7,7 +7,7 @@ console.log(t)
 var tableId = "analysistable"
 var analyzeButtonid = "Save"
 var analyzeButtonStyle = "analyzeButton btn btn-primary"
-var dataTableHandler = "/myapp1/fact/analyzeHandler"
+var dataTableHandler = "/web2py_birt/fact/analyzeHandler"
 
 var tableColumns = [
   { "sTitle": "Select", "bSortable": false ,"sWidth": "1%","mData" : null,
@@ -33,7 +33,7 @@ MyApp.testsuiteid = t
 </script>
 
 <div id="demo">
-<form id="form" method = "POST" action = "/myapp1/fact/saveAnalyze">
+<form id="form" method = "POST" action = "/web2py_birt/fact/saveAnalyze">
 <table cellpadding="0" cellspacing="0" border="0" class="display" id="analysistable">
   <tbody width="100%">
     <tr>

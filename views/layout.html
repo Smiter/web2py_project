@@ -17,6 +17,7 @@
   response.files.append(URL('static','css/superfish.css'))
   response.files.append(URL('static','css/examples.css'))
   response.files.append(URL('static','css/birtstyles.css'))
+  response.files.append(URL('static','css/datepicker.css'))
   }}
 
   {{include 'web2py_ajax.html'}}
@@ -41,15 +42,15 @@
           {{=MENU(response.menu, _class='nav' ,li_class='dropdown',ul_class='dropdown-menu')}}
           {{pass}}
         </div><!--/.nav-collapse -->
-      </div>web2web2web2
+      </div>
     </div>
 
     <!-- {{=response.basket}} -->
-    <button id="test">vasea</button>
-    <button id="test2">vasea</button>
+    <!-- <button id="test">vasea</button> -->
+    <!-- <button id="test2">vasea</button> -->
     <div class="dropdown">
     <h5 class="dropdown-menu2">SHORT LABEL PREVIEW<b class="caret"></b></h5>
-    <ul class="dropdown-menu" >
+    <ul id="label_dropdown_menu" class="dropdown-menu" >
     <li><div class="mydivider"></div></li>
     <li class="factrunnings"><h8>FACT Runnings</h8></li>
     <li id="nonefactrunnings" class="none"><h8>none</h8></li>
@@ -66,19 +67,34 @@
 
   <div class="container">
 
-       <form action="/web2py_birt/fact/saveLabel" class="modal hide fade" id="myModal">
+       <form method="POST" action="/web2py_birt/fact/saveLabel" class="modal hide fade" id="myModal">
              <div class="modal-header">
                <a class="close" data-dismiss="modal">×</a>
-               <h3>Modal header</h3>
+               <h3>Label creation page</h3>
              </div>
              <div class="modal-body">
-               <p>One fine body…</p>
+                <table>
+                  <tr>
+                         <td><label>Label name: </label></td>
+                         <td><input  style="width:230px" type="text" name="labelname" value="" /></td>
+                         <td></td>
+                  </tr>
+               <!--    <tr>
+                         <td><label>Data creation: </label></td>
+                         <td><input type="text" class="span2"  data-date-format="mm/dd/yy" id="dp2" ></td>
+                         <td></td>
+                  </tr> -->
+                  <tr>
+                         <td><label>User name: </label></td>
+                         <td><input style="width:230px" type="text" name="username" value=""/></td>
+                         <td></td>
+                  </tr>
+                </table>
              </div>
              <div class="modal-footer">
-               <a href="#" class="btn">Close</a>
                <button type="submit" class="btn btn-primary">Save changes</button>
              </div>
-           </form>
+        </form>
 
     <!-- Masthead ================================================== -->
     <header class="mastheader row" id="header">
@@ -123,12 +139,13 @@
 
     // this code improves bootstrap menus and adds dropdown support
     jQuery(function(){
+        
 
         jQuery('.dropdown').live('click',function () {
-           jQuery(this).find('.dropdown-menu').fadeToggle("fast");
+           jQuery(this).find('#label_dropdown_menu').fadeToggle("fast");
         });
 
-        jQuery('.dropdown-menu').live('click',function () {
+        jQuery('#label_dropdown_menu').live('click',function () {
            event.stopPropagation();
         });
 
@@ -156,7 +173,7 @@
         //add to label preview new item
 
         jQuery('#addtolabel').live('click',function () {
-            jQuery('.dropdown-menu').fadeIn("fast");
+            jQuery('#label_dropdown_menu').fadeIn("fast");
             $('#nonefactrunnings').remove()
             var tempArray = Array()
             var aTrs = MyApp.oTable.fnGetNodes();
@@ -196,7 +213,7 @@
 
         });
   
-
+        $('#dp2').datepicker('setValue', new Date())
       // make all buttons bootstrap buttons
       jQuery('button, form input[type="submit"], form input[type="button"]').addClass('btn').css({'margin-right':'2px','margin-bottom':'2px'});
     });
