@@ -67,36 +67,33 @@ def saveAnalyze():
 def saveLabelList():
     logging.error("AJAX CALL")
     labelList = json.loads(request.post_vars.array)
-    resultList = []
-    for u in labelList:
+    resultList=dict()
+    for k, v in labelList.items():
         if session.vasea:
-            if not u in session.vasea:
-                resultList.append(u)
+            if not k in session.vasea:
+                session.vasea[k] = v
+                resultList[k]=v
         else:
-            session.vasea = []
-            resultList.append(u)
-
-    session.vasea += resultList
-
+            session.vasea = dict()
+            session.vasea[k]=v
+            resultList[k]=v
     return response.json(resultList)
 
 
 def removeLabelFromSession():
     logging.error("AJAX CALL2")
-    session.vasea.remove(request.post_vars.testsuitename)
+    del session.vasea[request.post_vars.testsuiteid]
+    return len(session.vasea)
 
 
 def saveLabel():
     logging.error("saveLabel")
     logging.error(request.post_vars.username)
     logging.error(request.post_vars.labelname)
-
+    logging.error(session.vasea.keys())
     # db.label.insert(     
-    #     releasename=request.post_vars.labelname,
-    #     user=request.post_vars.username )
-
-    for u in session.vasea:
-        logging.error(u)
+        # releasename=request.post_vars.labelname,
+        # user=request.post_vars.username )
 
     #  analysisListOfMaps = json.loads(request.vars.analysisMap)
     # for map_item in analysisListOfMaps:

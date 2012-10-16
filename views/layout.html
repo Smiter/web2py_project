@@ -128,12 +128,13 @@
     {{if session.vasea:}}
            var labellist = {{=XML(response.json(session.vasea))}}
            jQuery(function(){
-          if (labellist.length){
+          // if (labellist.length){
+            
           $.each(labellist, function(val, text) {
             $('#nonefactrunnings').remove()
-            $('#vsrunningsdivider').before($('<li></li>').html(text));
+            $('#vsrunningsdivider').before($('<li></li>').html('<a value="'+val+'" href="#"><i class="icon-remove"></i>'+text+'</a>'));
           });
-        }
+        // }
       });
      {{pass}}
 
@@ -151,13 +152,12 @@
 
        
         jQuery('.icon-remove').live('click',function () {
-          console.log($(this).closest('a'))
-          testsuitename = $(this).closest('a')[0].outerHTML
+          testsuiteid =  $(this).closest('a').attr('value')
           $(this).closest('li').remove()
              $.ajax({
               type: "POST",
               url: "/web2py_birt/fact/removeLabelFromSession",
-              data: "testsuitename=" + testsuitename
+              data: "testsuiteid=" + testsuiteid
               }).done(function( msg ) {
                  if (msg == 0){
                     $('#vsrunningsdivider').before($('<li id="nonefactrunnings" class="none"><h8>none</h8></li>'))
@@ -176,6 +176,7 @@
             jQuery('#label_dropdown_menu').fadeIn("fast");
             $('#nonefactrunnings').remove()
             var tempArray = Array()
+            var tempMap={}
             var aTrs = MyApp.oTable.fnGetNodes();
 
             for ( var i=0 ; i<aTrs.length ; i++ )
@@ -183,18 +184,19 @@
                 if ( $(aTrs[i]).hasClass('datatablerowhighlight') )
                 {
                   var testsuiteId = MyApp.oTable.fnGetData(aTrs[i]).testsuite.id
-                  var testsuiteName = '<a value="'+testsuiteId+'" href="#"><i class="icon-remove"></i>'+MyApp.oTable.fnGetData(aTrs[i]).testsuite.testsuitename+'</a>'
-                  tempArray.push(testsuiteName)
+                  var testsuiteName = MyApp.oTable.fnGetData(aTrs[i]).testsuite.testsuitename
+                  tempMap[testsuiteId] = testsuiteName
                 }
             }
             $.ajax({
               type: "POST",
               url: "/web2py_birt/fact/saveLabelList",
-              data: "array="+JSON.stringify(tempArray)
+              data: "array="+JSON.stringify(tempMap)
               }).done(function( msg ) {
                 var contact = JSON.parse(msg);
+                console.log(contact)
                 $.each(contact, function(val, text) {
-                  $('#vsrunningsdivider').before($('<li></li>').html(text));
+                  $('#vsrunningsdivider').before($('<li></li>').html('<a value="'+val+'" href="#"><i class="icon-remove"></i>'+text+'</a>'));
                 });
               });
 
