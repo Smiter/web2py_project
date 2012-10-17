@@ -1,4 +1,52 @@
 {{extend 'layout.html'}}
 
+{{extend 'layout.html'}}
+
+<script type="text/javascript">
+var tableId = "labeltableid"
+var analyzeButtonid = "analyze"
+var addtolabelid= 'addtolabel'
+var buttonStyle = "analyzeButton btn btn-primary"
+var dataTableHandler = "/web2py_birt/labels/labelHandler"
+
+var tableColumns = [
+  { "sTitle": "Select", "bSortable": false ,"sWidth": "1%","mData" : null,
+    "sDefaultContent": '<input type = "checkbox">'},
+  { "sTitle": "Id",   "sWidth": "18%", "mData": "id" },
+  { "sTitle": "Name", "sWidth": "48%", "mData": "releasename" },
+  { "sTitle": "Date", "sWidth": "18%", "mData": "date" },
+  { "sTitle": "User", "sWidth": "29%","mData": "user" }]
+
+var sorting = [[ 1, "desc" ]]
+
+MyApp.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid]);
+MyApp.addButton(analyzeButtonid,tableId,buttonStyle,"submit");
+MyApp.addSingleClickRawHandler([analyzeButtonid,addtolabelid],tableId);
+MyApp.addAnalyzeButtonHandler();
+MyApp.addFiltering();
+</script>
+
+<div id="demo">
+<form id="form" method = "POST" action = "/web2py_birt/fact/analysis">
+<table cellpadding="0" cellspacing="0" border="0" class="display" id="labeltableid">
+  <tbody width="100%">
+    <tr>
+      <td colspan="55" class="dataTables_empty">Loading data from server</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <th><input type="hidden" name="search_id" class="search_init_focus_of"/></th>
+      <th><input type="text" name="search_id" value="Search" class="search_init_focus_of" /></th>
+      <th><input type="text" name="search_name" value="Search" class="search_init_focus_of" /></th>
+      <th><input type="text" name="search_starttime" value="Search" class="search_init_focus_of" /></th>
+      <th><input type="text" name="search_endtime" value="Search" class="search_init_focus_of" /></th>
+      <th></th>
+    </tr>
+  </tfoot>
+</table>
+</form>
+</div>
+
 
 

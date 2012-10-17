@@ -67,16 +67,16 @@ def saveAnalyze():
 def saveLabelList():
     logging.error("AJAX CALL")
     labelList = json.loads(request.post_vars.array)
-    resultList=dict()
+    resultList = dict()
     for k, v in labelList.items():
         if session.vasea:
             if not k in session.vasea:
                 session.vasea[k] = v
-                resultList[k]=v
+                resultList[k] = v
         else:
             session.vasea = dict()
-            session.vasea[k]=v
-            resultList[k]=v
+            session.vasea[k] = v
+            resultList[k] = v
     return response.json(resultList)
 
 
@@ -87,37 +87,11 @@ def removeLabelFromSession():
 
 
 def saveLabel():
-    logging.error("saveLabel")
-    logging.error(request.post_vars.username)
-    logging.error(request.post_vars.labelname)
-    logging.error(session.vasea.keys())
-    # db.label.insert(     
-        # releasename=request.post_vars.labelname,
-        # user=request.post_vars.username )
+    db.label.insert(releasename=request.post_vars.labelname,user=request.post_vars.username)
+    row = db(db.label.id).select().last()
 
-    #  analysisListOfMaps = json.loads(request.vars.analysisMap)
-    # for map_item in analysisListOfMaps:
-    #     testresult_id = map_item["testresult_id"]
-    #     errortype = map_item["errortype"]
-    #     comment = map_item["comment"]
-    #     jira_id = map_item["jira_id"]
-    #     row = db(db.analysis.testresult_id == testresult_id).select().first()
-    #     if row:
-    #         db(db.analysis.testresult_id == testresult_id).update(
-    #             id=row.id,
-    #             testresult_id=testresult_id,
-    #             errortype=errortype,
-    #             comment=comment,
-    #             elvis_id=jira_id)
-    #     else:
-    #         db.analysis.insert(
-    #             testresult_id=testresult_id,
-    #             errortype=errortype,
-    #             comment=comment,
-    #             elvis_id=jira_id)
+    for k in session.vasea.keys():
+        db(db.testsuite.id == k).update(
+                label_id=row.id)
 
-    # logging.error(request.vars.testsuiteid)
-    # db(db.testsuite.id == request.vars.testsuiteid).update(analyzed=1)
-
-
-    # redirect(URL('web2py_birt', 'labels', 'list'))
+    redirect(URL('web2py_birt', 'labels', 'list'))

@@ -17,6 +17,13 @@ analyzedColumns = {
                 6: ('analysis', 'elvis_id'),
                 7: ('analysis', 'comment')}
 
+labelColumns = {
+				1: ('label', 'id'),
+				2: ('label', 'releasename'),
+				3: ('label', 'date'),
+                4: ('label', 'user')}
+
+
 ANALYZED_IMAGE_NO = '<img height="22" width="22" src="../static/images/no1.jpg">'
 ANALYZED_IMAGE_YES = '<img height="22" width="22" src="../static/images/yes2.jpg">'
 BUG_TYPE = """<select name="combobox" id="errortype" style="width : 105px">

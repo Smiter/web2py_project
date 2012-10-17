@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from gluon import *
 
-#db = DAL("mysql://nds:test@172.30.136.176/ndsreport_new", pool_size=10)
-db = DAL("mysql://root:111@localhost/test", pool_size=10)
+
+db = DAL("mysql://nds:test@172.30.136.176/ndsreport_new", pool_size=10)
+#db = DAL("mysql://root:111@localhost/test", pool_size=10)
 
 migrate = False
 
@@ -180,4 +181,5 @@ db.analysis.errortype.filter_out = lambda errortype: {'Unknown': BUG_TYPE % ("se
                                                       None: BUG_TYPE % ("selected", "", "")}.get(errortype)
 db.analysis.elvis_id.filter_out = lambda elvis_id: JIRA_ID % "" if elvis_id is None else JIRA_ID % elvis_id
 db.analysis.comment.filter_out = lambda comment: COMMENT % "" if comment is None else COMMENT % comment
+
 
