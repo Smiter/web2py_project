@@ -28,9 +28,47 @@ MyApp.addMultiClickRawHandler([analyzeButtonid,addtolabelid],tableId);
 MyApp.addAnalyzeButtonHandler();
 MyApp.addFiltering();
 </script>
+<!--   <div id="admin-response">
+          <div class="accordion" id="accordion2">
+              <div class="accordion-group">
+                  <div class="accordion-heading">
+                      <a class="accordion-toggle btn-warning btn" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                      RETURNED RESULTS
+                      </a>
+                  </div>
+                  <div id="collapseOne" class="accordion-body collapse in">
+                      <div class="accordion-inner">
+                      Anim pariatur cliche...
+                      </div>
+                  </div>
+              </div>
+              <div class="accordion-group">
+                  <div class="accordion-heading">
+                      <a class="accordion-toggle btn btn-danger" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                      WRITE RESPONSE
+                      </a>
+                  </div>
+                  <div id="collapseTwo" class="accordion-body collapse">
+                      <div class="accordion-inner">
+                      Anim pariatur cliche...
+                      </div>
+                  </div>
+              </div>
+          </div>
 
+      </div> -->
 <div id="demo">
-<form id="form" method = "POST" action = "/web2py_birt/fact/analysis">
+
+  <div class="accordion" id="accordion2">
+  <div class="accordion-group">
+  <div class="accordion-heading">
+  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+  Collapsible Group Item #1
+  </a>
+  </div>
+  <div id="collapseOne" class="collapse">
+  <div class="accordion-inner">
+  <form id="form" method = "POST" action = "/web2py_birt/fact/analysis">
 <table cellpadding="0" cellspacing="0" border="0" class="display" id="testsuitetable">
   <tbody width="100%">
     <tr>
@@ -52,5 +90,31 @@ MyApp.addFiltering();
   </tfoot>
 </table>
 </form>
+  </div>
+  </div>
+  </div>
+  </div>
+<!-- <form id="form" method = "POST" action = "/web2py_birt/fact/analysis">
+<table cellpadding="0" cellspacing="0" border="0" class="display" id="testsuitetable">
+  <tbody width="100%">
+    <tr>
+      <td colspan="55" class="dataTables_empty">Loading data from server</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <th><input type="hidden" name="search_id" class="search_init_focus_of"/></th>
+      <th><input type="text" name="search_id" value="Search" class="search_init_focus_of" /></th>
+      <th><input type="text" name="search_name" value="Search" class="search_init_focus_of" /></th>
+      <th><input type="text" name="search_starttime" value="Search" class="search_init_focus_of" /></th>
+      <th><input type="text" name="search_endtime" value="Search" class="search_init_focus_of" /></th>
+      <th><input type="text" name="search_user" value="Search" class="search_init_focus_of" /></th>
+      <th><input type="text" name="search_branch" value="Search" class="search_init_focus_of" /></th>
+      <th><input type="text" name="search_cl" value="Search" class="search_init_focus_of" /></th>
+      <th></th>
+    </tr>
+  </tfoot>
+</table>
+</form> -->
 </div>
 

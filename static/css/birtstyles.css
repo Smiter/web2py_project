@@ -3,6 +3,27 @@
     margin-right: 0;
 }
 
+
+#admin-response{
+    width:60%;
+    min-width:400px;
+    margin-left:10%;
+    height:85%;
+    float:left;
+}
+#admin-response .accordion-inner{
+    width:100%;
+    background-color:#fff;
+    height:100%;
+    box-shadow:2px 2px 12px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow:2px 2px 12px rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow:2px 2px 12px rgba(0, 0, 0, 0.15);
+}
+
+#admin-response .accordion-body.in.collapse{
+    min-height:85%;
+}
+
 /*show entryes list box*/
 
 input[type="text"], input[type="password"], select {
@@ -12,6 +33,64 @@ input[type="text"], input[type="password"], select {
 
 /************************/
 
+#demo .collapse {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  -webkit-transition: height 0.35s ease;
+     -moz-transition: height 0.35s ease;
+       -o-transition: height 0.35s ease;
+          transition: height 0.35s ease;
+}
+
+#demo .collapse.in {
+  height: 10px;
+  /*position:absolute;*/
+  /*right:40px;*/
+}
+
+
+#demo{
+    width:100%;
+    min-width:400px;
+    height:85%;
+    float:left;
+}
+#demo .accordion-inner{
+    width:100%;
+    background-color:#fff;
+    height:100%;
+    box-shadow:2px 2px 12px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow:2px 2px 12px rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow:2px 2px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+#demo .accordion {
+  margin-bottom: 20px;
+}
+
+#demo .accordion-group {
+  margin-bottom: 200px;
+  margin-top: 50px;
+  border: 1px solid #e5e5e5;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+}
+
+#demo .accordion-heading {
+  border-bottom: 0;
+}
+
+#demo .accordion-heading .accordion-toggle {
+  display: block;
+  padding: 8px 15px;
+}
+
+#demo .accordion-toggle {
+  cursor: pointer;
+}
 
 table.display {
     border-collapse: collapse;
@@ -237,7 +316,7 @@ text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 padding: 3px 15px;
 }
 
-
+/*
 .collapse {
   position: relative;
   margin-left: 930px;
@@ -252,7 +331,7 @@ padding: 3px 15px;
 .collapse.in {
   height: auto;
 }
-
+*/
 
 
 
