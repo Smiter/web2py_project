@@ -21,7 +21,7 @@ def getOrder(columns):
 
 def getFilter(columns):
     like = None
-    for i in range(len(columns)):
+    for i in range(len(columns) + 1):
         if request.vars['bSearchable_' + str(i)] and request.vars['bSearchable_' + str(i)] == "true" and request.vars['sSearch_' + str(i)] != '':
             a = "%%%s%%" % request.vars['sSearch_' + str(i)]
             if like is None:

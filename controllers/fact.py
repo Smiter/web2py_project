@@ -31,8 +31,9 @@ def analyzeHandler():
 
 
 def analysis():
-    logging.error("analysis")
-    return dict(m=request.vars.testsuiteId, )
+    logger.error("analysis")
+    logger.error(request.vars.testsuiteId)
+    return dict(m=request.vars.testsuiteId)
 
 
 def saveAnalyze():
