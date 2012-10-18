@@ -2,28 +2,6 @@
     margin-left: 20px;
     margin-right: 0;
 }
-
-
-#admin-response{
-    width:60%;
-    min-width:400px;
-    margin-left:10%;
-    height:85%;
-    float:left;
-}
-#admin-response .accordion-inner{
-    width:100%;
-    background-color:#fff;
-    height:100%;
-    box-shadow:2px 2px 12px rgba(0, 0, 0, 0.15);
-    -moz-box-shadow:2px 2px 12px rgba(0, 0, 0, 0.15);
-    -webkit-box-shadow:2px 2px 12px rgba(0, 0, 0, 0.15);
-}
-
-#admin-response .accordion-body.in.collapse{
-    min-height:85%;
-}
-
 /*show entryes list box*/
 
 input[type="text"], input[type="password"], select {
@@ -44,7 +22,7 @@ input[type="text"], input[type="password"], select {
 }
 
 #demo .collapse.in {
-  height: 10px;
+  height: auto;
   /*position:absolute;*/
   /*right:40px;*/
 }
@@ -71,8 +49,8 @@ input[type="text"], input[type="password"], select {
 }
 
 #demo .accordion-group {
-  margin-bottom: 200px;
-  margin-top: 50px;
+  margin-bottom: 1px;
+  margin-top: 1px;
   border: 1px solid #e5e5e5;
   -webkit-border-radius: 4px;
      -moz-border-radius: 4px;

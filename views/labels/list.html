@@ -20,12 +20,12 @@ var sorting = [[ 1, "desc" ]]
 MyApp.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid]);
 MyApp.addButton(analyzeButtonid,tableId,buttonStyle,"submit");
 MyApp.addSingleClickRawHandler([analyzeButtonid,addtolabelid],tableId);
-MyApp.addAnalyzeButtonHandler();
+MyApp.addShowLabelButtonHandler();
 MyApp.addFiltering();
 </script>
 
 <div id="demo">
-<form id="form" method = "POST" action = "/web2py_birt/fact/analysis">
+<form id="form" method = "POST" action = "/web2py_birt/labels/showLabel">
 <table cellpadding="0" cellspacing="0" border="0" class="display" id="labeltableid">
   <tbody width="100%">
     <tr>

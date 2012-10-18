@@ -16,7 +16,8 @@ def runsHandler():
 
 
 def analyzeHandler():
-    logging.error("analyze Handler")
+    logger.error("analyze Handler")
+    logger.error(request.vars.testsuiteid)
     query = (db.testsuite.id == db.test.testsuite_id) & (
         db.testdescription.id == db.test.testdescription_id) & (
             db.testresult.id == db.test.testresult_id) & (
@@ -32,13 +33,13 @@ def analyzeHandler():
 
 def analysis():
     logger.error("analysis")
-    logger.error(request.vars.testsuiteId)
     return dict(m=request.vars.testsuiteId)
 
 
 def saveAnalyze():
-    logging.error("saveAnalyze")
-    logging.error(json.loads(request.vars.analysisMap))
+    logger.error("saveAnalyze")
+    logger.error(request.vars.analysisMap)
+    logger.error(json.loads(request.vars.analysisMap))
     analysisListOfMaps = json.loads(request.vars.analysisMap)
     for map_item in analysisListOfMaps:
         testresult_id = map_item["testresult_id"]
@@ -60,7 +61,6 @@ def saveAnalyze():
                 comment=comment,
                 elvis_id=jira_id)
 
-    logging.error(request.vars.testsuiteid)
     db(db.testsuite.id == request.vars.testsuiteid).update(analyzed=1)
     redirect(URL('web2py_birt', 'fact', 'runs'))
 

@@ -2,7 +2,6 @@
 
 <script type="text/javascript">
 var t = {{=XML(response.json(m))}}
-console.log(t)
 
 var tableId = "analysistable"
 var analyzeButtonid = "Save"
@@ -24,12 +23,21 @@ var tableColumns = [
 
 var sorting = [[ 3,"asc" ]]
 
-MyApp.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid]);
-MyApp.addButton(analyzeButtonid,tableId,analyzeButtonStyle);
-MyApp.addMultiClickRawHandler([analyzeButtonid],tableId);
-MyApp.addSaveButtonHandler();
-MyApp.addFiltering();
-MyApp.testsuiteid = t
+var table = new DataTable();
+table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid],t);
+table.addButton(analyzeButtonid,tableId,analyzeButtonStyle,"submit","Save");
+table.addMultiClickRawHandler([analyzeButtonid],tableId);
+table.addSaveButtonHandler();
+table.addFiltering(tableId);
+table.testsuiteid = t
+
+
+// MyApp.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid]);
+// MyApp.addButton(analyzeButtonid,tableId,analyzeButtonStyle);
+// MyApp.addMultiClickRawHandler([analyzeButtonid],tableId);
+// MyApp.addSaveButtonHandler();
+// MyApp.addFiltering();
+// MyApp.testsuiteid = t
 </script>
 
 <div id="demo">
