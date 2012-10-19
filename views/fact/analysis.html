@@ -8,18 +8,18 @@ var analyzeButtonid = "Save"
 var analyzeButtonStyle = "analyzeButton btn btn-primary"
 var dataTableHandler = "/web2py_birt/fact/analyzeHandler"
 
-var tableColumns = [
-  { "sTitle": "Select", "bSortable": false ,"sWidth": "1%","mData" : null,
-    "sDefaultContent": '<input type = "checkbox">'},
-  { "sTitle": "Testcase name","sWidth": "10%","mData" : "testdescription.name"},
-  { "sTitle": "Testcase description","bSortable": false,"sWidth": "90%", "mData": "testdescription.testdescription" },
-  { "sTitle": "Status","sWidth": "10%", "mData": "testresult.testresult" },
-  { "sTitle": "Error description", "bSortable": false,"sWidth": "20%", "mData": "testresult.failuredescription" },
-  { "sTitle": "Bug type","sWidth": "10%", "mData": "analysis.errortype" },
-  { "sTitle": "Jira Id","sWidth": "20%", "mData": "analysis.elvis_id" },
-  { "sTitle": "Comment", "bSortable": false,"sWidth": "20%", "mData": "analysis.comment" },
-  { "sTitle": "Testresult id", "bVisible" : false, "mData" : "testresult.id"}
-  ]
+ var tableColumns = [
+              { "sTitle": "Select", "bSortable": false ,"sWidth": "4%","mData" : null,
+                "sDefaultContent": '<input type = "checkbox">'},
+              { "sTitle": "Testcase name","sWidth": "25%","mData" : "testdescription.name"},
+              { "sTitle": "Testcase description","bSortable": false,"sWidth": "20%", "mData": "testdescription.testdescription" },
+              { "sTitle": "Status","sWidth": "10%", "mData": "testresult.testresult" },
+              { "sTitle": "Error description", "bSortable": false,"sWidth": "10%", "mData": "testresult.failuredescription" },
+              { "sTitle": "Bug type","sWidth": "11%", "mData": "analysis.errortype" },
+              { "sTitle": "Jira Id","sWidth": "7%", "mData": "analysis.elvis_id" },
+              { "sTitle": "Comment", "bSortable": false,"sWidth": "20%", "mData": "analysis.comment" },
+              { "sTitle": "Testresult id", "bVisible" : false, "mData" : "testresult.id"}
+              ]
 
 var sorting = [[ 3,"asc" ]]
 

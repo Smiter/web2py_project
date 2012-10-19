@@ -70,6 +70,13 @@ input[type="text"], input[type="password"], select {
   cursor: pointer;
 }
 
+
+.dataTables_wrapper {
+    clear: both;
+    position: relative;
+}
+
+
 table.display {
     border-collapse: collapse;
     clear: both;
@@ -77,6 +84,9 @@ table.display {
     margin: 0 auto;
     width: 100%;
     border: 1px solid #AAAAAA;
+
+    table-layout: fixed;
+    word-wrap:break-word;
 }
 
 .dataTables_paginate {

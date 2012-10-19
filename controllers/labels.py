@@ -14,7 +14,7 @@ def labelHandler():
 def showLabel():
     logger.error("showLabel")
     logger.error(request.post_vars.labelid)
-    rows = db((db.testsuite.label_id == db.label.id ) & (db.label.id == request.post_vars.labelid)).select(db.testsuite.id)
+    rows = db((db.testsuite.label_id == db.label.id ) & (db.testsuite.anaconda_id == db.anaconda.id) & (db.label.id == request.post_vars.labelid)).select()
     logger.error(rows.as_list())
     return dict(testsuiteArray=rows.as_list())
     
