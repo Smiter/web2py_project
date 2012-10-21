@@ -29,7 +29,7 @@ input[type="text"], input[type="password"], select {
 
 
 #demo{
-    width:100%;
+    width:90%;
     min-width:400px;
     height:85%;
     float:left;
@@ -167,12 +167,12 @@ table.display {
 .dropdown-menu{
 	position:absolute;
 	top:100%;
-	left:975px;
-	top:8px;
+	left:1075px;
+	top:36px;
 	z-index:10;
 	display:none;
 	float:left;
-	min-width:215px;
+	min-width:270px;
 	padding:4px 0;
 	margin:30px 0 0;
 	list-style:none;
@@ -202,11 +202,11 @@ table.display {
 	position:absolute;
 	text-align: center;
 	top:100%;
-	left:975px;
-	top:10px;
+	left:1075px;
+	top:38px;
 	z-index:10;
 	float:left;
-	min-width:215px;
+	min-width:270px;
 	padding:4px 0;
 	margin:1px 0 0;
 	list-style:none;
@@ -249,9 +249,11 @@ table.display {
     line-height: 18px;
     padding: 5px 15px;
     white-space: normal;
-    font-family:Arial;font-size:13px;font-style:normal;text-decoration:none;color:#333333;
-   /* width:185px;
-    height: 60px; overflow: hidden;*/
+    font-family:Arial;font-size:13px;font-st40e:normal;text-decoration:none;color:#333333;
+    width:240px;
+    height: auto; overflow: hidden;
+    word-wrap: break-word;
+    font-size: 10px;
 }
 
 .mydivider {

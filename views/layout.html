@@ -49,18 +49,17 @@
     <!-- <button id="test">vasea</button> -->
     <!-- <button id="test2">vasea</button> -->
     <div class="dropdown">
-    <h5 class="dropdown-menu2">SHORT LABEL PREVIEW<b class="caret"></b></h5>
-    <ul id="label_dropdown_menu" class="dropdown-menu" >
-    <li><div class="mydivider"></div></li>
-    <li class="factrunnings"><h8>FACT Runnings</h8></li>
-    <li id="nonefactrunnings" class="none"><h8>none</h8></li>
-    <li><div id="vsrunningsdivider" class="mydivider"></div></li>
-    <li id="vsrunnings" class="factrunnings"><h8>VS Runnings</h8></li>
-    <li id="nonevsrunnings" class="none"><h8>none</h8></li>
-    <li><div class="mydivider"></div></li>
-    <li><button id="savelabel" data-toggle="modal" data-target="#myModal" style="margin-left:60px;" class="savelabel btn btn-primary">Save label</button></li>
-
-    </ul>
+      <h5 class="dropdown-menu2">SHORT LABEL PREVIEW<b class="caret"></b></h5>
+      <ul id="label_dropdown_menu" class="dropdown-menu">
+        <li><div class="mydivider"></div></li>
+        <li class="factrunnings"><h8>FACT Runnings</h8></li>
+        <li id="nonefactrunnings" class="none"><h8>none</h8></li>
+        <li><div id="vsrunningsdivider" class="mydivider"></div></li>
+        <li id="vsrunnings" class="factrunnings"><h8>VS Runnings</h8></li>
+        <li id="nonevsrunnings" class="none"><h8>none</h8></li>
+        <li><div class="mydivider"></div></li>
+        <li><button id="savelabel" data-toggle="modal" data-target="#myModal" style="margin-left:60px;" class="savelabel btn btn-primary">Save label</button></li>
+      </ul>
     </div>
 
   </div><!--/top navbar -->
@@ -92,7 +91,7 @@
                 </table>
              </div>
              <div class="modal-footer">
-               <button type="submit" class="btn btn-primary">Save changes</button>
+               <button id="savelabelbutton" type="submit" class="btn btn-primary">Save changes</button>
              </div>
         </form>
 
@@ -151,7 +150,7 @@
 
     // this code improves bootstrap menus and adds dropdown support
     jQuery(function(){
-        
+        jQuery(this).find('#label_dropdown_menu').fadeToggle(0);
 
         jQuery('.dropdown').live('click',function () {
            jQuery(this).find('#label_dropdown_menu').fadeToggle("fast");
@@ -205,7 +204,6 @@
               data: "array="+JSON.stringify(tempMap)
               }).done(function( msg ) {
                 var contact = JSON.parse(msg);
-                console.log(contact)
                 $.each(contact, function(val, text) {
                   $('#vsrunningsdivider').before($('<li></li>').html('<a value="'+val+'" href="#"><i class="icon-remove"></i>'+text+'</a>'));
                 });
@@ -213,6 +211,13 @@
 
             });
 
+
+
+          jQuery('#savelabelbutton').live('click',function () {
+            console.log("HUUUUUUUUUUUUUUUUUUUUUi")
+            
+          });
+          
 
 
         jQuery('#test2').live('click',function () {

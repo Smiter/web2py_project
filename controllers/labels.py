@@ -11,7 +11,7 @@ def labelHandler():
     return response.json(tableData)
 
 
-def showLabel():
+def showlabel():
     logger.error("showLabel")
     logger.error(request.post_vars.labelid)
     rows = db((db.testsuite.label_id == db.label.id ) & (db.testsuite.anaconda_id == db.anaconda.id) & (db.label.id == request.post_vars.labelid)).select()
