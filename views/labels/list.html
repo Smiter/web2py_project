@@ -21,12 +21,12 @@ var tableColumns = [
   { "sTitle": "User", "sWidth": "30%","mData": "user" }]
 
 var sorting = [[ 1, "desc" ]]
-
-MyApp.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid]);
-MyApp.addButton(analyzeButtonid,tableId,buttonStyle,"submit");
-MyApp.addSingleClickRawHandler([analyzeButtonid,addtolabelid],tableId);
-MyApp.addShowLabelButtonHandler();
-MyApp.addFiltering();
+var table = new DataTable();
+table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid]);
+table.addButton(analyzeButtonid,tableId,buttonStyle,"submit","showlabel");
+table.addSingleClickRawHandler([analyzeButtonid,addtolabelid],tableId);
+table.addShowLabelButtonHandler();
+table.addFiltering(tableId);
 </script>
 
 <div id="demo">

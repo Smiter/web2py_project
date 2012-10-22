@@ -19,8 +19,21 @@
   response.files.append(URL('static','css/birtstyles.css'))
   response.files.append(URL('static','css/datepicker.css'))
   }}
+  
+  <!-- include js files -->
+  {{
 
-  {{include 'web2py_ajax.html'}}
+  response.files.insert(1,URL('static','js/jquery.js'))
+  response.files.insert(2,URL('static','js/web2py.js'))
+  response.files.insert(3,URL('static','js/jquery.dataTables.min.js'))
+  response.files.insert(4,URL('static','js/birtdatatable.js'))
+  response.files.insert(5,URL('static','js/layout.js'))
+  response.files.insert(6,URL('static','js/bootstrap.js'))
+  response.files.insert(7,URL('static','js/bootstrap-datepicker.js'))
+
+  response.include_meta()
+  response.include_files()
+  }}
 
   {{
   # using sidebars need to know what sidebar you want to use
@@ -79,109 +92,6 @@
         // }
       });
      {{pass}}
-
-    // this code improves bootstrap menus and adds dropdown support
-    jQuery(function(){
-        jQuery(this).find('#label_dropdown_menu').fadeToggle(0);
-
-        jQuery('.dropdown').live('click',function () {
-           jQuery(this).find('#label_dropdown_menu').fadeToggle("fast");
-        });
-
-        jQuery('#label_dropdown_menu').live('click',function () {
-           event.stopPropagation();
-        });
-
-       
-        jQuery('.icon-remove').live('click',function () {
-          testsuiteid =  $(this).closest('a').attr('value')
-          $(this).closest('li').remove()
-             $.ajax({
-              type: "POST",
-              url: "/web2py_birt/fact/removeLabelFromSession",
-              data: "testsuiteid=" + testsuiteid
-              }).done(function( msg ) {
-                 if (msg == 0){
-                    $('#vsrunningsdivider').before($('<li id="nonefactrunnings" class="none"><h8>none</h8></li>'))
-                 }
-              });
-             // if($("#vsrunnings").next().length==0){
-             //   $('#vsrunnings').after($('<li id="nonevsrunnings" class="none"><h8>none</h8></li>'))
-             // }
-        });
-
-
-
-        //add to label preview new item
-
-        jQuery('#addtolabel').live('click',function () {
-            jQuery('#label_dropdown_menu').fadeIn("fast");
-            $('#nonefactrunnings').remove()
-            var tempArray = Array()
-            var tempMap={}
-            var aTrs = MyApp.oTable.fnGetNodes();
-
-            for ( var i=0 ; i<aTrs.length ; i++ )
-              {
-                if ( $(aTrs[i]).hasClass('datatablerowhighlight') )
-                {
-                  var testsuiteId = MyApp.oTable.fnGetData(aTrs[i]).testsuite.id
-                  var testsuiteName = MyApp.oTable.fnGetData(aTrs[i]).testsuite.testsuitename
-                  tempMap[testsuiteId] = testsuiteName
-                }
-            }
-            $.ajax({
-              type: "POST",
-              url: "/web2py_birt/fact/saveLabelList",
-              data: "array="+JSON.stringify(tempMap)
-              }).done(function( msg ) {
-                var contact = JSON.parse(msg);
-                $.each(contact, function(val, text) {
-                  $('#vsrunningsdivider').before($('<li></li>').html('<a value="'+val+'" href="#"><i class="icon-remove"></i>'+text+'</a>'));
-                });
-              });
-
-            });
-
-
-
-          jQuery('#savelabelbutton').live('click',function () {
-            $('#label_dropdown_menu li a').empty();
-            $('#vsrunningsdivider').before($('<li id="nonefactrunnings" class="none"><h8>none</h8></li>'))
-          });
-
-           jQuery('#savelabel').live('click',function () {
-              console.log($("#nonefactrunnings").length)
-            if ( $("#nonefactrunnings").length == 0) {
-              $('#myModal').modal('show')
-            }
-            else
-            {
-              alert("Label list is empty. Add some labels.")
-            }
-            
-          });
-
-
-
-          
-          
-
-
-        // jQuery('#test2').live('click',function () {
-        //   $('#nonevsrunnings').remove()
-        //   var myOptions = {
-        //       val2 : '<a value="10" href="#"><i class="icon-remove"></i>Vs gagaga</a>'
-        //   };
-        //   $.each(myOptions, function(val, text) {
-        //     $('#vsrunnings').after($('<li></li>').val(val).html(text));
-        //   });
-        // });
-  
-        $('#dp2').datepicker('setValue', new Date())
-      // make all buttons bootstrap buttons
-      jQuery('button, form input[type="submit"], form input[type="button"]').addClass('btn').css({'margin-right':'2px','margin-bottom':'2px'});
-    });
   </script>
 </body>
 </html>

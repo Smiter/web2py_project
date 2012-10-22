@@ -8,12 +8,6 @@
 
 
 <script type="text/javascript">
-var tableId = "testsuitetable"
-var analyzeButtonid = "analyze"
-var addtolabelid= 'addtolabel'
-var buttonStyle = "analyzeButton btn btn-primary"
-var dataTableHandler = "/web2py_birt/fact/runsHandler"
-
 var tableColumns = [
   { "sTitle": "Select", "bSortable": false ,"sWidth": "4%","mData" : null,
     "sDefaultContent": '<input type = "checkbox">'},
@@ -27,13 +21,52 @@ var tableColumns = [
   { "sTitle": "Analyzed","sWidth": "6%", "mData": "testsuite.analyzed" }]
 
 var sorting = [[ 1, "desc" ]]
+var tableId = "testsuitetable"
+var analyzeButtonid = "analyze"
+var addtolabelid= 'addtolabel'
+var buttonStyle = "analyzeButton btn btn-primary"
+var dataTableHandler = "/web2py_birt/fact/runsHandler"
 
-MyApp.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid]);
-MyApp.addButton(addtolabelid,tableId,buttonStyle,"button");
-MyApp.addButton(analyzeButtonid,tableId,buttonStyle,"submit");
-MyApp.addMultiClickRawHandler([analyzeButtonid,addtolabelid],tableId);
-MyApp.addAnalyzeButtonHandler();
-MyApp.addFiltering();
+var table = new DataTable();
+table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid]);
+table.addButton(addtolabelid,tableId,buttonStyle,"button","addtolabel");
+table.addButton(analyzeButtonid,tableId,buttonStyle,"submit","analyze");
+table.addMultiClickRawHandler([analyzeButtonid,addtolabelid],tableId);
+table.addAnalyzeButtonHandler();
+table.addFiltering(tableId);
+
+$(function(){
+
+    //add to label preview menu new item
+    $('#addtolabel').live('click',function () {
+        $('#label_dropdown_menu').fadeIn("fast");
+        $('#nonefactrunnings').remove()
+        var tempMap={}
+        var aTrs = table.oTable.fnGetNodes();
+
+        for ( var i=0 ; i<aTrs.length ; i++ )
+          {
+            if ( $(aTrs[i]).hasClass('datatablerowhighlight') )
+            {
+              var testsuiteId = table.oTable.fnGetData(aTrs[i]).testsuite.id
+              var testsuiteName = table.oTable.fnGetData(aTrs[i]).testsuite.testsuitename
+              tempMap[testsuiteId] = testsuiteName
+            }
+        }
+        $.ajax({
+          type: "POST",
+          url: "/web2py_birt/fact/saveLabelList",
+          data: "array="+JSON.stringify(tempMap)
+          }).done(function( msg ) {
+            var contact = JSON.parse(msg);
+            $.each(contact, function(val, text) {
+              $('#vsrunningsdivider').before($('<li></li>').html('<a value="'+val+'" href="#"><i class="icon-remove"></i>'+text+'</a>'));
+            });
+          });
+
+        });
+});
+
 </script>
 
 <div id="demo"> 
