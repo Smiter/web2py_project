@@ -1,5 +1,11 @@
 {{extend 'layout.html'}}
 
+<div class="page-header">
+    <h1 class="pagetitle">
+        Label preview
+    </h1>
+</div>
+
 <script type="text/javascript">
 var testsuiteArray = {{=XML(response.json(testsuiteArray))}}
 for(var i=0;i<testsuiteArray.length;i++){
@@ -15,11 +21,11 @@ for(var i=0;i<testsuiteArray.length;i++){
                 "sDefaultContent": '<input type = "checkbox">'},
               { "sTitle": "Testcase name","sWidth": "25%","mData" : "testdescription.name"},
               { "sTitle": "Testcase description","bSortable": false,"sWidth": "20%", "mData": "testdescription.testdescription" },
-              { "sTitle": "Status","sWidth": "10%", "mData": "testresult.testresult" },
-              { "sTitle": "Error description", "bSortable": false,"sWidth": "10%", "mData": "testresult.failuredescription" },
-              { "sTitle": "Bug type","sWidth": "11%", "mData": "analysis.errortype" },
-              { "sTitle": "Jira Id","sWidth": "7%", "mData": "analysis.elvis_id" },
-              { "sTitle": "Comment", "bSortable": false,"sWidth": "20%", "mData": "analysis.comment" },
+              { "sTitle": "Status","sWidth": "6%", "mData": "testresult.testresult" },
+              { "sTitle": "Error description", "bSortable": false,"sWidth": "12%", "mData": "testresult.failuredescription" },
+              { "sTitle": "Bug type","sWidth": "13%", "mData": "analysis.errortype" },
+              { "sTitle": "Jira Id","sWidth": "10%", "mData": "analysis.elvis_id" },
+              { "sTitle": "Comment", "bSortable": false,"sWidth": "15%", "mData": "analysis.comment" },
               { "sTitle": "Testresult id", "bVisible" : false, "mData" : "testresult.id"}
               ]
 
@@ -73,15 +79,16 @@ $(function(){
         <img alt="../static/images/close.png" src="../static/images/more.png">
         </a>
 
-                <table style="border: 1px solid #AAAAAA; margin-right:10px;width: 94%;">
+                <table style="border: 1px solid #AAAAAA; table-layout: fixed;
+    word-wrap:break-word; margin-right:10px;width: 94%;">
                    <thead>
                    <tr>
                    <th class="ui-state-default" style="text-align:center;width:40px" >Id</th>
-                   <th class="ui-state-default" style="text-align:center;width:350px" >Name</th>
+                   <th class="ui-state-default" style="text-align:center;width:300px" >Name</th>
                    <th class="ui-state-default" style="text-align:center;">Start date</th>
                    <th class="ui-state-default" style="text-align:center;">Finish date</th>
                    <th class="ui-state-default" style="text-align:center;">User</th>
-                   <th class="ui-state-default" style="text-align:center;width:300px">Anaconda branch</th>
+                   <th class="ui-state-default" style="text-align:center;width:270px">Anaconda branch</th>
                    <th class="ui-state-default" style="text-align:center;">CL</th>
                    </tr>
                    </thead>

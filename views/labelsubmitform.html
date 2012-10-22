@@ -1,0 +1,23 @@
+<form method="POST" action="/web2py_birt/fact/saveLabel" class="modal hide fade" id="myModal">
+     <div class="modal-header">
+       <a class="close" data-dismiss="modal">×</a>
+       <h3>Label creation page</h3>
+     </div>
+     <div class="modal-body">
+        <table>
+          <tr>
+                 <td><label>Label name: </label></td>
+                 <td><input  style="width:230px" type="text" name="labelname" value="" /></td>
+                 <td></td>
+          </tr>
+          <tr>
+                 <td><label>User name: </label></td>
+                 <td><input style="width:230px" type="text" name="username" value=""/></td>
+                 <td></td>
+          </tr>
+        </table>
+     </div>
+     <div class="modal-footer">
+       <button id="savelabelbutton" type="submit" class="btn btn-primary">Save changes</button>
+     </div>
+</form>

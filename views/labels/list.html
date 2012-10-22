@@ -1,4 +1,9 @@
 {{extend 'layout.html'}}
+<div class="page-header">
+    <h1 class="pagetitle">
+        Label list
+    </h1>
+</div>
 
 <script type="text/javascript">
 var tableId = "labeltableid"
@@ -12,8 +17,8 @@ var tableColumns = [
     "sDefaultContent": '<input type = "checkbox">'},
   { "sTitle": "Id",   "sWidth": "10%", "mData": "id" },
   { "sTitle": "Name", "sWidth": "48%", "mData": "releasename" },
-  { "sTitle": "Date", "sWidth": "12%", "mData": "date" },
-  { "sTitle": "User", "sWidth": "22%","mData": "user" }]
+  { "sTitle": "Date", "sWidth": "20%", "mData": "date" },
+  { "sTitle": "User", "sWidth": "30%","mData": "user" }]
 
 var sorting = [[ 1, "desc" ]]
 

@@ -18,7 +18,7 @@ def get_configured_logger(name):
             # Create RotatingFileHandler
             import os
             formatter = "%(funcName)s():%(lineno)d %(message)s \n"
-            handler = logging.handlers.RotatingFileHandler(os.path.join(request.folder, 'private/app2.log'), maxBytes=10000000, backupCount=2)
+            handler = logging.handlers.RotatingFileHandler(os.path.join(request.folder, 'private/app3.log'), maxBytes=10000000, backupCount=2)
             handler.setFormatter(logging.Formatter(formatter))
 
         handler.setLevel(logging.DEBUG)
@@ -29,4 +29,4 @@ def get_configured_logger(name):
     return logger
 
 # Assign application logger to a global var
-logger = get_configured_logger("mylogger444")
+logger = get_configured_logger("mylogger443223334")

@@ -87,7 +87,6 @@ def removeLabelFromSession():
     del session.vasea[request.post_vars.testsuiteid]
     return len(session.vasea)
 
-
 def saveLabel():
     db.label.insert(releasename=request.post_vars.labelname,user=request.post_vars.username)
     row = db(db.label.id).select().last()
@@ -95,5 +94,6 @@ def saveLabel():
     for k in session.vasea.keys():
         db(db.testsuite.id == k).update(
                 label_id=row.id)
+    session.vasea = dict()
 
     redirect(URL('web2py_birt', 'labels', 'list'))

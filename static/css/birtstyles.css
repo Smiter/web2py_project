@@ -11,6 +11,26 @@ input[type="text"], input[type="password"], select {
 
 /************************/
 
+.page-header {
+  padding-bottom: 9px;
+  margin: 20px 0 30px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.pagetitle {
+  margin-top: 50px;
+ font-family:Arial;font-size:33px;font-weight:bold;font-style:normal;text-decoration:none;color:#333333;
+}
+
+
+#demo .dataTables_wrapper {
+  position: relative;
+  clear: both;
+  margin-right: 20px;
+}
+
+
+
 #demo .collapse {
   position: relative;
   height: 0;
@@ -29,7 +49,7 @@ input[type="text"], input[type="password"], select {
 
 
 #demo{
-    width:90%;
+    width:83%;
     min-width:400px;
     height:85%;
     float:left;
@@ -84,7 +104,7 @@ table.display {
     margin: 0 auto;
     width: 100%;
     border: 1px solid #AAAAAA;
-
+    font-size: 12px;
     table-layout: fixed;
     word-wrap:break-word;
 }
@@ -167,12 +187,12 @@ table.display {
 .dropdown-menu{
 	position:absolute;
 	top:100%;
-	left:1075px;
-	top:36px;
+	left:993px;
+	top:136px;
 	z-index:10;
 	display:none;
 	float:left;
-	min-width:270px;
+	width:263px;
 	padding:4px 0;
 	margin:30px 0 0;
 	list-style:none;
@@ -202,11 +222,11 @@ table.display {
 	position:absolute;
 	text-align: center;
 	top:100%;
-	left:1075px;
-	top:38px;
+	left:993px;
+	top:138px;
 	z-index:10;
 	float:left;
-	min-width:270px;
+	min-width:263px;
 	padding:4px 0;
 	margin:1px 0 0;
 	list-style:none;
@@ -222,6 +242,23 @@ table.display {
  	user-select: none;
  	font-family:Arial;font-size:13px;font-weight:bold;font-style:normal;text-decoration:none;color:#333333;
 }
+
+
+.dropdown-menu a {
+    clear: both;
+    color: black;
+    display: block;
+    font-weight: normal;
+    line-height: 18px;
+    padding: 5px 15px;
+    white-space: normal;
+    font-family:Arial;font-size:13px;font-st40e:normal;text-decoration:none;color:#333333;
+    width:233px;
+    height: auto; overflow: hidden;
+    word-wrap: break-word;
+    font-size: 10px;
+}
+
 
 .factrunnings{
 	margin-top:7px;
@@ -241,20 +278,6 @@ table.display {
 }
 
 
-.dropdown-menu a {
-    clear: both;
-    color: black;
-    display: block;
-    font-weight: normal;
-    line-height: 18px;
-    padding: 5px 15px;
-    white-space: normal;
-    font-family:Arial;font-size:13px;font-st40e:normal;text-decoration:none;color:#333333;
-    width:240px;
-    height: auto; overflow: hidden;
-    word-wrap: break-word;
-    font-size: 10px;
-}
 
 .mydivider {
 	margin-left:20px;

@@ -1,0 +1,10 @@
+<div class="navbar-inner">
+  <div class="container">
+    <a class="brand" href="#">Birt report harman&trade;&nbsp;</a>
+    <div class="nav-collapse">
+      {{if response.menu:}}
+      {{=MENU(response.menu, _class='nav' ,li_class='dropdown',ul_class='dropdown-menu')}}
+      {{pass}}
+    </div><!--/.nav-collapse -->
+  </div>
+</div>

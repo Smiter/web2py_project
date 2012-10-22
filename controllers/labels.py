@@ -8,6 +8,7 @@ def list():
 
 def labelHandler():
     tableData = proccessTableQuery(query=db.label.id, countBeforeFilter=db.label.id, columns=labelColumns)
+    logger.error(tableData)
     return response.json(tableData)
 
 

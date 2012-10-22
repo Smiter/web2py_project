@@ -1,5 +1,12 @@
 {{extend 'layout.html'}}
 
+<div class="page-header">
+    <h1 class="pagetitle">
+        FACT runnings
+    </h1>
+</div>
+
+
 <script type="text/javascript">
 var tableId = "testsuitetable"
 var analyzeButtonid = "analyze"
@@ -8,14 +15,14 @@ var buttonStyle = "analyzeButton btn btn-primary"
 var dataTableHandler = "/web2py_birt/fact/runsHandler"
 
 var tableColumns = [
-  { "sTitle": "Select", "bSortable": false ,"sWidth": "3%","mData" : null,
+  { "sTitle": "Select", "bSortable": false ,"sWidth": "4%","mData" : null,
     "sDefaultContent": '<input type = "checkbox">'},
   { "sTitle": "Id","sWidth": "5%", "mData": "testsuite.id" },
-  { "sTitle": "Name", "bSortable": false ,"sWidth": "20%", "mData": "testsuite.testsuitename" },
-  { "sTitle": "Start date" ,"sWidth": "7%", "mData": "testsuite.starttime" },
-  { "sTitle": "Finish date" ,"sWidth": "7%", "mData": "testsuite.endtime" },
-  { "sTitle": "User","sWidth": "10%", "mData": "testsuite.user" },
-  { "sTitle": "Anaconda branch" , "bSortable": false,"sWidth": "20%", "mData": "anaconda.name" },
+  { "sTitle": "Name", "bSortable": false ,"sWidth": "32%", "mData": "testsuite.testsuitename" },
+  { "sTitle": "Start date" ,"sWidth": "8%", "mData": "testsuite.starttime" },
+  { "sTitle": "Finish date" ,"sWidth": "8%", "mData": "testsuite.endtime" },
+  { "sTitle": "User","sWidth": "8%", "mData": "testsuite.user" },
+  { "sTitle": "Branch" , "bSortable": false,"sWidth": "8%", "mData": "anaconda.name" },
   { "sTitle": "CL" , "bSortable": false,"sWidth": "6%", "mData": "anaconda.changelist" },
   { "sTitle": "Analyzed","sWidth": "6%", "mData": "testsuite.analyzed" }]
 
@@ -28,7 +35,10 @@ MyApp.addMultiClickRawHandler([analyzeButtonid,addtolabelid],tableId);
 MyApp.addAnalyzeButtonHandler();
 MyApp.addFiltering();
 </script>
+
 <div id="demo"> 
+
+
 <form id="form" method = "POST" action = "/web2py_birt/fact/analysis">
 <table cellpadding="0" cellspacing="0" border="0" class="display" id="testsuitetable">
   <tbody width="100%">
