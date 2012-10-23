@@ -8,6 +8,7 @@ def runs():
 
 
 def runsHandler():
+    logger.error(request.post_vars)
     query = db.testsuite.anaconda_id == db.anaconda.id
     tableData = proccessTableQuery(query=query,
                                    countBeforeFilter=db.testsuite.id,
@@ -71,29 +72,29 @@ def saveLabelList():
     labelList = json.loads(request.post_vars.array)
     resultList = dict()
     for k, v in labelList.items():
-        if session.vasea:
-            if not k in session.vasea:
-                session.vasea[k] = v
+        if session.label_preview_list:
+            if not k in session.label_preview_list:
+                session.label_preview_list[k] = v
                 resultList[k] = v
         else:
-            session.vasea = dict()
-            session.vasea[k] = v
+            session.label_preview_list = dict()
+            session.label_preview_list[k] = v
             resultList[k] = v
     return response.json(resultList)
 
 
 def removeLabelFromSession():
     logging.error("AJAX CALL2")
-    del session.vasea[request.post_vars.testsuiteid]
-    return len(session.vasea)
+    del session.label_preview_list[request.post_vars.testsuiteid]
+    return len(session.label_preview_list)
 
 def saveLabel():
     db.label.insert(releasename=request.post_vars.labelname,user=request.post_vars.username)
     row = db(db.label.id).select().last()
 
-    for k in session.vasea.keys():
+    for k in session.label_preview_list.keys():
         db(db.testsuite.id == k).update(
                 label_id=row.id)
-    session.vasea = dict()
+    session.label_preview_list = dict()
 
     redirect(URL('web2py_birt', 'labels', 'list'))

@@ -187,12 +187,12 @@ table.display {
 .dropdown-menu{
 	position:absolute;
 	top:100%;
-	left:993px;
-	top:136px;
+	left:973px;
+	top:109px;
 	z-index:10;
 	display:none;
 	float:left;
-	width:263px;
+	width:283px;
 	padding:4px 0;
 	margin:30px 0 0;
 	list-style:none;
@@ -222,11 +222,11 @@ table.display {
 	position:absolute;
 	text-align: center;
 	top:100%;
-	left:993px;
-	top:138px;
+	left:973px;
+	top:111px;
 	z-index:10;
 	float:left;
-	min-width:263px;
+	min-width:283px;
 	padding:4px 0;
 	margin:1px 0 0;
 	list-style:none;
@@ -246,15 +246,16 @@ table.display {
 
 .dropdown-menu a {
     clear: both;
+    padding: 3px 1px;
     color: black;
     display: block;
-    font-weight: normal;
+    font-weight: nowrap;
     line-height: 18px;
-    padding: 5px 15px;
     white-space: normal;
     font-family:Arial;font-size:13px;font-st40e:normal;text-decoration:none;color:#333333;
-    width:233px;
-    height: auto; overflow: hidden;
+    width:281px;
+    height: auto;
+    /*overflow: hidden;*/
     word-wrap: break-word;
     font-size: 10px;
 }

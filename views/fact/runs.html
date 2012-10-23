@@ -60,7 +60,7 @@ $(function(){
           }).done(function( msg ) {
             var contact = JSON.parse(msg);
             $.each(contact, function(val, text) {
-              $('#vsrunningsdivider').before($('<li></li>').html('<a value="'+val+'" href="#"><i class="icon-remove"></i>'+text+'</a>'));
+              $('#vsrunningsdivider').before($('<li></li>').html('<a value="'+val+'" href="#"><div style="float:left"><i class="icon-remove"></i><i class="divider-vertical"></i><i class="icon-pencil"></i><i class="divider-vertical"></i></div><div style="width:216px; margin-left:66px;">'+text+'</div></a>'));
             });
           });
 
@@ -70,10 +70,8 @@ $(function(){
 </script>
 
 <div id="demo"> 
-
-
 <form id="form" method = "POST" action = "/web2py_birt/fact/analysis">
-<table cellpadding="0" cellspacing="0" border="0" class="display" id="testsuitetable">
+      <table cellpadding="0" cellspacing="0" border="0" class="display" id="testsuitetable">
   <tbody width="100%">
     <tr>
       <td colspan="55" class="dataTables_empty">Loading data from server</td>
