@@ -69,6 +69,7 @@ input[type="text"], input[type="password"], select {
 }
 
 #demo .accordion-group {
+  width:97.5%;
   margin-bottom: 1px;
   margin-top: 1px;
   border: 1px solid #e5e5e5;

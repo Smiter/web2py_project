@@ -29,6 +29,20 @@ $(function(){
 	    		});
 	});
 
+	//edit testsuite by ckicking on edit icon in label preview menu
+	$('.icon-pencil').live('click',function () {
+	    testsuiteid =  $(this).closest('a').attr('value')
+	    $('#form').unbind('submit')
+	  	            $('#form').submit( function() {
+	  	                $('<input />').attr('type', 'hidden')
+	  	                .attr('name', "testsuiteId")
+	  	                .attr('value',  testsuiteid)
+	  	                .appendTo('#form');
+	  	                return true;
+	  	            } );
+	  	$("#form").submit();
+	});
+
 	//deletes all rows in label preview menu and adds 'none' row after new label is created
     $('#savelabelbutton').live('click',function () {
       $('#label_dropdown_menu li a').empty();

@@ -89,7 +89,7 @@
             
           $.each(labellist, function(val, text) {
             $('#nonefactrunnings').remove()
-            $('#vsrunningsdivider').before($('<li></li>').html('<a value="'+val+'" href="#"><i class="icon-remove"></i>'+text+'</a>'));
+            $('#vsrunningsdivider').before($('<li></li>').html('<a value="'+val+'" href="#"><div style="float:left"><i class="icon-remove"></i><i class="divider-vertical"></i><i class="icon-pencil"></i><i class="divider-vertical"></i></div><div style="width:216px; margin-left:66px;">'+text+'</div></a>'));
           });
         // }
       });
