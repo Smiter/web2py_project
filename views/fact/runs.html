@@ -22,13 +22,13 @@ var tableColumns = [
 
 var sorting = [[ 1, "desc" ]]
 var tableId = "testsuitetable"
-var analyzeButtonid = "analyze"
+var analyzeButtonid = "analyzebutton"
 var addtolabelid= 'addtolabel'
 var buttonStyle = "analyzeButton btn btn-primary"
 var dataTableHandler = "/web2py_birt/fact/runsHandler"
 
 var table = new DataTable();
-table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid]);
+table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid,addtolabelid]);
 table.addButton(addtolabelid,tableId,buttonStyle,"button","addtolabel");
 table.addButton(analyzeButtonid,tableId,buttonStyle,"submit","analyze");
 table.addMultiClickRawHandler([analyzeButtonid,addtolabelid],tableId);

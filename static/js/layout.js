@@ -33,6 +33,8 @@ $(function(){
 	$('.icon-pencil').live('click',function () {
 	    testsuiteid =  $(this).closest('a').attr('value')
 	    $('#form').unbind('submit')
+	    $("#form").attr("action", "/web2py_birt/fact/analysis");
+
 	  	            $('#form').submit( function() {
 	  	                $('<input />').attr('type', 'hidden')
 	  	                .attr('name', "testsuiteId")

@@ -72,8 +72,8 @@ function DataTable(){
     this.addButton = function(buttonid,tableid,style,type,buttonname){
         var self = this;
             $(function(){
-                $('<button class="'+style+'" type="'+type+'"  id='+buttonid + 
-                 ' disabled>'+ buttonname +'</button>').insertAfter('#' + tableid);
+                $('<button class="'+style+'" type="'+type+'"  id='+buttonid  
+                 +'>'+ buttonname +'</button>').insertAfter('#' + tableid);
             });
     };
 
@@ -186,8 +186,8 @@ function DataTable(){
 
                     for ( var i=0 ; i<aTrs.length ; i++ )
                     {
-                        if ( $(aTrs[i]).hasClass('datatablerowhighlight') )
-                        {
+                        // if ( $(aTrs[i]).hasClass('datatablerowhighlight') )
+                        // {
                             var tempmap = {}
                             tempmap['errortype'] = $('#errortype',aTrs[i]).find('option:selected').text();
                             tempmap['jira_id'] = $('#jira_id',aTrs[i]).val();
@@ -195,10 +195,10 @@ function DataTable(){
                             tempmap['testresult_id'] = self.oTable.fnGetData(aTrs[i]).testresult.id;
                             analysisMap.push( tempmap );
                             
-                        }
+                        // }
                     }
 
-                console.log(analysisMap)
+                // console.log(analysisMap)
                 if(analysisMap.length){
                 $('<input />').attr('type', 'hidden')
                 .attr('name', "analysisMap")
@@ -226,8 +226,8 @@ function DataTable(){
 
                 for ( var i=0 ; i<aTrs.length ; i++ )
                 {
-                    if ( $(aTrs[i]).hasClass('datatablerowhighlight') )
-                    {
+                    // if ( $(aTrs[i]).hasClass('datatablerowhighlight') )
+                    // {
                         var tempmap = {}
                         tempmap['errortype'] = $('#errortype',aTrs[i]).find('option:selected').text();
                         tempmap['jira_id'] = $('#jira_id',aTrs[i]).val();
@@ -235,10 +235,10 @@ function DataTable(){
                         tempmap['testresult_id'] = self.oTable.fnGetData(aTrs[i]).testresult.id;
                         analysisMap.push( tempmap );
                         
-                    }
+                    // }
                 }
 
-                console.log(analysisMap)
+                // console.log(analysisMap)
                 $.ajax({
                   type: "POST",
                   url: "/web2py_birt/fact/saveAnalyze",

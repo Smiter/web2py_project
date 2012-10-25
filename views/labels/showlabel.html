@@ -17,8 +17,6 @@ for(var i=0;i<testsuiteArray.length;i++){
             var dataTableHandler = "/web2py_birt/fact/analyzeHandler"
 
             var tableColumns = [
-              { "sTitle": "Select", "bSortable": false ,"sWidth": "4%","mData" : null,
-                "sDefaultContent": '<input type = "checkbox">'},
               { "sTitle": "Testcase name","sWidth": "25%","mData" : "testdescription.name"},
               { "sTitle": "Testcase description","bSortable": false,"sWidth": "20%", "mData": "testdescription.testdescription" },
               { "sTitle": "Status","sWidth": "6%", "mData": "testresult.testresult" },
@@ -31,9 +29,9 @@ for(var i=0;i<testsuiteArray.length;i++){
 
             var sorting = [[ 3,"asc" ]]
             var table = new DataTable();
-            table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid],testsuiteid);
+            table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[],testsuiteid);
             table.addButton(analyzeButtonid,tableId,analyzeButtonStyle,"button",analyzeButtonName);
-            table.addMultiClickRawHandler([analyzeButtonid],tableId);
+            // table.addMultiClickRawHandler([analyzeButtonid],tableId);
             table.addSaveButtonAjaxHandler(analyzeButtonid);
             table.addFiltering(tableId);
             table.testsuiteid = testsuiteid
@@ -118,7 +116,6 @@ $(function(){
         </tbody>
         <tfoot>
           <tr>
-            <th><input type="hidden" name="search_id" class="search_init_focus_of"/></th>
             <th><input type="text" name="search_name" value="Search" class="search_init_focus_of" /></th>
             <th><input type="hidden" name="search_desc" value="Search" class="search_init_focus_of" /></th>
             <th><input type="hidden" name="search_status" value="Search" class="search_init_focus_of" /></th>

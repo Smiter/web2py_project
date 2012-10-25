@@ -9,13 +9,13 @@ testsuiteColumns = {
     8: ('testsuite', 'analyzed')}
 
 analyzedColumns = {
-    1: ('testdescription', 'name'),
-    2: ('testdescription', 'testdescription'),
-    3: ('testresult', 'testresult'),
-    4: ('testresult', 'failuredescription'),
-    5: ('analysis', 'errortype'),
-    6: ('analysis', 'elvis_id'),
-    7: ('analysis', 'comment')}
+    0: ('testdescription', 'name'),
+    1: ('testdescription', 'testdescription'),
+    2: ('testresult', 'testresult'),
+    3: ('testresult', 'failuredescription'),
+    4: ('analysis', 'errortype'),
+    5: ('analysis', 'elvis_id'),
+    6: ('analysis', 'comment')}
 
 labelColumns = {
     1: ('label', 'id'),

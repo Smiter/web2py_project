@@ -14,8 +14,6 @@ var analyzeButtonStyle = "analyzeButton btn btn-primary"
 var dataTableHandler = "/web2py_birt/fact/analyzeHandler"
 
  var tableColumns = [
-              { "sTitle": "Select", "bSortable": false ,"sWidth": "4%","mData" : null,
-                "sDefaultContent": '<input type = "checkbox">'},
               { "sTitle": "Testcase name","sWidth": "25%","mData" : "testdescription.name"},
               { "sTitle": "Testcase description","bSortable": false,"sWidth": "20%", "mData": "testdescription.testdescription" },
               { "sTitle": "Status","sWidth": "10%", "mData": "testresult.testresult" },
@@ -29,12 +27,18 @@ var dataTableHandler = "/web2py_birt/fact/analyzeHandler"
 var sorting = [[ 3,"asc" ]]
 
 var table = new DataTable();
-table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid],t);
+table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[],t);
 table.addButton(analyzeButtonid,tableId,analyzeButtonStyle,"submit","Save");
-table.addMultiClickRawHandler([analyzeButtonid],tableId);
+// table.addMultiClickRawHandler([analyzeButtonid],tableId);
 table.addSaveButtonHandler();
 table.addFiltering(tableId);
 table.testsuiteid = t
+
+$(function(){
+  $('<input type="checkbox" style="position:absolute; margin-right:80px">').insertAfter('#' + tableId);
+});
+
+
 </script>
 
 <div id="demo">
@@ -47,7 +51,6 @@ table.testsuiteid = t
   </tbody>
   <tfoot>
     <tr>
-      <th><input type="hidden" name="search_id" class="search_init_focus_of"/></th>
       <th><input type="text" name="search_name" value="Search" class="search_init_focus_of" /></th>
       <th><input type="hidden" name="search_desc" value="Search" class="search_init_focus_of" /></th>
       <th><input type="hidden" name="search_status" value="Search" class="search_init_focus_of" /></th>
