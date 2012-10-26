@@ -8,8 +8,9 @@
 <script type="text/javascript">
 var tableId = "labeltableid"
 var analyzeButtonid = "analyze"
-var addtolabelid= 'addtolabel'
-var buttonStyle = "analyzeButton btn btn-primary"
+var generateReportButtonid = "generateReport"
+var showLabelStyle = "addtolabelbutton btn btn-primary"
+var generateReportStyle = "analyzeButton btn btn-primary"
 var dataTableHandler = "/web2py_birt/labels/labelHandler"
 
 var tableColumns = [
@@ -22,9 +23,11 @@ var tableColumns = [
 
 var sorting = [[ 1, "desc" ]]
 var table = new DataTable();
-table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid]);
-table.addButton(analyzeButtonid,tableId,buttonStyle,"submit","showlabel");
-table.addSingleClickRawHandler([analyzeButtonid,addtolabelid],tableId);
+table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid,generateReportButtonid]);
+table.addButton(analyzeButtonid,tableId,generateReportStyle,"submit","showlabel");
+table.addButton(generateReportButtonid,tableId,showLabelStyle,"button","genreport");
+table.addSingleClickRawHandler([analyzeButtonid,generateReportButtonid],tableId);
+table.addGenerateReportButtonAjaxHandler(generateReportButtonid)
 table.addShowLabelButtonHandler();
 table.addFiltering(tableId);
 </script>

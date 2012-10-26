@@ -38,11 +38,12 @@ def analysis():
     return dict(m=request.vars.testsuiteId)
 
 
+
 def saveAnalyze():
     logger.error("saveAnalyze")
     logger.error(request.vars.analysisMap)
     logger.error(json.loads(request.vars.analysisMap))
-    logger.error(request.vars.testsuiteid)
+    logger.error(request.vars.testsuiteid)      
     analysisListOfMaps = json.loads(request.vars.analysisMap)
     for map_item in analysisListOfMaps:
         testresult_id = map_item["testresult_id"]
@@ -63,8 +64,8 @@ def saveAnalyze():
                 errortype=errortype,
                 comment=comment,
                 elvis_id=jira_id)
-
-    db(db.testsuite.id == request.vars.testsuiteid).update(analyzed=1)
+    if request.vars.testsuiteid!=-1:
+        db(db.testsuite.id == request.vars.testsuiteid).update(analyzed=1)
     redirect(URL('web2py_birt', 'fact', 'runs'))
 
 

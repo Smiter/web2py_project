@@ -28,14 +28,14 @@ var sorting = [[ 3,"asc" ]]
 
 var table = new DataTable();
 table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[],t);
-table.addButton(analyzeButtonid,tableId,analyzeButtonStyle,"submit","Save");
+table.addButton(analyzeButtonid,tableId,"saveanalyzebutton btn btn-primary","submit","Save");
 // table.addMultiClickRawHandler([analyzeButtonid],tableId);
 table.addSaveButtonHandler();
 table.addFiltering(tableId);
 table.testsuiteid = t
 
 $(function(){
-  $('<input type="checkbox" style="position:absolute; margin-right:80px">').insertAfter('#' + tableId);
+  $('<p style="position:absolute;left:60px;margin-top:1px;">analyzed?</p><input id="analyzedcheckbox" type="checkbox" style="position:absolute;left:40px">').insertAfter('#' + tableId);
 });
 
 

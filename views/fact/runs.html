@@ -29,8 +29,8 @@ var dataTableHandler = "/web2py_birt/fact/runsHandler"
 
 var table = new DataTable();
 table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid,addtolabelid]);
-table.addButton(addtolabelid,tableId,buttonStyle,"button","addtolabel");
-table.addButton(analyzeButtonid,tableId,buttonStyle,"submit","analyze");
+table.addButton(addtolabelid,tableId,"addtolabelbutton btn btn-primary","button","addtolabel");
+table.addButton(analyzeButtonid,tableId,"analyzeButton btn btn-primary","submit","analyze");
 table.addMultiClickRawHandler([analyzeButtonid,addtolabelid],tableId);
 table.addAnalyzeButtonHandler();
 table.addFiltering(tableId);

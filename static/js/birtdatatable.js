@@ -10,6 +10,7 @@ function DataTable(){
                     }
 
                     $('#' + tableid +' td').bind('mouseenter', function () { 
+
                         $(this).parent().children().each(function(){
                             $(this).addClass('datatablerowhighlight');
                         });
@@ -200,14 +201,18 @@ function DataTable(){
 
                 // console.log(analysisMap)
                 if(analysisMap.length){
-                $('<input />').attr('type', 'hidden')
-                .attr('name', "analysisMap")
-                .attr('value',  JSON.stringify(analysisMap))
-                .appendTo('#form');
-                $('<input />').attr('type', 'hidden')
-                .attr('name', "testsuiteid")
-                .attr('value',  self.testsuiteid)
-                .appendTo('#form');
+                    testsuiteid = -1
+                    if($("#analyzedcheckbox").is(':checked') == true){
+                        testsuiteid = self.testsuiteid
+                    }
+                    $('<input />').attr('type', 'hidden')
+                    .attr('name', "analysisMap")
+                    .attr('value',  JSON.stringify(analysisMap))
+                    .appendTo('#form');
+                    $('<input />').attr('type', 'hidden')
+                    .attr('name', "testsuiteid")
+                    .attr('value',  testsuiteid)
+                    .appendTo('#form');
                 }
                 // self.oTable.fnDraw(false); 
                 return true;
@@ -249,6 +254,25 @@ function DataTable(){
             });
         });
     };
+
+
+    this.addGenerateReportButtonAjaxHandler = function(buttonid){
+        var self = this;
+
+        $(function(){
+
+            $('#'+buttonid).live('click',function () {
+                $.ajax({
+                  type: "POST",
+                  url: "/web2py_birt/labels/generateReport",
+                  data: "labelid="+self.rawData.id
+                  }).done(function( url ) {
+                    window.location.href = url
+                  })
+            });
+        });
+    };
+
 
     this.addShowLabelButtonHandler = function(){
         var self = this;

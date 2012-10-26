@@ -135,7 +135,7 @@ table.display {
 
 .dataTables_info {
     margin-top: 15px;
-    margin-left: 75px;
+    margin-left: 175px;
     padding-top: 3px;
 }
 
@@ -148,17 +148,35 @@ table.display {
 }
 
 .analyzeButton {
-	float:left;
-	margin-left: 20px; 
-	margin-top: 12px;
+  position: absolute;
+  left:10px;
+  bottom:6px;
+	/*float:left;*/
+	/*margin-left: 40px; */
+	/*margin-top: 22px;*/
 	width:70px;
+  /*padding: 1px 1px;*/
 }
 
-.addToLabelButton {
-	float:left;
-	margin-left: 70px;
-	margin-top: 12px;
-	width:70px;
+.addtolabelbutton{
+    position: absolute;
+  left:100px;
+  bottom:6px;
+  /*float:left;*/
+  /*margin-left: 40px; */
+  /*margin-top: 22px;*/
+  width:70px;
+  /*padding: 1px 1px;*/
+}
+.saveanalyzebutton{
+  position: absolute;
+  left:40px;
+  bottom:6px;
+  /*float:left;*/
+  /*margin-left: 40px; */
+  /*margin-top: 22px;*/
+  width:70px;
+  /*padding: 1px 1px;*/
 }
 
 .labelpreview {
