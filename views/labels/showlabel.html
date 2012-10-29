@@ -8,6 +8,7 @@
 
 <script type="text/javascript">
 var testsuiteArray = {{=XML(response.json(testsuiteArray))}}
+console.log(testsuiteArray)
 for(var i=0;i<testsuiteArray.length;i++){
             var testsuiteid = testsuiteArray[i].testsuite.id;
             var tableId = "analysistable"+i

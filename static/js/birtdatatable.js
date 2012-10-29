@@ -29,7 +29,6 @@ function DataTable(){
                  "bServerSide" : true,
                  "bProcessing" : true,
                  "bFilter" : true,
-                 "sPaginationType": "full_numbers",
                  "sAjaxSource" : handler,
                  "fnServerParams": function ( aoData ) {
                     aoData.push( { "name": "testsuiteid", "value": testsuiteid } );
@@ -183,7 +182,7 @@ function DataTable(){
         $(function(){
             $('#form').submit( function() {
                     var analysisMap = new Array();
-                    var aTrs = self.oTable.fnGetNodes();
+                    var aTrs = self.oTable.fnGetData();
 
                     for ( var i=0 ; i<aTrs.length ; i++ )
                     {
@@ -227,8 +226,8 @@ function DataTable(){
 
             $('#'+buttonid).live('click',function () {
                 var analysisMap = new Array();
-                var aTrs = self.oTable.fnGetNodes();
-
+                var aTrs = self.oTable.fnGetData();
+                console.log(aTrs.length)
                 for ( var i=0 ; i<aTrs.length ; i++ )
                 {
                     // if ( $(aTrs[i]).hasClass('datatablerowhighlight') )

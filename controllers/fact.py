@@ -91,7 +91,7 @@ def removeLabelFromSession():
     return len(session.label_preview_list)
 
 def saveLabel():
-    db.label.insert(releasename=request.post_vars.labelname,user=request.post_vars.username)
+    db.label.insert(releasecandidatename=request.post_vars.labelname,user=request.post_vars.username)
     row = db(db.label.id).select().last()
 
     for k in session.label_preview_list.keys():
