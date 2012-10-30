@@ -57,6 +57,16 @@ $(function(){
     $('#savelabel').live('click',function () {
         console.log($("#nonefactrunnings").length)
       if ( $("#nonefactrunnings").length == 0) {
+      	 $.ajax({
+          type: "POST",
+          url: "/web2py_birt/fact/checkifanalyzed",
+          }).done(function( msg ) {
+            // var contact = JSON.parse(msg);
+            // $.each(contact, function(val, text) {
+            //   $('#vsrunningsdivider').before($('<li></li>').html('<a value="'+val+'" href="#"><div style="float:left"><i class="icon-remove"></i><i class="divider-vertical"></i><i class="icon-pencil"></i><i class="divider-vertical"></i></div><div style="width:216px; margin-left:66px;">'+text+'</div></a>'));
+            // });
+          });
+
         $('#myModal').modal('show')
       }
       else

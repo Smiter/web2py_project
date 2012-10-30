@@ -100,3 +100,9 @@ def saveLabel():
     session.label_preview_list = dict()
 
     redirect(URL('web2py_birt', 'labels', 'list'))
+
+def checkifanalyzed():
+    # for k in session.label_preview_list.keys(): 
+        # db.commit()
+        rows = db.executesql("select analyzed from testsuite where id = 247")
+        logger.error(rows[0])
