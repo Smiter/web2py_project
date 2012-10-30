@@ -11,6 +11,15 @@ input[type="text"], input[type="password"], select {
 
 /************************/
 
+.ui-helper-clearfix:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 10px;
+    visibility: hidden;
+}
+
+
 .page-header {
   padding-bottom: 9px;
   margin: 20px 0 30px;
@@ -150,7 +159,7 @@ table.display {
 .analyzeButton {
   position: absolute;
   left:10px;
-  bottom:6px;
+  bottom:18px;
 	/*float:left;*/
 	/*margin-left: 40px; */
 	/*margin-top: 22px;*/
@@ -158,10 +167,17 @@ table.display {
   /*padding: 1px 1px;*/
 }
 
+.labelanalyzeButton {
+  position: absolute;
+  left:30px;
+  bottom:8px;
+  width:70px;
+}
+
 .addtolabelbutton{
     position: absolute;
   left:100px;
-  bottom:6px;
+  bottom:18px;
   /*float:left;*/
   /*margin-left: 40px; */
   /*margin-top: 22px;*/

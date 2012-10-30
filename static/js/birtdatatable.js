@@ -1,5 +1,5 @@
 function DataTable(){
-    this.addDataTable = function(tableid,tableColumns,sorting,handler,buttons,testsuiteid){
+    this.addDataTable = function(tableid,tableColumns,sorting,handler,buttons,testsuiteid,blenchChange,bPaginate){
         var self = this;
             $(function(){
                  self.oTable = $('#' + tableid).dataTable( {
@@ -30,6 +30,9 @@ function DataTable(){
                  "bProcessing" : true,
                  "bFilter" : true,
                  "sAjaxSource" : handler,
+                 "sPaginationType": "full_numbers",
+                 "bLengthChange": blenchChange,
+                 "bPaginate" : bPaginate,
                  "fnServerParams": function ( aoData ) {
                     aoData.push( { "name": "testsuiteid", "value": testsuiteid } );
                 }
@@ -76,6 +79,8 @@ function DataTable(){
                  +'>'+ buttonname +'</button>').insertAfter('#' + tableid);
             });
     };
+
+    
 
     this.addSingleClickRawHandler = function(buttons,tableid){
         var self = this;
@@ -182,17 +187,20 @@ function DataTable(){
         $(function(){
             $('#form').submit( function() {
                     var analysisMap = new Array();
-                    var aTrs = self.oTable.fnGetData();
+                    var aTrs = self.oTable.fnGetNodes();
 
                     for ( var i=0 ; i<aTrs.length ; i++ )
                     {
                         // if ( $(aTrs[i]).hasClass('datatablerowhighlight') )
                         // {
+
                             var tempmap = {}
                             tempmap['errortype'] = $('#errortype',aTrs[i]).find('option:selected').text();
                             tempmap['jira_id'] = $('#jira_id',aTrs[i]).val();
                             tempmap['comment'] = $('#comment_id',aTrs[i]).val();
                             tempmap['testresult_id'] = self.oTable.fnGetData(aTrs[i]).testresult.id;
+
+                            console.log(tempmap)
                             analysisMap.push( tempmap );
                             
                         // }
@@ -226,7 +234,7 @@ function DataTable(){
 
             $('#'+buttonid).live('click',function () {
                 var analysisMap = new Array();
-                var aTrs = self.oTable.fnGetData();
+                var aTrs = self.oTable.fnGetNodes();
                 console.log(aTrs.length)
                 for ( var i=0 ; i<aTrs.length ; i++ )
                 {
@@ -241,12 +249,14 @@ function DataTable(){
                         
                     // }
                 }
-
-                // console.log(analysisMap)
+                testsuiteid = -1
+                if($("#analyzedcheckbox").is(':checked') == true){
+                        testsuiteid = self.testsuiteid
+                }
                 $.ajax({
                   type: "POST",
                   url: "/web2py_birt/fact/saveAnalyze",
-                  data: "analysisMap="+JSON.stringify(analysisMap)
+                  data: {"analysisMap":JSON.stringify(analysisMap),"testsuiteid":testsuiteid}
                   }).done(function( msg ) {
                     self.oTable.fnDraw(false); 
                   })
@@ -261,13 +271,29 @@ function DataTable(){
         $(function(){
 
             $('#'+buttonid).live('click',function () {
-                $.ajax({
-                  type: "POST",
-                  url: "/web2py_birt/labels/generateReport",
-                  data: "labelid="+self.rawData.id
-                  }).done(function( url ) {
-                    window.location.href = url
-                  })
+                console.log(self.rawData.id)
+                 $.ajax({
+                 type: "POST",
+                 url: "/web2py_birt/fact/checkifanalyzed",
+                 data: "labelid="+self.rawData.id
+                 }).done(function( isAnalyzed ) {
+                    console.log(isAnalyzed)
+                  if (isAnalyzed == "True"){
+                        $.ajax({
+                        type: "POST",
+                        url: "/web2py_birt/labels/generateReport",
+                        data: "labelid="+self.rawData.id
+                        }).done(function( url ) {
+                          window.location.href = url
+                        })
+                  }
+                  else{
+                    alert("You should analyzed testsuites from label before generating report")
+                  }
+                    
+
+                
+                 });
             });
         });
     };

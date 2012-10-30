@@ -27,7 +27,7 @@ var dataTableHandler = "/web2py_birt/fact/analyzeHandler"
 var sorting = [[ 3,"asc" ]]
 
 var table = new DataTable();
-table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[],t);
+table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[],t,false,false);
 table.addButton(analyzeButtonid,tableId,"saveanalyzebutton btn btn-primary","submit","Save");
 // table.addMultiClickRawHandler([analyzeButtonid],tableId);
 table.addSaveButtonHandler();

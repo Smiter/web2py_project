@@ -38,12 +38,11 @@ def analysis():
     return dict(m=request.vars.testsuiteId)
 
 
-
 def saveAnalyze():
     logger.error("saveAnalyze")
-    logger.error(request.vars.analysisMap)
-    logger.error(json.loads(request.vars.analysisMap))
-    logger.error(request.vars.testsuiteid)      
+    # logger.error(request.vars.analysisMap)
+    # logger.error(json.loads(request.vars.analysisMap))
+    # logger.error(request.vars.testsuiteid)
     analysisListOfMaps = json.loads(request.vars.analysisMap)
     for map_item in analysisListOfMaps:
         testresult_id = map_item["testresult_id"]
@@ -64,7 +63,7 @@ def saveAnalyze():
                 errortype=errortype,
                 comment=comment,
                 elvis_id=jira_id)
-    if request.vars.testsuiteid!=-1:
+    if request.vars.testsuiteid != -1:
         db(db.testsuite.id == request.vars.testsuiteid).update(analyzed=1)
     redirect(URL('web2py_birt', 'fact', 'runs'))
 
@@ -90,19 +89,23 @@ def removeLabelFromSession():
     del session.label_preview_list[request.post_vars.testsuiteid]
     return len(session.label_preview_list)
 
+
 def saveLabel():
-    db.label.insert(releasecandidatename=request.post_vars.labelname,user=request.post_vars.username)
+    db.label.insert(releasecandidatename=request.post_vars.labelname, user=request.post_vars.username)
     row = db(db.label.id).select().last()
 
     for k in session.label_preview_list.keys():
         db(db.testsuite.id == k).update(
-                label_id=row.id)
+            label_id=row.id)
     session.label_preview_list = dict()
 
     redirect(URL('web2py_birt', 'labels', 'list'))
 
+
 def checkifanalyzed():
-    # for k in session.label_preview_list.keys(): 
-        # db.commit()
-        rows = db.executesql("select analyzed from testsuite where id = 247")
-        logger.error(rows[0])
+    left = db.testsuite.on(db.label.id == db.testsuite.label_id)
+    row = db(db.label.id == request.post_vars.labelid).select(db.testsuite.analyzed,left = left)
+    for r in row:
+        if r.analyzed == 0:
+            return False
+    return True

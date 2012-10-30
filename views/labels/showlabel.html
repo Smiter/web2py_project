@@ -14,7 +14,7 @@ for(var i=0;i<testsuiteArray.length;i++){
             var tableId = "analysistable"+i
             var analyzeButtonid = "Save"+i
             var analyzeButtonName = "Save"
-            var analyzeButtonStyle = "analyzeButton btn btn-primary"
+            var analyzeButtonStyle = "labelanalyzeButton btn btn-primary"
             var dataTableHandler = "/web2py_birt/fact/analyzeHandler"
 
             var tableColumns = [
@@ -30,7 +30,7 @@ for(var i=0;i<testsuiteArray.length;i++){
 
             var sorting = [[ 3,"asc" ]]
             var table = new DataTable();
-            table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[],testsuiteid);
+            table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[],testsuiteid,false,false);
             table.addButton(analyzeButtonid,tableId,analyzeButtonStyle,"button",analyzeButtonName);
             // table.addMultiClickRawHandler([analyzeButtonid],tableId);
             table.addSaveButtonAjaxHandler(analyzeButtonid);
@@ -38,6 +38,10 @@ for(var i=0;i<testsuiteArray.length;i++){
             table.testsuiteid = testsuiteid
     }
 $(function(){
+  for(var i=0;i<testsuiteArray.length;i++){
+     console.log(i)
+  $('<p style="position:absolute;left:50px;margin-top:1px;">analyzed?</p><input id="analyzedcheckbox'+i+'" type="checkbox" style="position:absolute;left:30px">').insertAfter('#analysistable'+i);
+ }
 
   $('.accordion-toggle').find("img").click(function() {
   // if($($(this).parent().attr("href")+'.collapse').length==0) 
@@ -89,6 +93,7 @@ $(function(){
                    <th class="ui-state-default" style="text-align:center;">User</th>
                    <th class="ui-state-default" style="text-align:center;width:100px">Anaconda branch</th>
                    <th class="ui-state-default" style="text-align:center;">CL</th>
+                   <th class="ui-state-default" style="text-align:center;">Analyzed</th>
                    </tr>
                    </thead>
 
@@ -101,6 +106,7 @@ $(function(){
                       <td style="border: 1px solid #AAAAAA;">{{=testsuiteArray[i]['testsuite']['user']}}</td>
                       <td style="border: 1px solid #AAAAAA;">{{=testsuiteArray[i]['anaconda']['name']}}</td>
                       <td style="border: 1px solid #AAAAAA;">{{=testsuiteArray[i]['anaconda']['changelist']}}</td>
+                      <td style="border: 1px solid #AAAAAA;"> {{if testsuiteArray[i]['testsuite']['analyzed'] == 0:}} <img height="22" width="22" src="../static/images/no1.jpg"> {{else:}}  <img height="22" width="22" src="../static/images/yes2.jpg"> {{pass}} </td>
                     </tr>
                   </tbody>
                 </table>

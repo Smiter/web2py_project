@@ -18,7 +18,17 @@ var tableColumns = [
   { "sTitle": "User","sWidth": "8%", "mData": "testsuite.user" },
   { "sTitle": "Branch" , "bSortable": false,"sWidth": "8%", "mData": "anaconda.name" },
   { "sTitle": "CL" , "bSortable": false,"sWidth": "6%", "mData": "anaconda.changelist" },
-  { "sTitle": "Analyzed","sWidth": "6%", "mData": "testsuite.analyzed" }]
+  { "sTitle": "Analyzed","sWidth": "6%", "mData": "testsuite.analyzed",
+              "mRender": function ( data, type, full ) {
+                if (data == 0){
+                  return '<img height="22" width="22" src="../static/images/no1.jpg">'
+                }
+                else{
+                  return '<img height="22" width="22" src="../static/images/yes2.jpg">'
+                }
+              }
+  }
+  ]
 
 var sorting = [[ 1, "desc" ]]
 var tableId = "testsuitetable"
@@ -28,7 +38,7 @@ var buttonStyle = "analyzeButton btn btn-primary"
 var dataTableHandler = "/web2py_birt/fact/runsHandler"
 
 var table = new DataTable();
-table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid,addtolabelid]);
+table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid,addtolabelid],-1,true,true);
 table.addButton(addtolabelid,tableId,"addtolabelbutton btn btn-primary","button","addtolabel");
 table.addButton(analyzeButtonid,tableId,"analyzeButton btn btn-primary","submit","analyze");
 table.addMultiClickRawHandler([analyzeButtonid,addtolabelid],tableId);

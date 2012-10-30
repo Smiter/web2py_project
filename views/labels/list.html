@@ -23,7 +23,7 @@ var tableColumns = [
 
 var sorting = [[ 1, "desc" ]]
 var table = new DataTable();
-table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid,generateReportButtonid]);
+table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid,generateReportButtonid],-1,true,true);
 table.addButton(analyzeButtonid,tableId,generateReportStyle,"submit","showlabel");
 table.addButton(generateReportButtonid,tableId,showLabelStyle,"button","genreport");
 table.addSingleClickRawHandler([analyzeButtonid,generateReportButtonid],tableId);
