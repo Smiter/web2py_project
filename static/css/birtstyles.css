@@ -138,14 +138,11 @@ table.display {
 
 
 .dataTables_info {
+    margin-top: 15px;
+    margin-left: 375px;
+    padding-top: 3px;
     float: left;
     width: 200px;
-}
-
-.dataTables_info {
-    margin-top: 15px;
-    margin-left: 175px;
-    padding-top: 3px;
 }
 
 
@@ -163,7 +160,7 @@ table.display {
 	/*float:left;*/
 	/*margin-left: 40px; */
 	/*margin-top: 22px;*/
-	width:70px;
+	width:110px;
   /*padding: 1px 1px;*/
 }
 
@@ -175,13 +172,13 @@ table.display {
 }
 
 .addtolabelbutton{
-    position: absolute;
-  left:100px;
+  position: absolute;
+  left:140px;
   bottom:18px;
   /*float:left;*/
   /*margin-left: 40px; */
   /*margin-top: 22px;*/
-  width:70px;
+  width:120px;
   /*padding: 1px 1px;*/
 }
 .saveanalyzebutton{

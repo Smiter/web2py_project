@@ -9,16 +9,18 @@ def runs():
 
 def runsHandler():
     logger.error(request.post_vars)
+    selectcolumns = (db.testsuite.id, db.testsuite.testsuitename, db.testsuite.starttime, db.testsuite.endtime, db.testsuite.analyzed, db.anaconda.name, db.anaconda.changelist)
     query = db.testsuite.anaconda_id == db.anaconda.id
     tableData = proccessTableQuery(query=query,
                                    countBeforeFilter=db.testsuite.id,
-                                   columns=testsuiteColumns)
+                                   columns=testsuiteColumns,selectcolumns = selectcolumns)
     return response.json(tableData)
 
 
 def analyzeHandler():
     logger.error("analyze Handler")
-    logger.error(request.vars.testsuiteid)
+    selectcolumns = (db.testdescription.name, db.testdescription.testdescription, db.testresult.testresult, db.testresult.failuredescription, db.analysis.errortype, db.analysis.elvis_id, db.analysis.comment,db.testresult.id)
+
     query = (db.testsuite.id == db.test.testsuite_id) & (
         db.testdescription.id == db.test.testdescription_id) & (
             db.testresult.id == db.test.testresult_id) & (
@@ -27,15 +29,24 @@ def analyzeHandler():
         query=query,
         countBeforeFilter=query,
         left=db.analysis.on(db.analysis.testresult_id == db.testresult.id),
-        columns=analyzedColumns)
+        columns=analyzedColumns, selectcolumns = selectcolumns)
 
     return response.json(tableData)
 
 
 def analysis():
     logger.error("analysis")
-    logger.error(request.vars.testsuiteId)
-    return dict(m=request.vars.testsuiteId)
+    result = json.loads(request.vars.testsuitelist)
+    left = db.anaconda.on(db.anaconda.id == db.testsuite.anaconda_id)
+    query = None
+    for i in result:
+        if query is None:
+            query = db.testsuite.id == i
+        else:
+            query |= db.testsuite.id == i
+
+    rows = db(query).select(left=left)
+    return dict(testsuiteArray=rows.as_list())
 
 
 def saveAnalyze():
@@ -104,7 +115,7 @@ def saveLabel():
 
 def checkifanalyzed():
     left = db.testsuite.on(db.label.id == db.testsuite.label_id)
-    row = db(db.label.id == request.post_vars.labelid).select(db.testsuite.analyzed,left = left)
+    row = db(db.label.id == request.post_vars.labelid).select(db.testsuite.analyzed, left=left)
     for r in row:
         if r.analyzed == 0:
             return False

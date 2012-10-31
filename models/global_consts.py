@@ -19,7 +19,7 @@ analyzedColumns = {
 
 labelColumns = {
     1: ('label', 'id'),
-    2: ('label', 'releasename'),
+    2: ('label', 'releasecandidatename'),
     3: ('label', 'date'),
     4: ('label', 'user')}
 

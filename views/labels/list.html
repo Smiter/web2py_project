@@ -1,7 +1,7 @@
 {{extend 'layout.html'}}
 <div class="page-header">
     <h1 class="pagetitle">
-        Label list
+        Report list
     </h1>
 </div>
 
@@ -14,7 +14,7 @@ var generateReportStyle = "analyzeButton btn btn-primary"
 var dataTableHandler = "/web2py_birt/labels/labelHandler"
 
 var tableColumns = [
-  { "sTitle": "Select", "bSortable": false ,"sWidth": "4%","mData" : null,
+  { "sTitle": "Select", "bSortable": false ,"sWidth": "6%","mData" : null,
     "sDefaultContent": '<input type = "checkbox">'},
   { "sTitle": "Id",   "sWidth": "10%", "mData": "id" },
   { "sTitle": "Name", "sWidth": "48%", "mData": "releasecandidatename" },
@@ -24,8 +24,8 @@ var tableColumns = [
 var sorting = [[ 1, "desc" ]]
 var table = new DataTable();
 table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid,generateReportButtonid],-1,true,true);
-table.addButton(analyzeButtonid,tableId,generateReportStyle,"submit","showlabel");
-table.addButton(generateReportButtonid,tableId,showLabelStyle,"button","genreport");
+table.addButton(analyzeButtonid,tableId,generateReportStyle,"submit","Report Preview");
+table.addButton(generateReportButtonid,tableId,showLabelStyle,"button","Generate Report");
 table.addSingleClickRawHandler([analyzeButtonid,generateReportButtonid],tableId);
 table.addGenerateReportButtonAjaxHandler(generateReportButtonid)
 table.addShowLabelButtonHandler();

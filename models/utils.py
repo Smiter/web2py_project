@@ -31,11 +31,13 @@ def getFilter(columns):
     return like
 
 
-def proccessTableQuery(query=None, countBeforeFilter=None, left=None, columns=None):
+def proccessTableQuery(query=None, countBeforeFilter=None, left=None, columns=None,selectcolumns=None):
+    # selectcolumns = (db.testsuite.id, db.testsuite.testsuitename, db.testsuite.starttime, db.testsuite.endtime, db.testsuite.analyzed, db.anaconda.name, db.anaconda.changelist)
+    logger.error(selectcolumns)
     limitby = getLimit()
     orderby = getOrder(columns)
     filterby = getFilter(columns)
-    rows = db(filterby)(query).select(limitby=limitby, orderby=orderby, left=left)
+    rows = db(filterby)(query).select(*selectcolumns,limitby=limitby, orderby=orderby, left=left)
     beforeFilter = db(countBeforeFilter).count()
     if filterby is None:
         afterFilter = beforeFilter

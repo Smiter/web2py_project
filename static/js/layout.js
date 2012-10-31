@@ -32,13 +32,15 @@ $(function(){
 	//edit testsuite by ckicking on edit icon in label preview menu
 	$('.icon-pencil').live('click',function () {
 	    testsuiteid =  $(this).closest('a').attr('value')
+	    testsuitelist = new Array()
+	    testsuitelist.push(testsuiteid)
 	    $('#form').unbind('submit')
 	    $("#form").attr("action", "/web2py_birt/fact/analysis");
 
 	  	            $('#form').submit( function() {
 	  	                $('<input />').attr('type', 'hidden')
-	  	                .attr('name', "testsuiteId")
-	  	                .attr('value',  testsuiteid)
+	  	                .attr('name', "testsuitelist")
+	  	                .attr('value',  JSON.stringify(testsuitelist) )
 	  	                .appendTo('#form');
 	  	                return true;
 	  	            } );
@@ -83,6 +85,7 @@ $(function(){
 	  //     $('#vsrunnings').after($('<li></li>').val(val).html(text));
 	  //   });
 	  // });
+	
 	
 	// make all buttons bootstrap buttons
 	$('button, form input[type="submit"], form input[type="button"]').addClass('btn').css({'margin-right':'2px','margin-bottom':'2px'});

@@ -172,9 +172,22 @@ function DataTable(){
         var self = this;
         $(function(){
             $('#form').submit( function() {
+                var aTrs = self.oTable.fnGetNodes();
+                var testsuiteList = new Array()
+                for ( var i=0 ; i<aTrs.length ; i++ )
+                {
+                    if ( $(aTrs[i]).hasClass('datatablerowhighlight') )
+                    {
+                        testsuiteList.push(self.oTable.fnGetData(aTrs[i]).testsuite.id)
+                    }
+                }
                 $('<input />').attr('type', 'hidden')
                 .attr('name', "testsuiteId")
                 .attr('value',  self.rawData.testsuite.id)
+                .appendTo('#form');
+                 $('<input />').attr('type', 'hidden')
+                .attr('name', "testsuitelist")
+                .attr('value',  JSON.stringify(testsuiteList))
                 .appendTo('#form');
                 return true;
             } );
@@ -200,7 +213,6 @@ function DataTable(){
                             tempmap['comment'] = $('#comment_id',aTrs[i]).val();
                             tempmap['testresult_id'] = self.oTable.fnGetData(aTrs[i]).testresult.id;
 
-                            console.log(tempmap)
                             analysisMap.push( tempmap );
                             
                         // }
@@ -259,6 +271,7 @@ function DataTable(){
                   }).done(function( msg ) {
                     if (testsuiteid!=-1){
                         $("#img"+testsuiteid).attr("src", "../static/images/yes2.jpg");
+                        alert("Testsuite with id = "+testsuiteid+" has been analyzed")
                     }
                     self.oTable.fnDraw(false); 
                   })

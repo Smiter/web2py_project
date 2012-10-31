@@ -3,8 +3,8 @@ from gluon import *
 
 
 #db = DAL("mysql://nds:test@172.30.136.176/ndsreport_new", pool_size=10)
-db = DAL("mysql://root:111@localhost/test", pool_size=10)
-#db = DAL("mysql://nds:test@oekalxap68/ndsreport", pool_size=10)
+#db = DAL("mysql://root:111@localhost/test", pool_size=10)
+db = DAL("mysql://nds:test@oekalxap68/ndsreport", pool_size=10)
 
 migrate = False
 
@@ -173,7 +173,7 @@ db.define_table('testsuite',
 
 db.anaconda.name.filter_out = lambda txt: txt[: txt.rfind('_')][txt.rfind('-')+1:] if txt != "__" else "unknown"
 #db.testsuite.timestamp.filter_out = lambda number: "unknown" if number == 0 else datetime.datetime.fromtimestamp(number / 1000).strftime('%d/%m/%Y, %H:%M:%S')
-db.testsuite.endtime.filter_out = lambda number: "Running" if number is None else number
+db.testsuite.endtime.filter_out = lambda number: "" if number is None else number
 db.anaconda.changelist.filter_out = lambda changelist: "unknown" if not changelist else changelist
 #db.testsuite.analyzed.filter_out = lambda analyzed: ANALYZED_IMAGE_NO if analyzed == 0 else ANALYZED_IMAGE_YES
 db.analysis.errortype.filter_out = lambda errortype: {'Unknown': BUG_TYPE % ("selected", "", ""),
