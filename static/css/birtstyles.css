@@ -107,6 +107,15 @@ input[type="text"], input[type="password"], select {
 }
 
 
+.mainanalysispage {
+  border: 1px solid #AAAAAA; table-layout: fixed;
+    word-wrap:break-word; margin-right:10px;width: 94%; text-align: center
+}
+
+.mainanalysispage td {
+  text-align: center;
+}
+
 table.display {
     border-collapse: collapse;
     clear: both;
