@@ -106,7 +106,7 @@ $(function(){
                       <td style="border: 1px solid #AAAAAA;">{{=testsuiteArray[i]['testsuite']['user']}}</td>
                       <td style="border: 1px solid #AAAAAA;">{{=testsuiteArray[i]['anaconda']['name']}}</td>
                       <td style="border: 1px solid #AAAAAA;">{{=testsuiteArray[i]['anaconda']['changelist']}}</td>
-                      <td style="border: 1px solid #AAAAAA;"> {{if testsuiteArray[i]['testsuite']['analyzed'] == 0:}} <img height="22" width="22" src="../static/images/no1.jpg"> {{else:}}  <img height="22" width="22" src="../static/images/yes2.jpg"> {{pass}} </td>
+                      <td style="border: 1px solid #AAAAAA;"> {{if testsuiteArray[i]['testsuite']['analyzed'] == 0:}} <img id="img{{=testsuiteArray[i]['testsuite']['id']}}" height="22" width="22" src="../static/images/no1.jpg"> {{else:}}  <img id="img{{=testsuiteArray[i]['testsuite']['id']}}" height="22" width="22" src="../static/images/yes2.jpg"> {{pass}} </td>
                     </tr>
                   </tbody>
                 </table>

@@ -234,8 +234,7 @@ function DataTable(){
 
             $('#'+buttonid).live('click',function () {
                 var analysisMap = new Array();
-                var aTrs = self.oTable.fnGetNodes();
-                console.log(aTrs.length)
+                var aTrs = self.oTable.fnGetNodes();               
                 for ( var i=0 ; i<aTrs.length ; i++ )
                 {
                     // if ( $(aTrs[i]).hasClass('datatablerowhighlight') )
@@ -250,7 +249,7 @@ function DataTable(){
                     // }
                 }
                 testsuiteid = -1
-                if($("#analyzedcheckbox").is(':checked') == true){
+                if($('#'+buttonid).parent().find('input:checkbox:first').is(':checked')== true){
                         testsuiteid = self.testsuiteid
                 }
                 $.ajax({
@@ -258,6 +257,9 @@ function DataTable(){
                   url: "/web2py_birt/fact/saveAnalyze",
                   data: {"analysisMap":JSON.stringify(analysisMap),"testsuiteid":testsuiteid}
                   }).done(function( msg ) {
+                    if (testsuiteid!=-1){
+                        $("#img"+testsuiteid).attr("src", "../static/images/yes2.jpg");
+                    }
                     self.oTable.fnDraw(false); 
                   })
             });
