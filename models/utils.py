@@ -32,8 +32,6 @@ def getFilter(columns):
 
 
 def proccessTableQuery(query=None, countBeforeFilter=None, left=None, columns=None,selectcolumns=None):
-    # selectcolumns = (db.testsuite.id, db.testsuite.testsuitename, db.testsuite.starttime, db.testsuite.endtime, db.testsuite.analyzed, db.anaconda.name, db.anaconda.changelist)
-    logger.error(selectcolumns)
     limitby = getLimit()
     orderby = getOrder(columns)
     filterby = getFilter(columns)

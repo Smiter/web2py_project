@@ -256,6 +256,7 @@ function DataTable(){
                         tempmap['jira_id'] = $('#jira_id',aTrs[i]).val();
                         tempmap['comment'] = $('#comment_id',aTrs[i]).val();
                         tempmap['testresult_id'] = self.oTable.fnGetData(aTrs[i]).testresult.id;
+                        tempmap['analysis_id'] = self.oTable.fnGetData(aTrs[i]).analysis.id;
                         analysisMap.push( tempmap );
                         
                     // }
@@ -264,16 +265,33 @@ function DataTable(){
                 if($('#'+buttonid).parent().find('input:checkbox:first').is(':checked')== true){
                         testsuiteid = self.testsuiteid
                 }
+                $('#waitingModal').modal({
+                  backdrop: 'static',
+                  keyboard: true
+                })
+
                 $.ajax({
                   type: "POST",
                   url: "/web2py_birt/fact/saveAnalyze",
                   data: {"analysisMap":JSON.stringify(analysisMap),"testsuiteid":testsuiteid}
                   }).done(function( msg ) {
+                    // $('#waitingModal').modal('hide')
+
+                    $('#analyzedDiv').css( "visibility", "visible" )
+                    $('#analyzedButton').css( "visibility", "visible" )
+                    $('#proceessingGif').css( "visibility", "hidden" )
+                        $('#waitingModal').on('hidden', function () {
+                            $('#analyzedDiv').css( "visibility", "hidden" )
+                            $('#analyzedButton').css( "visibility", "hidden" )
+                            $('#proceessingGif').css( "visibility", "visible" )
+                        })
+                        
                     if (testsuiteid!=-1){
                         $("#img"+testsuiteid).attr("src", "../static/images/yes2.jpg");
-                        alert("Testsuite with id = "+testsuiteid+" has been analyzed")
+                        // alert("Testsuite with id = "+testsuiteid+" has been analyzed")
                     }
                     self.oTable.fnDraw(false); 
+
                   })
             });
         });

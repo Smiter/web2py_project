@@ -19,7 +19,7 @@ def runsHandler():
 
 def analyzeHandler():
     logger.error("analyze Handler")
-    selectcolumns = (db.testdescription.name, db.testdescription.testdescription, db.testresult.testresult, db.testresult.failuredescription, db.analysis.errortype, db.analysis.elvis_id, db.analysis.comment,db.testresult.id)
+    selectcolumns = (db.testdescription.name, db.analysis.id, db.testdescription.testdescription, db.testresult.testresult, db.testresult.failuredescription, db.analysis.errortype, db.analysis.elvis_id, db.analysis.comment,db.testresult.id)
 
     query = (db.testsuite.id == db.test.testsuite_id) & (
         db.testdescription.id == db.test.testdescription_id) & (
@@ -50,32 +50,36 @@ def analysis():
 
 
 def saveAnalyze():
+    import time
     logger.error("saveAnalyze")
+
+    
     # logger.error(request.vars.analysisMap)
     # logger.error(json.loads(request.vars.analysisMap))
     # logger.error(request.vars.testsuiteid)
     analysisListOfMaps = json.loads(request.vars.analysisMap)
     for map_item in analysisListOfMaps:
+        logger.error(map_item)
         testresult_id = map_item["testresult_id"]
+        analysis_id = map_item["analysis_id"]
         errortype = map_item["errortype"]
         comment = map_item["comment"]
         jira_id = map_item["jira_id"]
-        row = db(db.analysis.testresult_id == testresult_id).select().first()
-        if row:
-            db(db.analysis.testresult_id == testresult_id).update(
-                id=row.id,
-                testresult_id=testresult_id,
-                errortype=errortype,
-                comment=comment,
-                elvis_id=jira_id)
-        else:
+        if analysis_id is None:
             db.analysis.insert(
-                testresult_id=testresult_id,
-                errortype=errortype,
-                comment=comment,
-                elvis_id=jira_id)
+                            testresult_id=testresult_id,
+                            errortype=errortype,
+                            comment=comment,
+                            elvis_id=jira_id)
+        else:    
+            db(db.analysis.id == analysis_id).update(
+                            testresult_id=testresult_id,
+                            errortype=errortype,
+                            comment=comment,
+                            elvis_id=jira_id)
     if request.vars.testsuiteid != -1:
         db(db.testsuite.id == request.vars.testsuiteid).update(analyzed=1)
+
     redirect(URL('web2py_birt', 'fact', 'runs'))
 
 

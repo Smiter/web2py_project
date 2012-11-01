@@ -1,6 +1,10 @@
 
 $(function(){
-
+	// $('#myModal').modal({
+	//   backdrop: 'static',
+	//   keyboard: true
+	// })
+	$('.modal-backdrop fade in').unbind('click');
 	//show label preview menu at start
 	$(this).find('#label_dropdown_menu').fadeToggle(0);
 
@@ -66,7 +70,6 @@ $(function(){
         //     var testsuitelist = JSON.parse(msg);
         //       alert("You should analyzed the following testsuites before createing label: " + testsuitelist)
         //   });
-
         $('#myModal').modal('show')
       }
       else

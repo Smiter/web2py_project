@@ -16,7 +16,8 @@ for(var i=0;i<testsuiteArray.length;i++){
               { "sTitle": "Bug type","sWidth": "10%", "mData": "analysis.errortype" },
               { "sTitle": "Jira Id","sWidth": "7%", "mData": "analysis.elvis_id" },
               { "sTitle": "Comment", "bSortable": false,"sWidth": "10%", "mData": "analysis.comment" },
-              { "sTitle": "Testresult id", "bVisible" : false, "mData" : "testresult.id"}
+              { "sTitle": "Testresult id", "bVisible" : false, "mData" : "testresult.id"},
+              { "sTitle": "Analysis id", "bVisible" : false, "mData" : "analysis.id"},
               ]
 
             var sorting = [[ 2,"desc" ]]
@@ -36,7 +37,7 @@ $(function(){
 
 
   for(var i=0;i<testsuiteArray.length;i++){
-  $('<p style="position:absolute;left:50px;margin-top:1px;">Analyzed</p><input id="analyzedcheckbox'+i+'" type="checkbox" style="position:absolute;left:30px">').insertAfter('#analysistable'+i);
+  $('<p style="position:absolute;left:50px;margin-top:8px;">Analyzed</p><input id="analyzedcheckbox'+i+'" type="checkbox" style="position:absolute;left:30px;margin-top:9px;">').insertAfter('#analysistable'+i);
  }
 
   $('.accordion-toggle').find("img").click(function() {
@@ -78,30 +79,28 @@ $(function(){
         <img alt="../static/images/close.png" src="../static/images/more.png">
         </a>
 
-                <table id="mainanalysispage" class="mainanalysispage">
+                <table id="mainanalysispage" class="mainanalysispagetable">
                    <thead>
                    <tr>
-                   <th class="ui-state-default" style="text-align:center;width:40px" >Id</th>
-                   <th class="ui-state-default" style="text-align:center;width:300px" >Name</th>
-                   <th class="ui-state-default" style="text-align:center;">Start date</th>
-                   <th class="ui-state-default" style="text-align:center;">Finish date</th>
-                   <th class="ui-state-default" style="text-align:center;">User</th>
-                   <th class="ui-state-default" style="text-align:center;width:100px">Anaconda branch</th>
-                   <th class="ui-state-default" style="text-align:center;">CL</th>
-                   <th class="ui-state-default" style="text-align:center;">Analyzed</th>
-                   </tr>
+                     <th>Id</th>
+                     <th>Name</th>
+                     <th>Start date</th>
+                     <th>Finish date</th>
+                     <th>Anaconda branch</th>
+                     <th>CL</th>
+                     <th>Analyzed</th>
+                     </tr>
                    </thead>
 
                   <tbody>
                     <tr>
-                      <td style="border: 1px solid #AAAAAA;">{{=testsuiteArray[i]['testsuite']['id']}}</td>
-                      <td style="border: 1px solid #AAAAAA;">{{=testsuiteArray[i]['testsuite']['testsuitename']}}</td>
-                      <td style="border: 1px solid #AAAAAA;">{{=testsuiteArray[i]['testsuite']['starttime']}}</td>
-                      <td style="border: 1px solid #AAAAAA;">{{=testsuiteArray[i]['testsuite']['endtime']}}</td>
-                      <td style="border: 1px solid #AAAAAA;">{{=testsuiteArray[i]['testsuite']['user']}}</td>
-                      <td style="border: 1px solid #AAAAAA;">{{=testsuiteArray[i]['anaconda']['name']}}</td>
-                      <td style="border: 1px solid #AAAAAA;">{{=testsuiteArray[i]['anaconda']['changelist']}}</td>
-                      <td style="border: 1px solid #AAAAAA;"> {{if testsuiteArray[i]['testsuite']['analyzed'] == 0:}} <img id="img{{=testsuiteArray[i]['testsuite']['id']}}" height="22" width="22" src="../static/images/no1.jpg"> {{else:}}  <img id="img{{=testsuiteArray[i]['testsuite']['id']}}" height="22" width="22" src="../static/images/yes2.jpg"> {{pass}} </td>
+                      <td >{{=testsuiteArray[i]['testsuite']['id']}}</td>
+                      <td >{{=testsuiteArray[i]['testsuite']['testsuitename']}}</td>
+                      <td >{{=testsuiteArray[i]['testsuite']['starttime']}}</td>
+                      <td >{{=testsuiteArray[i]['testsuite']['endtime']}}</td>
+                      <td >{{=testsuiteArray[i]['anaconda']['name']}}</td>
+                      <td >{{=testsuiteArray[i]['anaconda']['changelist']}}</td>
+                      <td > {{if testsuiteArray[i]['testsuite']['analyzed'] == 0:}} <img id="img{{=testsuiteArray[i]['testsuite']['id']}}" height="22" width="22" src="../static/images/no1.jpg"> {{else:}}  <img id="img{{=testsuiteArray[i]['testsuite']['id']}}" height="22" width="22" src="../static/images/yes2.jpg"> {{pass}} </td>
                     </tr>
                   </tbody>
                 </table>
@@ -137,5 +136,21 @@ $(function(){
 
  
 </form>
+    
+<div class="modal hide fade" id="waitingModal">
+     <div class="modal-body">
+       <img id="proceessingGif" style="margin-left:210px" src="../static/images/processing.gif">
+       <div style="visibility:hidden" id="analyzedDiv">
+          <h5  style="margin-left:50px;width:320px; float:left">Testsuite has been analyzed successfully!</h5>
+          <img   style="margin-left:50px;margin-bottom:15px;" height="32" width="32" src="../static/images/yes2.jpg">
+       </div>
+     </div>
+
+     <div class="modal-footer">
+       <button id="analyzedButton" style="visibility:hidden" type="button" id="Close" data-dismiss="modal" class="btn btn-primary">OK</button>
+     </div>
+
+</div>
+
 </div>
 

@@ -164,6 +164,7 @@
 'Registration key': 'Ключ регистрации',
 'Remember me (for 30 days)': 'Запомнить меня (на 30 дней)',
 'Report preview': 'Report preview',
+'Reports': 'Reports',
 'Reset Password key': 'Сбросить ключ пароля',
 'Role': 'Роль',
 'Rows in Table': 'Строк в таблице',

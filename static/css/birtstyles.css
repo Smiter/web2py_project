@@ -2,6 +2,8 @@
     margin-left: 20px;
     margin-right: 0;
 }
+
+
 /*show entryes list box*/
 
 input[type="text"], input[type="password"], select {
@@ -15,7 +17,7 @@ input[type="text"], input[type="password"], select {
     clear: both;
     content: ".";
     display: block;
-    height: 10px;
+    height: 20px;
     visibility: hidden;
 }
 
@@ -107,13 +109,22 @@ input[type="text"], input[type="password"], select {
 }
 
 
-.mainanalysispage {
-  border: 1px solid #AAAAAA; table-layout: fixed;
-    word-wrap:break-word; margin-right:10px;width: 94%; text-align: center
+.mainanalysispagetable {
+  border: 1px solid #AAAAAA; 
+  word-wrap:break-word; margin-right:10px;width: 94%; text-align: center;
 }
 
-.mainanalysispage td {
+.mainanalysispagetable td {
   text-align: center;
+  border: 1px solid #AAAAAA;
+}
+
+.mainanalysispagetable th {
+  text-align: center;
+  background: url("images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 50% #E6E6E6;
+  border: 1px solid #AAAAAA;
+  color: #555555;
+  font-weight: normal;
 }
 
 table.display {
