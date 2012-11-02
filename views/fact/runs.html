@@ -15,7 +15,6 @@ var tableColumns = [
   { "sTitle": "Name", "bSortable": false ,"sWidth": "32%", "mData": "testsuite.testsuitename" },
   { "sTitle": "Start date" ,"sWidth": "8%", "mData": "testsuite.starttime" },
   { "sTitle": "Finish date" ,"sWidth": "8%", "mData": "testsuite.endtime" },
-  // { "sTitle": "User","sWidth": "8%", "mData": "testsuite.user" },
   { "sTitle": "Branch" , "bSortable": false,"sWidth": "8%", "mData": "anaconda.name" },
   { "sTitle": "CL" , "bSortable": false,"sWidth": "6%", "mData": "anaconda.changelist" },
   { "sTitle": "Analyzed","sWidth": "6%", "mData": "testsuite.analyzed",
@@ -94,10 +93,9 @@ $(function(){
       <th><input type="text" name="search_name" value="Search" class="search_init_focus_of" /></th>
       <th><input type="text" name="search_starttime" value="Search" class="search_init_focus_of" /></th>
       <th><input type="text" name="search_endtime" value="Search" class="search_init_focus_of" /></th>
-      <!-- <th><input type="text" name="search_user" value="Search" class="search_init_focus_of" /></th> -->
       <th><input type="text" name="search_branch" value="Search" class="search_init_focus_of" /></th>
-      <th><input type="text" name="search_cl" value="Search" class="search_init_focus_of" /></th>
-      <th></th>
+      <th><input type="text" name="search_cl" value="Search" class="search_init_focus_of" /></th> 
+      <th><input type="hidden" name="search_analyze" class="search_init_focus_of"/></th>
     </tr>
   </tfoot>
 </table>

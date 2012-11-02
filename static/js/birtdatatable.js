@@ -1,6 +1,8 @@
 function DataTable(){
     this.addDataTable = function(tableid,tableColumns,sorting,handler,buttons,testsuiteid,blenchChange,bPaginate){
         var self = this;
+        var asInitVals = new Array()
+        self.asInitVals = asInitVals
             $(function(){
                  self.oTable = $('#' + tableid).dataTable( {
 
@@ -22,6 +24,13 @@ function DataTable(){
                         });
                     });
 
+                    $("#"+tableid+" tfoot input").each( function (i) {
+                        if(this.value == ""){
+                            self.asInitVals[i] = "Search"
+                            $(this).blur(); 
+                        }
+                    } );
+
                     },
                  "aoColumns": tableColumns,
                  "aaSorting": sorting,
@@ -33,6 +42,19 @@ function DataTable(){
                  "sPaginationType": "full_numbers",
                  "bLengthChange": blenchChange,
                  "bPaginate" : bPaginate,
+                 "bStateSave": true,
+                 "fnStateLoadParams": function (oSettings, oData) {
+                    var searchVals = oData.aoSearchCols
+                    $("#"+tableid+" tfoot input").each( function (i) {
+                        if (searchVals[i].sSearch != "" ){
+                            this.value = searchVals[i].sSearch
+                            self.asInitVals[i] = this.value;
+                            this.className = "search_init_focus_on";
+                        }
+                    })
+                    self.asInitVals = asInitVals
+                 },
+
                  "fnServerParams": function ( aoData ) {
                     aoData.push( { "name": "testsuiteid", "value": testsuiteid } );
                 }
@@ -43,7 +65,7 @@ function DataTable(){
 
     this.addFiltering = function(tableid){
         var self = this;
-        var asInitVals = new Array();
+        // var asInitVals = self.asInitVals
             $(function(){
                   $("#"+tableid+" tfoot input").keyup( function () {
                         /* Filter on the column (the index) of this element */
@@ -51,7 +73,9 @@ function DataTable(){
                     } );
 
                     $("#"+tableid+" tfoot input").each( function (i) {
-                        asInitVals[i] = this.value;
+                        if(self.asInitVals[i] != null){
+                            self.asInitVals[i] = this.value;
+                        }
                     } );
                      
                     $("#"+tableid+" tfoot input").focus( function () {
@@ -66,7 +90,7 @@ function DataTable(){
                         if ( this.value == "" )
                         {
                             this.className = "search_init_focus_of";
-                            this.value = asInitVals[$("#"+tableid+" tfoot input").index(this)];
+                            this.value = self.asInitVals[$("#"+tableid+" tfoot input").index(this)];
                         }
                     } );    
            });
@@ -265,33 +289,25 @@ function DataTable(){
                 if($('#'+buttonid).parent().find('input:checkbox:first').is(':checked')== true){
                         testsuiteid = self.testsuiteid
                 }
+
                 $('#waitingModal').modal({
                   backdrop: 'static',
-                  keyboard: true
+                  keyboard: false
                 })
 
                 $.ajax({
                   type: "POST",
+                  cache: false,
                   url: "/web2py_birt/fact/saveAnalyze",
                   data: {"analysisMap":JSON.stringify(analysisMap),"testsuiteid":testsuiteid}
                   }).done(function( msg ) {
-                    // $('#waitingModal').modal('hide')
+                    $('#waitingModal').modal('hide')
 
-                    $('#analyzedDiv').css( "visibility", "visible" )
-                    $('#analyzedButton').css( "visibility", "visible" )
-                    $('#proceessingGif').css( "visibility", "hidden" )
-                        $('#waitingModal').on('hidden', function () {
-                            $('#analyzedDiv').css( "visibility", "hidden" )
-                            $('#analyzedButton').css( "visibility", "hidden" )
-                            $('#proceessingGif').css( "visibility", "visible" )
-                        })
-                        
                     if (testsuiteid!=-1){
                         $("#img"+testsuiteid).attr("src", "../static/images/yes2.jpg");
-                        // alert("Testsuite with id = "+testsuiteid+" has been analyzed")
                     }
-                    self.oTable.fnDraw(false); 
-
+                    // self.oTable.fnDraw(false); 
+                    self.oTable.fnReloadAjax()
                   })
             });
         });

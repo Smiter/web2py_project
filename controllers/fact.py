@@ -50,13 +50,7 @@ def analysis():
 
 
 def saveAnalyze():
-    import time
     logger.error("saveAnalyze")
-
-    
-    # logger.error(request.vars.analysisMap)
-    # logger.error(json.loads(request.vars.analysisMap))
-    # logger.error(request.vars.testsuiteid)
     analysisListOfMaps = json.loads(request.vars.analysisMap)
     for map_item in analysisListOfMaps:
         logger.error(map_item)
@@ -80,7 +74,7 @@ def saveAnalyze():
     if request.vars.testsuiteid != -1:
         db(db.testsuite.id == request.vars.testsuiteid).update(analyzed=1)
 
-    redirect(URL('web2py_birt', 'fact', 'runs'))
+    # redirect(URL('web2py_birt', 'fact', 'runs'))
 
 
 def saveLabelList():
