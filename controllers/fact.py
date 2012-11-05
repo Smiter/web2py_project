@@ -36,7 +36,8 @@ def analyzeHandler():
 
 def analysis():
     logger.error("analysis")
-    result = json.loads(request.vars.testsuitelist)
+    logger.error(request.post_vars)
+    result = json.loads(request.post_vars.testsuitelist)
     left = db.anaconda.on(db.anaconda.id == db.testsuite.anaconda_id)
     query = None
     for i in result:
@@ -53,7 +54,6 @@ def saveAnalyze():
     logger.error("saveAnalyze")
     analysisListOfMaps = json.loads(request.vars.analysisMap)
     for map_item in analysisListOfMaps:
-        logger.error(map_item)
         testresult_id = map_item["testresult_id"]
         analysis_id = map_item["analysis_id"]
         errortype = map_item["errortype"]

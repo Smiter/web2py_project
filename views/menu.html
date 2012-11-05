@@ -1,10 +1,10 @@
-<div class="navbar-inner">
-  <div class="container">
-    <a class="brand" href="#">Birt report harman&trade;&nbsp;</a>
-    <div class="nav-collapse">
-      {{if response.menu:}}
-      {{=MENU(response.menu, _class='nav' ,li_class='dropdown',ul_class='dropdown-menu')}}
-      {{pass}}
-    </div><!--/.nav-collapse -->
-  </div>
-</div>
+<!-- class="navbar navbar-fixed-top"> -->
+<div id="header">
+    <a id="logo" href="/web2py_birt">Birt report generator</a>
+    <ul id="navigation">
+    	<li><a href="/web2py_birt/labels/list">Reports</a></li>
+    	<li><a href="/web2py_birt/fact/runs">FACT runs</a></li>
+    	<li><a href="/web2py_birt/vs/runs">Validation suits</a></li>
+    	<li><a href="/web2py_birt/reportprev/preview">Report preview</a></li>
+    </ul>
+</div><!-- end header -->

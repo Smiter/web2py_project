@@ -5,7 +5,7 @@ for(var i=0;i<testsuiteArray.length;i++){
             var tableId = "analysistable"+i
             var analyzeButtonid = "Save"+i
             var analyzeButtonName = "Save"
-            var analyzeButtonStyle = "labelanalyzeButton btn btn-primary"
+            var analyzeButtonStyle = "btn btn-primary saveanalyze" 
             var dataTableHandler = "/web2py_birt/fact/analyzeHandler"
 
             var tableColumns = [
@@ -30,17 +30,11 @@ for(var i=0;i<testsuiteArray.length;i++){
     }
 $(function(){
 
-  $(function(){
-  $("#dropdownbutton").hide();
-})
-
-
-
   for(var i=0;i<testsuiteArray.length;i++){
-  $('<p style="position:absolute;left:50px;margin-top:8px;">Analyzed</p><input id="analyzedcheckbox'+i+'" type="checkbox" style="position:absolute;left:30px;margin-top:9px;">').insertAfter('#analysistable'+i);
+  $('<p class="analysis_checkbox_name">Analyzed</p><input id="analyzedcheckbox'+i+'" type="checkbox" class="analysis_checkbox">').insertAfter('#analysistable'+i);
  }
 
-  $('.accordion-toggle').find("img").click(function() {
+  $('.collapse_button').find("img").click(function() {
   // if($($(this).parent().attr("href")+'.collapse').length==0) 
   }).toggle(function() { 
       $(this).attr("src", "../static/images/close.png"); 
@@ -49,39 +43,20 @@ $(function(){
       $(this).attr("src", "../static/images/more.png");
       $($(this).parent().attr("href")).collapse('hide')
 });
-
-
-
-// $('.accordion-toggle').find("img").toggle(
-//   function(){
-
-//    $(this).attr("src", "../static/images/close.png"); 
-//    $($(this).parent().attr("href")).collapse('show')
-
-//   },
-//   function(){
-//    $(this).attr("src", "../static/images/more.png");
-//    $($(this).parent().attr("href")).collapse('hide')
-//  }
-// );
 })
 
 </script>
 
-<div id="mainanalysis">
-<form id="form" method = "POST" action = "/web2py_birt/fact/saveAnalyze">
-
-  <div class="accordion" id="accordion2">
+<div id="mainanalysis" class="table_container">
     {{for i in range(len(testsuiteArray)):}}
-        <div class="accordion-group">
-        <div class="accordion-heading">
-        <a class="accordion-toggle" style="float: left;height: 24px;width: 24px;margin-top:7px" href="#collapseOne{{=i}}">
-        <img alt="../static/images/close.png" src="../static/images/more.png">
-        </a>
-
-                <table id="mainanalysispage" class="mainanalysispagetable">
+        <div class="collapse_container">
+                <a class="collapse_button" href="#collapseOne{{=i}}">
+                <img alt="../static/images/close.png" src="../static/images/more.png">
+                </a>
+                <div class="collapse_header_table_div" style="padding-left:85px;">
+                <table>
                    <thead>
-                   <tr>
+                     <tr>
                      <th>Id</th>
                      <th>Name</th>
                      <th>Start date</th>
@@ -104,53 +79,32 @@ $(function(){
                     </tr>
                   </tbody>
                 </table>
-
-
-        </div>
-        <div id="collapseOne{{=i}}" class="collapse">
-        <div class="accordion-inner">
-      <table  cellpadding="0" cellspacing="0" border="0" class="display" id="analysistable{{=i}}">
-        <tbody>
-          <tr>
-            <td colspan="55" class="dataTables_empty">Loading data from server</td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <th><input type="text" name="search_name" value="Search" class="search_init_focus_of" /></th>
-            <th><input type="hidden" name="search_desc" value="Search" class="search_init_focus_of" /></th>
-            <th><input type="hidden" name="search_status" value="Search" class="search_init_focus_of" /></th>
-            <th><input type="hidden" name="search_error" value="Search" class="search_init_focus_of" /></th>
-            <th><input type="hidden"  value="Search" class="search_init_focus_of" /></th>
-            <th><input type="text" name="search_jira" value="Search" class="search_init_focus_of" /></th>
-            <th><input type="hidden" name="search_coment" value="Search" class="search_init_focus_of" /></th>
-            <th></th>
-          </tr>
-        </tfoot>
-      </table>
-        </div>
-        </div>
+            </div>
+            <div id="collapseOne{{=i}}" class="collapse">
+            <div class="collapse_inner_container">
+          <table  cellpadding="0" cellspacing="0" border="0" class="display" id="analysistable{{=i}}">
+            <tbody>
+              <tr>
+                <td colspan="55" class="dataTables_empty">Loading data from server</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th><input type="text" name="search_name" value="Search" class="search_init_focus_of" /></th>
+                <th><input type="hidden" name="search_desc" value="Search" class="search_init_focus_of" /></th>
+                <th><input type="hidden" name="search_status" value="Search" class="search_init_focus_of" /></th>
+                <th><input type="hidden" name="search_error" value="Search" class="search_init_focus_of" /></th>
+                <th><input type="hidden"  value="Search" class="search_init_focus_of" /></th>
+                <th><input type="text" name="search_jira" value="Search" class="search_init_focus_of" /></th>
+                <th><input type="hidden" name="search_coment" value="Search" class="search_init_focus_of" /></th>
+                <th></th>
+              </tr>
+            </tfoot>
+          </table>
+            </div>
+            </div>
         </div>
    {{pass}}
-  </div>
-
- 
-</form>
-    
-<!-- <div class="modal hide fade" id="waitingModal"> -->
-     <!-- <div class="modal-body"> -->
-       <img class="modal hide fade" style="width:50px;height:50px;position: fixed;left:70%;top:70%" id="waitingModal"  src="../static/images/processing4.gif">
-   <!--     <div style="visibility:hidden" id="analyzedDiv">
-          <h5  style="margin-left:50px;width:320px; float:left">Testsuite has been analyzed successfully!</h5>
-          <img   style="margin-left:50px;margin-bottom:15px;" height="32" width="32" src="../static/images/yes2.jpg">
-       </div>
-     </div>
-
-     <div class="modal-footer">
-       <button id="analyzedButton" style="visibility:hidden" type="button" id="Close" data-dismiss="modal" class="btn btn-primary">OK</button>
-     </div> -->
-
-<!-- </div> -->
-
+  <img class="modal hide fade" style="width:50px;height:50px;margin: auto" id="waitingModal"  src="../static/images/processing4.gif">
 </div>
 

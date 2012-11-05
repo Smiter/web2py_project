@@ -9,8 +9,8 @@
 var tableId = "labeltableid"
 var analyzeButtonid = "analyze"
 var generateReportButtonid = "generateReport"
-var showLabelStyle = "addtolabelbutton btn btn-primary"
-var generateReportStyle = "analyzeButton btn btn-primary"
+var showLabelStyle = "btn btn-primary firstButton"
+var generateReportStyle = "btn btn-primary secondButton"
 var dataTableHandler = "/web2py_birt/labels/labelHandler"
 
 var tableColumns = [
@@ -32,7 +32,7 @@ table.addShowLabelButtonHandler();
 table.addFiltering(tableId);
 </script>
 
-<div id="demo">
+<div id="label_list" class="table_container">
 <form id="form" method = "POST" action = "/web2py_birt/labels/showlabel">
 <table cellpadding="0" cellspacing="0" border="0" class="display" id="labeltableid">
   <tbody width="100%">
@@ -47,7 +47,6 @@ table.addFiltering(tableId);
       <th><input type="text" name="search_name" value="Search" class="search_init_focus_of" /></th>
       <th><input type="text" name="search_starttime" value="Search" class="search_init_focus_of" /></th>
       <th><input type="text" name="search_endtime" value="Search" class="search_init_focus_of" /></th>
-      <th></th>
     </tr>
   </tfoot>
 </table>

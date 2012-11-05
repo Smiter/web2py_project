@@ -38,18 +38,30 @@ var dataTableHandler = "/web2py_birt/fact/runsHandler"
 
 var table = new DataTable();
 table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid,addtolabelid],-1,true,true);
-table.addButton(addtolabelid,tableId,"addtolabelbutton btn btn-primary","button","addtolabel");
-table.addButton(analyzeButtonid,tableId,"analyzeButton btn btn-primary","submit","analyze");
+table.addButton(addtolabelid,tableId,"btn btn-primary secondButton","button","Add to report");
+table.addButton(analyzeButtonid,tableId,"btn btn-primary firstButton","submit","Analyze");
 table.addMultiClickRawHandler([analyzeButtonid,addtolabelid],tableId);
 table.addAnalyzeButtonHandler();
 table.addFiltering(tableId);
+
+
+{{if session.label_preview_list:}}
+             var labellist = {{=XML(response.json(session.label_preview_list))}}
+             jQuery(function(){
+            $.each(labellist, function(val, text) {
+              $("#shortreportpreview .none").css('display','none')
+              $("#shortreportpreview #fact_runnings_preview_list").append('<li><i class="icon-remove"></i><i class="icon-pencil"></i><p value='+val+'>'+text+'</p></li>');
+            });
+          // }
+        });
+{{pass}}
+
 
 $(function(){
 
     //add to label preview menu new item
     $('#addtolabel').live('click',function () {
-        $('#label_dropdown_menu').fadeIn("fast");
-        $('#nonefactrunnings').remove()
+        $("#shortreportpreview .none").css('display','none')
         var tempMap={}
         var aTrs = table.oTable.fnGetNodes();
 
@@ -69,16 +81,79 @@ $(function(){
           }).done(function( msg ) {
             var contact = JSON.parse(msg);
             $.each(contact, function(val, text) {
-              $('#vsrunningsdivider').before($('<li></li>').html('<a value="'+val+'" href="#"><div style="float:left"><i class="icon-remove"></i><i class="divider-vertical"></i><i class="icon-pencil"></i><i class="divider-vertical"></i></div><div style="width:216px; margin-left:66px;">'+text+'</div></a>'));
+              $("#fact_runnings_preview_list").append('<li><i class="icon-remove"></i><i class="icon-pencil"></i><p value='+val+'>'+text+'</p></li>');
             });
           });
 
         });
+
+    //removing rows in show label preview menu after clicking on remove icon. Also it removes from session
+    $('.icon-remove').live('click',function () {
+        testsuiteid =  $(this).closest('li').children('p').attr('value')
+        $(this).closest('li').remove()
+          $.ajax({
+              type: "POST",
+              url: "/web2py_birt/fact/removeLabelFromSession",
+              data: "testsuiteid=" + testsuiteid
+              }).done(function( msg ) {
+                if (msg == 0){
+                    $("#shortreportpreview .none").css('display','block')
+                }
+            });
+    });
+
+    //edit testsuite by ckicking on edit icon in label preview menu
+    $('.icon-pencil').live('click',function () {
+        testsuiteid =  $(this).closest('li').children('p').attr('value')
+        testsuitelist = new Array()
+        testsuitelist.push(testsuiteid)
+        $('#form').unbind('submit')
+        $("#form").attr("action", "/web2py_birt/fact/analysis");
+        $('#form').submit( function() {
+            $('<input />').attr('type', 'hidden')
+            .attr('name', "testsuitelist")
+            .attr('value',  JSON.stringify(testsuitelist) )
+            .appendTo('#form');
+            return true;
+        } );
+        $("#form").submit();
+    });
+
+    $('.modal-backdrop fade in').unbind('click');
+
+      //deletes all rows in label preview menu and adds 'none' row after new label is created
+    $('#savelabelbutton').live('click',function () {
+      $('#fact_runnings_preview_list li p').empty();
+      $("#shortreportpreview .none").css('display','block')
+    });
+
+    //by clicking on save label button on label preview menu,
+    //it checks whether to show form for creating new label or show warning 
+    //that you should add some run to preview
+    $('#shortreportpreview #savelabel').live('click',function () {
+      if ( $("#fact_runnings_preview_list li").length == 0) {
+         alert("Label list is empty. Add some labels.")
+      }
+      else{
+        $('#myModal').modal('show')
+      }
+      
+    });
+
+
+    $().ready(function() {
+        $(window).scroll(function(){      
+          $("#shortreportpreview")
+            .stop()
+            .animate({"marginTop": ($(window).scrollTop() + 30) + "px"}, "slow" );      
+        });
+      });
+
 });
 
 </script>
 
-<div id="demo"> 
+<div id="fact_runnings" class="table_container"> 
 <form id="form" method = "POST" action = "/web2py_birt/fact/analysis">
       <table cellpadding="0" cellspacing="0" border="0" class="display" id="testsuitetable">
   <tbody width="100%">
@@ -101,4 +176,7 @@ $(function(){
 </table>
 </form>
 </div>
+
+{{include 'shortlabelpreview.html'}}
+{{include 'labelsubmitform.html'}}
 

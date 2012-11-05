@@ -11,19 +11,6 @@ function DataTable(){
                         $('#' + buttons[i]).attr('disabled',true);  
                     }
 
-                    $('#' + tableid +' td').bind('mouseenter', function () { 
-
-                        $(this).parent().children().each(function(){
-                            $(this).addClass('datatablerowhighlight');
-                        });
-                    });
-
-                    $('#' + tableid +' td').bind('mouseleave', function () { 
-                        $(this).parent().children().each(function(){
-                            $(this).removeClass('datatablerowhighlight');
-                        });
-                    });
-
                     $("#"+tableid+" tfoot input").each( function (i) {
                         if(this.value == ""){
                             self.asInitVals[i] = "Search"
@@ -90,7 +77,7 @@ function DataTable(){
                         if ( this.value == "" )
                         {
                             this.className = "search_init_focus_of";
-                            this.value = self.asInitVals[$("#"+tableid+" tfoot input").index(this)];
+                            this.value = "Search"
                         }
                     } );    
            });
