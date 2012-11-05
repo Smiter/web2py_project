@@ -7,6 +7,22 @@ function DataTable(){
                  self.oTable = $('#' + tableid).dataTable( {
 
                  "fnDrawCallback": function(){
+
+
+                    $("#"+tableid+" tbody input").keyup(function() {
+                       $('#'+tableid+'_wrapper .warningAnalysis').css('display','block')
+                    }); 
+
+                    $("#"+tableid+" tbody textarea").keyup(function() {
+                        $('#'+tableid+'_wrapper .warningAnalysis').css('display','block')
+                    }); 
+
+                    $("#"+tableid+" tbody select").live("change", function()   
+                    {   
+                        $('#'+tableid+'_wrapper .warningAnalysis').css('display','block')
+                    }); 
+
+
                     for (var i in buttons){
                         $('#' + buttons[i]).attr('disabled',true);  
                     }
@@ -15,6 +31,7 @@ function DataTable(){
                         if(this.value == ""){
                             self.asInitVals[i] = "Search"
                             $(this).blur(); 
+                            $(this).css('color',"#999")
                         }
                     } );
 
@@ -37,6 +54,8 @@ function DataTable(){
                             this.value = searchVals[i].sSearch
                             self.asInitVals[i] = this.value;
                             this.className = "search_init_focus_on";
+                            $(this).css('color',"black")
+                            $(this).focus()
                         }
                     })
                     self.asInitVals = asInitVals
@@ -68,6 +87,7 @@ function DataTable(){
                     $("#"+tableid+" tfoot input").focus( function () {
                         if ( this.className == "search_init_focus_of" )
                         {
+                            $(this).css('color',"black")
                             this.className = "search_init_focus_on";
                             this.value = "";
                         }
@@ -76,6 +96,7 @@ function DataTable(){
                     $("#"+tableid+" tfoot input").blur( function (i) {
                         if ( this.value == "" )
                         {
+                             $(this).css('color',"#999")
                             this.className = "search_init_focus_of";
                             this.value = "Search"
                         }
@@ -250,7 +271,7 @@ function DataTable(){
         });
     };
 
-    this.addSaveButtonAjaxHandler = function(buttonid){
+    this.addSaveButtonAjaxHandler = function(buttonid,tableid){
         var self = this;
 
         $(function(){
@@ -289,6 +310,7 @@ function DataTable(){
                   data: {"analysisMap":JSON.stringify(analysisMap),"testsuiteid":testsuiteid}
                   }).done(function( msg ) {
                     $('#waitingModal').modal('hide')
+                    $('#'+tableid+'_wrapper .warningAnalysis').css('display','none')
 
                     if (testsuiteid!=-1){
                         $("#img"+testsuiteid).attr("src", "../static/images/yes2.jpg");
@@ -307,19 +329,23 @@ function DataTable(){
         $(function(){
 
             $('#'+buttonid).live('click',function () {
-                console.log(self.rawData.id)
+                $('#waitingModal').modal({
+                  backdrop: 'static',
+                  keyboard: false
+                })
+
                  $.ajax({
                  type: "POST",
                  url: "/web2py_birt/fact/checkifanalyzed",
                  data: "labelid="+self.rawData.id
                  }).done(function( isAnalyzed ) {
-                    console.log(isAnalyzed)
                   if (isAnalyzed == "True"){
                         $.ajax({
                         type: "POST",
                         url: "/web2py_birt/labels/generateReport",
                         data: "labelid="+self.rawData.id
                         }).done(function( url ) {
+                          $('#waitingModal').modal('hide')
                           window.location.href = url
                         })
                   }

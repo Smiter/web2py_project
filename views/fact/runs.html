@@ -9,15 +9,15 @@
 
 <script type="text/javascript">
 var tableColumns = [
-  { "sTitle": "Select", "bSortable": false ,"sWidth": "4%","mData" : null,
+  { "sTitle": "Select", "bSortable": false ,"sWidth": "5%","mData" : null,
     "sDefaultContent": '<input type = "checkbox">'},
   { "sTitle": "Id","sWidth": "5%", "mData": "testsuite.id" },
-  { "sTitle": "Name", "bSortable": false ,"sWidth": "32%", "mData": "testsuite.testsuitename" },
-  { "sTitle": "Start date" ,"sWidth": "8%", "mData": "testsuite.starttime" },
-  { "sTitle": "Finish date" ,"sWidth": "8%", "mData": "testsuite.endtime" },
+  { "sTitle": "Name", "bSortable": false ,"sWidth": "30%", "mData": "testsuite.testsuitename" },
+  { "sTitle": "Start date" ,"sWidth": "7%", "mData": "testsuite.starttime" },
+  { "sTitle": "Finish date" ,"sWidth": "7%", "mData": "testsuite.endtime" },
   { "sTitle": "Branch" , "bSortable": false,"sWidth": "8%", "mData": "anaconda.name" },
   { "sTitle": "CL" , "bSortable": false,"sWidth": "6%", "mData": "anaconda.changelist" },
-  { "sTitle": "Analyzed","sWidth": "6%", "mData": "testsuite.analyzed",
+  { "sTitle": "Analyzed","sWidth": "7%", "mData": "testsuite.analyzed",
               "mRender": function ( data, type, full ) {
                 if (data == 0){
                   return '<img height="22" width="22" src="../static/images/no1.jpg">'
@@ -156,7 +156,7 @@ $(function(){
 <div id="fact_runnings" class="table_container"> 
 <form id="form" method = "POST" action = "/web2py_birt/fact/analysis">
       <table cellpadding="0" cellspacing="0" border="0" class="display" id="testsuitetable">
-  <tbody width="100%">
+  <tbody>
     <tr>
       <td colspan="55" class="dataTables_empty">Loading data from server</td>
     </tr>

@@ -24,7 +24,7 @@ for(var i=0;i<testsuiteArray.length;i++){
             var table = new DataTable();
             table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[],testsuiteid,false,false);
             table.addButton(analyzeButtonid,tableId,analyzeButtonStyle,"button",analyzeButtonName);
-            table.addSaveButtonAjaxHandler(analyzeButtonid);
+            table.addSaveButtonAjaxHandler(analyzeButtonid,tableId);
             table.addFiltering(tableId);
             table.testsuiteid = testsuiteid
     }
@@ -32,6 +32,11 @@ $(function(){
 
   for(var i=0;i<testsuiteArray.length;i++){
   $('<p class="analysis_checkbox_name">Analyzed</p><input id="analyzedcheckbox'+i+'" type="checkbox" class="analysis_checkbox">').insertAfter('#analysistable'+i);
+
+  $('<div class="alert warningAnalysis"> <strong>Warning!</strong> Your changes are not saved. </div>').insertAfter('#analysistable'+i);
+
+  
+
  }
 
   $('.collapse_button').find("img").click(function() {
@@ -105,6 +110,7 @@ $(function(){
             </div>
         </div>
    {{pass}}
+
   <img class="modal hide fade" style="width:50px;height:50px;margin: auto" id="waitingModal"  src="../static/images/processing4.gif">
 </div>
 
