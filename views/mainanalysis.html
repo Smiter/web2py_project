@@ -17,7 +17,7 @@ for(var i=0;i<testsuiteArray.length;i++){
               { "sTitle": "Jira Id","sWidth": "7%", "mData": "analysis.elvis_id" },
               { "sTitle": "Comment", "bSortable": false,"sWidth": "10%", "mData": "analysis.comment" },
               { "sTitle": "Testresult id", "bVisible" : false, "mData" : "testresult.id"},
-              { "sTitle": "Analysis id", "bVisible" : false, "mData" : "analysis.id"},
+              { "sTitle": "Analysis id", "bVisible" : false, "mData" : "analysis.id"}
               ]
 
             var sorting = [[ 2,"desc" ]]
@@ -58,7 +58,7 @@ $(function(){
                 <a class="collapse_button" href="#collapseOne{{=i}}">
                 <img alt="../static/images/close.png" src="../static/images/more.png">
                 </a>
-                <div class="collapse_header_table_div" style="padding-left:85px;">
+                <div class="collapse_header_table_div">
                 <table>
                    <thead>
                      <tr>
@@ -80,7 +80,7 @@ $(function(){
                       <td >{{=testsuiteArray[i]['testsuite']['endtime']}}</td>
                       <td >{{=testsuiteArray[i]['anaconda']['name']}}</td>
                       <td >{{=testsuiteArray[i]['anaconda']['changelist']}}</td>
-                      <td > {{if testsuiteArray[i]['testsuite']['analyzed'] == 0:}} <img id="img{{=testsuiteArray[i]['testsuite']['id']}}" height="22" width="22" src="../static/images/no1.jpg"> {{else:}}  <img id="img{{=testsuiteArray[i]['testsuite']['id']}}" height="22" width="22" src="../static/images/yes2.jpg"> {{pass}} </td>
+                      <td > {{if testsuiteArray[i]['testsuite']['analyzed'] == 0:}} <img id="img{{=testsuiteArray[i]['testsuite']['id']}}" style="width:22px; height:22px" src="../static/images/no1.jpg"> {{else:}}  <img id="img{{=testsuiteArray[i]['testsuite']['id']}}" style="width:22px; height:22px" src="../static/images/yes2.jpg"> {{pass}} </td>
                     </tr>
                   </tbody>
                 </table>
