@@ -1,11 +1,12 @@
 {{extend 'layout.html'}}
-<div class="page-header">
-    <h1 class="pagetitle">
-        Report list
-    </h1>
-</div>
 
 <script type="text/javascript">
+
+$(function(){
+  $("#menu_reports_button").addClass("pushed_menu_button")
+})
+
+
 var tableId = "labeltableid"
 var analyzeButtonid = "analyze"
 var generateReportButtonid = "generateReport"
