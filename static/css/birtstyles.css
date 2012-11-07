@@ -73,6 +73,10 @@ table.display tr.odd {
     border:1px solid rgb(170,170,170);
 }
 
+table.display td {
+    border:1px solid rgb(170,170,170);
+}
+
 table.display tr:hover{
   background-color: #E6FF99 !important;
 }
@@ -163,7 +167,6 @@ display: block;
 width: 980px;
 margin: 18px auto;
 text-align: center;
-z-index: 9998;
 -khtml-border-radius: 4px;
 -ms-border-radius: 4px;
 -o-border-radius: 4px;
@@ -318,7 +321,7 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAkCAQAAADif
 
 .page-footer {
   margin-top: 30px;
-  border-top: 1px solid #eeeeee;
+  border-top:1px solid #cccccc;
   height: 50px;
 }
 
@@ -474,6 +477,11 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAkCAQAAADif
   left:800px;
   margin-top:15px;
 }
+
+#analysisback {
+  margin-left: 20px;
+}
+
 
 
 /*.container {

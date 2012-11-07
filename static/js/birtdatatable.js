@@ -1,3 +1,16 @@
+function fnFormatDetails (innerhtml,value)
+{
+    var sOut = innerhtml+value+'</textarea>'
+    return sOut;
+}
+
+// function fnFormatDetails ( oTable, nTr , sOut)
+// {
+//     var aData = oTable.fnGetData( nTr );
+//     var sOut = '<p>Error description</p><textarea id="error_desc_id" style="max-width : 97%; min-width:97%;min-height:250px; max-height:250px;">'+aData.testresult.failuredescription+'</textarea>'
+//     return sOut;
+// }
+
 function DataTable(){
     this.addDataTable = function(tableid,tableColumns,sorting,handler,buttons,testsuiteid,blenchChange,bPaginate){
         var self = this;
@@ -238,11 +251,11 @@ function DataTable(){
                     {
                         // if ( $(aTrs[i]).hasClass('datatablerowhighlight') )
                         // {
-
                             var tempmap = {}
                             tempmap['errortype'] = $('#errortype',aTrs[i]).find('option:selected').text();
                             tempmap['jira_id'] = $('#jira_id',aTrs[i]).val();
-                            tempmap['comment'] = $('#comment_id',aTrs[i]).val();
+                            tempmap['comment'] = self.oTable.fnGetData(aTrs[i]).analysis.comment;
+
                             tempmap['testresult_id'] = self.oTable.fnGetData(aTrs[i]).testresult.id;
 
                             analysisMap.push( tempmap );
@@ -271,6 +284,35 @@ function DataTable(){
         });
     };
 
+    this.addCommentColumnHandler = function(tableid, imgid , textareaid, innerhtml, tablename, columnname ){
+         var self = this;
+        $('#'+tableid+ ' tbody td #'+imgid).live('click', function () {
+                var nTr = $(this).parents('tr')[0];
+                if ( self.oTable.fnIsOpen(nTr) )
+                {
+                    if($(this).attr('id') == $(self.img_id).attr('id') ){
+                        self.oTable.fnGetData(nTr)[tablename][columnname] = $('#'+self.textareaid).val()
+                        this.src = "../static/images/details_open.png";
+                        self.oTable.fnClose( nTr );
+                    }else{
+                        $(self.img_id).attr('src', "../static/images/details_open.png")
+                        $(this).attr('src', "../static/images/details_close.png")
+                        self.oTable.fnOpen( nTr, fnFormatDetails(innerhtml, self.oTable.fnGetData( nTr )[tablename][columnname]), 'details' );
+                        self.textareaid = textareaid
+                        self.img_id = $(this)
+                    }
+                }
+                else
+                {
+                    /* Open this row */
+                    this.src = "../static/images/details_close.png";
+                    self.oTable.fnOpen( nTr, fnFormatDetails(innerhtml, self.oTable.fnGetData( nTr )[tablename][columnname]), 'details' );
+                    self.textareaid = textareaid
+                    self.img_id = $(this)
+                }
+            } );
+    };
+
     this.addSaveButtonAjaxHandler = function(buttonid,tableid){
         var self = this;
 
@@ -286,7 +328,10 @@ function DataTable(){
                         var tempmap = {}
                         tempmap['errortype'] = $('#errortype',aTrs[i]).find('option:selected').text();
                         tempmap['jira_id'] = $('#jira_id',aTrs[i]).val();
-                        tempmap['comment'] = $('#comment_id',aTrs[i]).val();
+                        // tempmap['comment'] = $('#comment_id',aTrs[i]).val();
+
+                        tempmap['comment'] = self.oTable.fnGetData(aTrs[i]).analysis.comment;
+
                         tempmap['testresult_id'] = self.oTable.fnGetData(aTrs[i]).testresult.id;
                         tempmap['analysis_id'] = self.oTable.fnGetData(aTrs[i]).analysis.id;
                         analysisMap.push( tempmap );

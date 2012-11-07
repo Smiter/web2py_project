@@ -10,14 +10,25 @@ for(var i=0;i<testsuiteArray.length;i++){
 
             var tableColumns = [
               { "sTitle": "Testcase name","sWidth": "25%","mData" : "testdescription.name"},
-              { "sTitle": "Testcase description","bSortable": false,"sWidth": "20%", "mData": "testdescription.testdescription" },
+              // { "sTitle": "Testcase description","bSortable": false,"sWidth": "20%", "mData": "testdescription.testdescription" },
               { "sTitle": "Status","sWidth": "6%", "mData": "testresult.testresult" },
-              { "sTitle": "Error description", "bSortable": false,"sWidth": "12%", "mData": "testresult.failuredescription" },
+              { "sTitle": "Error description", "bSortable": false, "sWidth": "6%", "mData": null,
+                "mRender": function ( data, type, full ) {
+                    return '<img id="error_img" style="width:22px; height:22px"  src="../static/images/details_open.png">'
+                }
+              },
+              { "sTitle": "Error description","bVisible" : false, "bSortable": false, "mData": "testresult.failuredescription" },
               { "sTitle": "Bug type","sWidth": "10%", "mData": "analysis.errortype" },
               { "sTitle": "Jira Id","sWidth": "7%", "mData": "analysis.elvis_id" },
-              { "sTitle": "Comment", "bSortable": false,"sWidth": "10%", "mData": "analysis.comment" },
+              { "sTitle": "Comment", "bVisible" : false, "bSortable": false, "mData": "analysis.comment" },
               { "sTitle": "Testresult id", "bVisible" : false, "mData" : "testresult.id"},
-              { "sTitle": "Analysis id", "bVisible" : false, "mData" : "analysis.id"}
+              { "sTitle": "Analysis id", "bVisible" : false, "mData" : "analysis.id"},
+              { "sTitle": "Comment", "sWidth": "6%", "mData": null,
+                "mRender": function ( data, type, full ) {
+                    return '<img id="comment_img" style="width:22px; height:22px"  src="../static/images/details_open.png">'
+                }
+              }
+
               ]
 
             var sorting = [[ 2,"desc" ]]
@@ -25,10 +36,18 @@ for(var i=0;i<testsuiteArray.length;i++){
             table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[],testsuiteid,false,false);
             table.addButton(analyzeButtonid,tableId,analyzeButtonStyle,"button",analyzeButtonName);
             table.addSaveButtonAjaxHandler(analyzeButtonid,tableId);
+            table.addCommentColumnHandler(tableId,"comment_img", 'comment_id', '<p>Add Comment</p><textarea id="comment_id" style="max-width : 97%; min-width:97%;min-height:250px; max-height:250px;">', 'analysis','comment')
+
+            table.addCommentColumnHandler(tableId,"error_img", 'error_desc_id', '<p>Error description</p><textarea id="error_desc_id" style="max-width : 97%; min-width:97%;min-height:250px; max-height:250px;" readonly>', 'testresult','failuredescription')
+
             table.addFiltering(tableId);
             table.testsuiteid = testsuiteid
     }
 $(function(){
+
+   $('#analysisback').live('click',function () {
+      history.back();
+   })
 
   for(var i=0;i<testsuiteArray.length;i++){
   $('<p class="analysis_checkbox_name">Analyzed</p><input id="analyzedcheckbox'+i+'" type="checkbox" class="analysis_checkbox">').insertAfter('#analysistable'+i);
@@ -96,10 +115,10 @@ $(function(){
             <tfoot>
               <tr>
                 <th><input type="text" name="search_name" value="Search" class="search_init_focus_of" /></th>
-                <th><input type="hidden" name="search_desc" value="Search" class="search_init_focus_of" /></th>
                 <th><input type="hidden" name="search_status" value="Search" class="search_init_focus_of" /></th>
                 <th><input type="hidden" name="search_error" value="Search" class="search_init_focus_of" /></th>
-                <th><input type="hidden"  value="Search" class="search_init_focus_of" /></th>
+                <th><input type="hidden"  name="search_bug_type" value="Search" class="search_init_focus_of" /></th>
+                <th><input type="hidden"  name="search_bug_type" value="Search" class="search_init_focus_of" /></th>
                 <th><input type="text" name="search_jira" value="Search" class="search_init_focus_of" /></th>
                 <th><input type="hidden" name="search_coment" value="Search" class="search_init_focus_of" /></th>
                 <th></th>

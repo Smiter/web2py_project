@@ -181,6 +181,6 @@ db.analysis.errortype.filter_out = lambda errortype: {'Unknown': BUG_TYPE % ("se
                                                       'OK in Context': BUG_TYPE % ("", "", "selected"),
                                                       None: BUG_TYPE % ("selected", "", "")}.get(errortype)
 db.analysis.elvis_id.filter_out = lambda elvis_id: JIRA_ID % "" if elvis_id is None else JIRA_ID % elvis_id
-db.analysis.comment.filter_out = lambda comment: COMMENT % "" if comment is None else COMMENT % comment
+# db.analysis.comment.filter_out = lambda comment: COMMENT % "" if comment is None else COMMENT % comment
 
 
