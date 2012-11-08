@@ -34,6 +34,7 @@ def getFilter(columns):
 def proccessTableQuery(query=None, countBeforeFilter=None, left=None, columns=None,selectcolumns=None):
     limitby = getLimit()
     orderby = getOrder(columns)
+    logger.error(orderby)
     filterby = getFilter(columns)
     rows = db(filterby)(query).select(*selectcolumns,limitby=limitby, orderby=orderby, left=left)
     beforeFilter = db(countBeforeFilter).count()

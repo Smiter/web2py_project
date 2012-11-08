@@ -35,9 +35,10 @@ var buttonStyle = "analyzeButton btn btn-primary"
 var dataTableHandler = "/web2py_birt/fact/runsHandler"
 
 var table = new DataTable();
-table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid,addtolabelid],-1,true,true);
-table.addButton(addtolabelid,tableId,"btn btn-primary secondButton","button","Add to report");
-table.addButton(analyzeButtonid,tableId,"btn btn-primary firstButton","submit","Analyze");
+var sDom = '<"fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"lfri>t<"fg-toolbar ui-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"pT<"toolbar">>'
+table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid,addtolabelid],-1,true,true,sDom);
+// table.addButton(addtolabelid,tableId,"btn btn-primary secondButton","button","Add to report");
+// table.addButton(analyzeButtonid,tableId,"btn btn-primary firstButton","submit","Analyze");
 table.addMultiClickRawHandler([analyzeButtonid,addtolabelid],tableId);
 table.addAnalyzeButtonHandler();
 table.addFiltering(tableId);
@@ -56,6 +57,9 @@ table.addFiltering(tableId);
 
 
 $(function(){
+  $("div.toolbar").html('<button  id="analyzebutton" type="submit" class="btn btn-primary toolbarbutton" disabled>Analyze</button><button  id="addtolabel" type="button" class="btn btn-primary toolbarbutton" disabled>Add to report</button>');
+
+
 
     //add to label preview menu new item
     $('#addtolabel').live('click',function () {

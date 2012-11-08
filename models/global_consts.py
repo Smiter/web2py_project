@@ -3,19 +3,14 @@ testsuiteColumns = {
     2: ('testsuite', 'testsuitename'),
     3: ('testsuite', 'starttime'),
     4: ('testsuite', 'endtime'),
-    5: ('testsuite', 'user'),
-    6: ('anaconda', 'name'),
-    7: ('anaconda', 'changelist'),
-    8: ('testsuite', 'analyzed')}
+    5: ('anaconda', 'name'),
+    6: ('anaconda', 'changelist'),
+    7: ('testsuite', 'analyzed')}
 
 analyzedColumns = {
     0: ('testdescription', 'name'),
-    1: ('testdescription', 'testdescription'),
-    2: ('testresult', 'testresult'),
-    3: ('testresult', 'failuredescription'),
-    4: ('analysis', 'errortype'),
-    5: ('analysis', 'elvis_id'),
-    6: ('analysis', 'comment')}
+    1: ('testresult', 'testresult')
+    }
 
 labelColumns = {
     1: ('label', 'id'),

@@ -14,6 +14,8 @@ var showLabelStyle = "btn btn-primary firstButton"
 var generateReportStyle = "btn btn-primary secondButton"
 var dataTableHandler = "/web2py_birt/labels/labelHandler"
 
+var sDom = '<"fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"lfri>t<"fg-toolbar ui-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"pT<"toolbar">>'
+
 var tableColumns = [
   { "sTitle": "Select", "bSortable": false ,"sWidth": "6%","mData" : null,
     "sDefaultContent": '<input type = "checkbox">'},
@@ -24,13 +26,19 @@ var tableColumns = [
 
 var sorting = [[ 1, "desc" ]]
 var table = new DataTable();
-table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid,generateReportButtonid],-1,true,true);
-table.addButton(analyzeButtonid,tableId,generateReportStyle,"submit","Report Preview");
-table.addButton(generateReportButtonid,tableId,showLabelStyle,"button","Generate Report");
+table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid,generateReportButtonid],-1,true,true,sDom);
+// table.addButton(analyzeButtonid,tableId,generateReportStyle,"submit","Report Preview");
+// table.addButton(generateReportButtonid,tableId,showLabelStyle,"button","Generate Report");
 table.addSingleClickRawHandler([analyzeButtonid,generateReportButtonid],tableId);
 table.addGenerateReportButtonAjaxHandler(generateReportButtonid)
 table.addShowLabelButtonHandler();
 table.addFiltering(tableId);
+
+$(function(){
+  $("div.toolbar").html('<button  id="analyze" type="submit" class="btn btn-primary toolbarbutton" disabled>Analyze report</button><button  id="generateReport" type="button" class="btn btn-primary toolbarbutton" disabled>Generate Report</button>');
+})
+
+
 </script>
 
 <div id="label_list" class="table_container">

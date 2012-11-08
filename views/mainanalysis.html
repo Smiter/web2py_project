@@ -7,6 +7,7 @@ for(var i=0;i<testsuiteArray.length;i++){
             var analyzeButtonName = "Save"
             var analyzeButtonStyle = "btn btn-primary saveanalyze" 
             var dataTableHandler = "/web2py_birt/fact/analyzeHandler"
+            var sDom = '<"fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"lfri>t<"fg-toolbar ui-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"pT<"toolbar"><"toolbar_on_nok">>'
 
             var tableColumns = [
               { "sTitle": "Testcase name","sWidth": "25%","mData" : "testdescription.name"},
@@ -18,12 +19,12 @@ for(var i=0;i<testsuiteArray.length;i++){
                 }
               },
               { "sTitle": "Error description","bVisible" : false, "bSortable": false, "mData": "testresult.failuredescription" },
-              { "sTitle": "Bug type","sWidth": "10%", "mData": "analysis.errortype" },
-              { "sTitle": "Jira Id","sWidth": "7%", "mData": "analysis.elvis_id" },
+              { "sTitle": "Bug type","sWidth": "10%","bSortable": false, "mData": "analysis.errortype" },
+              { "sTitle": "Jira Id","sWidth": "7%", "bSortable": false,"mData": "analysis.elvis_id" },
               { "sTitle": "Comment", "bVisible" : false, "bSortable": false, "mData": "analysis.comment" },
               { "sTitle": "Testresult id", "bVisible" : false, "mData" : "testresult.id"},
               { "sTitle": "Analysis id", "bVisible" : false, "mData" : "analysis.id"},
-              { "sTitle": "Comment", "sWidth": "6%", "mData": null,
+              { "sTitle": "Comment", "sWidth": "6%", "bSortable": false,"mData": null,
                 "mRender": function ( data, type, full ) {
                     return '<img id="comment_img" style="width:22px; height:22px"  src="../static/images/details_open.png">'
                 }
@@ -33,30 +34,35 @@ for(var i=0;i<testsuiteArray.length;i++){
 
             var sorting = [[ 2,"desc" ]]
             var table = new DataTable();
-            table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[],testsuiteid,false,false);
-            table.addButton(analyzeButtonid,tableId,analyzeButtonStyle,"button",analyzeButtonName);
+            table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[],testsuiteid,false,false,sDom);
+            // table.addButton(analyzeButtonid,tableId,analyzeButtonStyle,"button",analyzeButtonName);
             table.addSaveButtonAjaxHandler(analyzeButtonid,tableId);
             table.addCommentColumnHandler(tableId,"comment_img", 'comment_id', '<p>Add Comment</p><textarea id="comment_id" style="max-width : 97%; min-width:97%;min-height:250px; max-height:250px;">', 'analysis','comment')
 
             table.addCommentColumnHandler(tableId,"error_img", 'error_desc_id', '<p>Error description</p><textarea id="error_desc_id" style="max-width : 97%; min-width:97%;min-height:250px; max-height:250px;" readonly>', 'testresult','failuredescription')
 
             table.addFiltering(tableId);
+            table.addSwitchDataHandler(tableId)
             table.testsuiteid = testsuiteid
     }
 $(function(){
-
    $('#analysisback').live('click',function () {
       history.back();
    })
 
   for(var i=0;i<testsuiteArray.length;i++){
-  $('<p class="analysis_checkbox_name">Analyzed</p><input id="analyzedcheckbox'+i+'" type="checkbox" class="analysis_checkbox">').insertAfter('#analysistable'+i);
+  // $('<p class="analysis_checkbox_name">Analyzed</p><input id="analyzedcheckbox'+i+'" type="checkbox" class="analysis_checkbox">').insertAfter('#analysistable'+i);
 
+  $('#analysistable'+i+'_wrapper div.toolbar').html('<input id="analyzedcheckbox'+i+'" type="checkbox" class="analysis_checkbox"><p class="analysis_checkbox_name">Analyzed</p><button  id="Save' + i +'" type="button" class="btn btn-primary analysissavebutton">Save</button>');
+
+  $('#analysistable'+i+'_wrapper div.toolbar_on_nok').html('<div style="margin-top:20px;" class="btn-group" data-toggle="buttons-radio"><button type="button" id="nok" class="btn btn-primary">Show NOK</button><button type="button" id="ok" class="btn btn-primary">Show OK</button><button id="ok_and_nok" type="button" class="btn btn-primary">Show ALL</button></div>');
+
+  $('#analysistable'+i+'_wrapper div.toolbar_on_nok #nok').button('toggle')
   $('<div class="alert warningAnalysis"> <strong>Warning!</strong> Your changes are not saved. </div>').insertAfter('#analysistable'+i);
 
-  
-
  }
+
+ 
 
   $('.collapse_button').find("img").click(function() {
   // if($($(this).parent().attr("href")+'.collapse').length==0) 

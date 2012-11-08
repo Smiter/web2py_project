@@ -86,6 +86,24 @@ table .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header
     border:1px solid rgb(170,170,170);
 }
 
+.toolbar {
+  float: left;
+  width: 300px;
+  height: 50px;
+}
+
+.toolbar_on_nok {
+  float: right;
+  width: 200px;
+  height: 50px;
+  margin-right: 100px;
+}
+
+.toolbarbutton {
+  margin: 10px 10px 0 10px;
+}
+
+
 .table_container {
   margin-right: 20px;
   margin-left: 20px;
@@ -308,8 +326,11 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAkCAQAAADif
 
 /* Container */
 
+
+
+
+
 .pagetitle {
- margin-top: 40px;
  text-align: center;
 }
 
@@ -451,16 +472,23 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAkCAQAAADif
 }
 
 .analysis_checkbox {
-  position:absolute;
-  left:30px;
-  margin-top:11px;
+  float: left;
   cursor: pointer;
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .analysis_checkbox_name {
-  position:absolute;
-  left:50px;
-  margin-top:8px;
+  /*float: left;*/
+  /*margin-top:8px;*/
+  margin-top: 8px;
+}
+
+.analysissavebutton {
+  /*float:left;*/
+  /*margin-top: 10px;*/
+   margin-left: 10px;
 }
 
 .saveanalyze {
@@ -474,7 +502,7 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAkCAQAAADif
   width:300px;
   display:none;
    position:absolute;
-  left:800px;
+  left:400px;
   margin-top:15px;
 }
 

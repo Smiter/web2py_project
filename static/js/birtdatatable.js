@@ -12,10 +12,11 @@ function fnFormatDetails (innerhtml,value)
 // }
 
 function DataTable(){
-    this.addDataTable = function(tableid,tableColumns,sorting,handler,buttons,testsuiteid,blenchChange,bPaginate){
+    this.addDataTable = function(tableid,tableColumns,sorting,handler,buttons,testsuiteid,blenchChange,bPaginate,sDom){
         var self = this;
         var asInitVals = new Array()
         self.asInitVals = asInitVals
+        self.testresult = 'NOK'
             $(function(){
                  self.oTable = $('#' + tableid).dataTable( {
 
@@ -24,10 +25,6 @@ function DataTable(){
 
                     $("#"+tableid+" tbody input").keyup(function() {
                        $('#'+tableid+'_wrapper .warningAnalysis').css('display','block')
-                    }); 
-
-                    $("#"+tableid+" tbody textarea").keyup(function() {
-                        $('#'+tableid+'_wrapper .warningAnalysis').css('display','block')
                     }); 
 
                     $("#"+tableid+" tbody select").live("change", function()   
@@ -60,6 +57,10 @@ function DataTable(){
                  "bLengthChange": blenchChange,
                  "bPaginate" : bPaginate,
                  "bStateSave": true,
+                 // "iDisplayLength ":30,
+                   // "sScrollY": "350px",
+                    // "bScrollCollapse": true,
+                 "sDom": sDom,
                  "fnStateLoadParams": function (oSettings, oData) {
                     var searchVals = oData.aoSearchCols
                     $("#"+tableid+" tfoot input").each( function (i) {
@@ -75,7 +76,7 @@ function DataTable(){
                  },
 
                  "fnServerParams": function ( aoData ) {
-                    aoData.push( { "name": "testsuiteid", "value": testsuiteid } );
+                    aoData.push( { "name": "testsuiteid", "value": testsuiteid } , {"name" : "testresult","value": self.testresult} );
                 }
                             } );   
 
@@ -309,6 +310,9 @@ function DataTable(){
                     self.oTable.fnOpen( nTr, fnFormatDetails(innerhtml, self.oTable.fnGetData( nTr )[tablename][columnname]), 'details' );
                     self.textareaid = textareaid
                     self.img_id = $(this)
+                     $("#"+tableid+" tbody #comment_id").keyup(function() {
+                        $('#'+tableid+'_wrapper .warningAnalysis').css('display','block')
+                    }); 
                 }
             } );
     };
@@ -367,6 +371,24 @@ function DataTable(){
         });
     };
 
+    this.addSwitchDataHandler = function(tableid){
+        var self = this;
+        $('#' + tableid +'_wrapper div.toolbar_on_nok #nok').live('click',function () {
+            self.testresult = 'NOK'
+            self.oTable.fnDraw(false);
+        })
+
+        $('#' + tableid +'_wrapper div.toolbar_on_nok #ok').live('click',function () {
+            self.testresult = 'OK'
+            self.oTable.fnDraw(false);
+        })
+
+        $('#' + tableid +'_wrapper div.toolbar_on_nok #ok_and_nok').live('click',function () {
+            self.testresult = 'ALL'
+            self.oTable.fnDraw(false);
+        })
+    };
+
 
     this.addGenerateReportButtonAjaxHandler = function(buttonid){
         var self = this;
@@ -374,17 +396,17 @@ function DataTable(){
         $(function(){
 
             $('#'+buttonid).live('click',function () {
-                $('#waitingModal').modal({
-                  backdrop: 'static',
-                  keyboard: false
-                })
-
                  $.ajax({
                  type: "POST",
                  url: "/web2py_birt/fact/checkifanalyzed",
                  data: "labelid="+self.rawData.id
                  }).done(function( isAnalyzed ) {
                   if (isAnalyzed == "True"){
+                        $('#waitingModal').modal({
+                          backdrop: 'static',
+                          keyboard: false
+                        })
+
                         $.ajax({
                         type: "POST",
                         url: "/web2py_birt/labels/generateReport",
