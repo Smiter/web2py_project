@@ -20,7 +20,7 @@ for(var i=0;i<testsuiteArray.length;i++){
               },
               { "sTitle": "Error description","bVisible" : false, "bSortable": false, "mData": "testresult.failuredescription" },
               { "sTitle": "Bug type","sWidth": "10%","bSortable": false, "mData": "analysis.errortype" },
-              { "sTitle": "Jira Id","sWidth": "7%", "bSortable": false,"mData": "analysis.elvis_id" },
+              { "sTitle": "Jira Id (xxxx)","sWidth": "7%", "bSortable": false,"mData": "analysis.jira_id" },
               { "sTitle": "Comment", "bVisible" : false, "bSortable": false, "mData": "analysis.comment" },
               { "sTitle": "Testresult id", "bVisible" : false, "mData" : "testresult.id"},
               { "sTitle": "Analysis id", "bVisible" : false, "mData" : "analysis.id"},
@@ -34,7 +34,6 @@ for(var i=0;i<testsuiteArray.length;i++){
 
             var sorting = [[ 2,"desc" ]]
             var table = new DataTable();
-            console.log(testsuiteid)
             table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[],testsuiteid,false,false,sDom);
             // table.addButton(analyzeButtonid,tableId,analyzeButtonStyle,"button",analyzeButtonName);
             table.addSaveButtonAjaxHandler(analyzeButtonid,tableId);

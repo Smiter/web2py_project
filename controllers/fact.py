@@ -19,7 +19,7 @@ def runsHandler():
 
 def analyzeHandler():
     logger.error("analyze Handler")
-    selectcolumns = (db.testdescription.name, db.analysis.id, db.testdescription.testdescription, db.testresult.testresult, db.testresult.failuredescription, db.analysis.errortype, db.analysis.elvis_id, db.analysis.comment,db.testresult.id)
+    selectcolumns = (db.testdescription.name, db.analysis.id, db.analysis.jira_id, db.testdescription.testdescription, db.testresult.testresult, db.testresult.failuredescription, db.analysis.errortype, db.analysis.comment,db.testresult.id)
 
     query = (db.testsuite.id == db.test.testsuite_id) & (
         db.testdescription.id == db.test.testdescription_id) & (
@@ -65,18 +65,24 @@ def saveAnalyze():
         errortype = map_item["errortype"]
         comment = map_item["comment"]
         jira_id = map_item["jira_id"]
+
+        if errortype == "OK in Context":
+            db(db.testresult.id == testresult_id).update(
+                            testresult='OK')
+            continue
+
         if analysis_id is None:
             db.analysis.insert(
                             testresult_id=testresult_id,
                             errortype=errortype,
                             comment=comment,
-                            elvis_id=jira_id)
+                            jira_id=jira_id)
         else:    
             db(db.analysis.id == analysis_id).update(
                             testresult_id=testresult_id,
                             errortype=errortype,
                             comment=comment,
-                            elvis_id=jira_id)
+                            jira_id=jira_id)
     if request.vars.testsuiteid != -1:
         db(db.testsuite.id == request.vars.testsuiteid).update(analyzed=1)
 

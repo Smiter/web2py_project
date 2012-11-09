@@ -143,13 +143,13 @@ $(function(){
     });
 
 
-    // $().ready(function() {
-    //     $(window).scroll(function(){      
-    //       $("#shortreportpreview")
-    //         .stop()
-    //         .animate({"marginTop": ($(window).scrollTop() + 30) + "px"}, "slow" );      
-    //     });
-    //   });
+    $().ready(function() {
+        $(window).scroll(function(){      
+          $("#shortreportpreview")
+            .stop()
+            .animate({"marginTop": ($(window).scrollTop() + 0) + "px"}, "slow" );      
+        });
+      });
 
 });
 

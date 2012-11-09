@@ -3,8 +3,8 @@ from gluon import *
 
 
 #db = DAL("mysql://nds:test@172.30.136.176/ndsreport_new", pool_size=10)
-db = DAL("mysql://root:111@localhost/test", pool_size=10)
-#db = DAL("mysql://nds:test@oekalxap68/ndsreport", pool_size=10)
+#db = DAL("mysql://root:111@localhost/test", pool_size=10)
+db = DAL("mysql://nds:test@oekalxap68/ndsreport", pool_size=10)
 
 migrate = False
 
@@ -38,6 +38,7 @@ db.define_table('analysis',
                 Field('errortype', type='text'),
                 Field('comment', type='text'),
                 Field('elvis_id', type='reference analysis'),
+                Field('jira_id', type='text'),
                 primarykey=['id', 'id'],
                 migrate=migrate)
 
@@ -186,7 +187,7 @@ db.analysis.errortype.filter_out = lambda errortype: {'Unknown': BUG_TYPE % ("se
                                                       'Known Error': BUG_TYPE % ("", "selected", ""),
                                                       'OK in Context': BUG_TYPE % ("", "", "selected"),
                                                       None: BUG_TYPE % ("selected", "", "")}.get(errortype)
-db.analysis.elvis_id.filter_out = lambda elvis_id: JIRA_ID % "" if elvis_id is None else JIRA_ID % elvis_id
+db.analysis.jira_id.filter_out = lambda jira_id: JIRA_ID % "" if jira_id is None else JIRA_ID % jira_id
 # db.analysis.comment.filter_out = lambda comment: COMMENT % "" if comment is None else COMMENT % comment
 
 
