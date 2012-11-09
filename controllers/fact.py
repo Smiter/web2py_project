@@ -110,8 +110,9 @@ def saveLabel():
     row = db(db.label.id).select().last()
 
     for k in session.label_preview_list.keys():
-        db(db.testsuite.id == k).update(
-            label_id=row.id)
+        db.labeltorun.insert(label_id = row.id, testsuite_id = k)
+        # db(db.testsuite.id == k).update(
+        #     label_id=row.id)
     session.label_preview_list = dict()
 
     redirect(URL('web2py_birt', 'labels', 'list'))

@@ -4,12 +4,6 @@ function fnFormatDetails (innerhtml,value)
     return sOut;
 }
 
-// function fnFormatDetails ( oTable, nTr , sOut)
-// {
-//     var aData = oTable.fnGetData( nTr );
-//     var sOut = '<p>Error description</p><textarea id="error_desc_id" style="max-width : 97%; min-width:97%;min-height:250px; max-height:250px;">'+aData.testresult.failuredescription+'</textarea>'
-//     return sOut;
-// }
 
 function DataTable(){
     this.addDataTable = function(tableid,tableColumns,sorting,handler,buttons,testsuiteid,blenchChange,bPaginate,sDom){

@@ -3,11 +3,17 @@ from gluon import *
 
 
 #db = DAL("mysql://nds:test@172.30.136.176/ndsreport_new", pool_size=10)
-#db = DAL("mysql://root:111@localhost/test", pool_size=10)
-db = DAL("mysql://nds:test@oekalxap68/ndsreport", pool_size=10)
+db = DAL("mysql://root:111@localhost/test", pool_size=10)
+#db = DAL("mysql://nds:test@oekalxap68/ndsreport", pool_size=10)
 
 migrate = False
 
+db.define_table('labeltorun',
+                Field('id', type='integer'),
+                Field('label_id', type='integer'),
+                Field('testsuite_id', type='integer'),
+                 primarykey=['id', 'id'],
+                migrate=migrate)
 db.define_table('anaconda',
                 Field('id', type='integer'),
                 Field('name', type='text'),

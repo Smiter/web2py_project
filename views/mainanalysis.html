@@ -34,6 +34,7 @@ for(var i=0;i<testsuiteArray.length;i++){
 
             var sorting = [[ 2,"desc" ]]
             var table = new DataTable();
+            console.log(testsuiteid)
             table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[],testsuiteid,false,false,sDom);
             // table.addButton(analyzeButtonid,tableId,analyzeButtonStyle,"button",analyzeButtonName);
             table.addSaveButtonAjaxHandler(analyzeButtonid,tableId);
