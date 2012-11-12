@@ -7,7 +7,7 @@ for(var i=0;i<testsuiteArray.length;i++){
             var analyzeButtonName = "Save"
             var analyzeButtonStyle = "btn btn-primary saveanalyze" 
             var dataTableHandler = "/web2py_birt/fact/analyzeHandler"
-            var sDom = '<"fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"lfri>t<"fg-toolbar ui-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"pT<"toolbar"><"toolbar_on_nok">>'
+            var sDom = '<"fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"lfri>t<"fg-toolbar ui-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"pT<"toolbar"><"warning"><"toolbar_on_nok">>'
 
             var tableColumns = [
               { "sTitle": "Testcase name","sWidth": "25%","mData" : "testdescription.name"},
@@ -37,9 +37,9 @@ for(var i=0;i<testsuiteArray.length;i++){
             table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[],testsuiteid,false,false,sDom);
             // table.addButton(analyzeButtonid,tableId,analyzeButtonStyle,"button",analyzeButtonName);
             table.addSaveButtonAjaxHandler(analyzeButtonid,tableId);
-            table.addCommentColumnHandler(tableId,"comment_img", 'comment_id', '<p>Add Comment</p><textarea id="comment_id" style="max-width : 97%; min-width:97%;min-height:250px; max-height:250px;">', 'analysis','comment')
+            table.addCommentColumnHandler(tableId,"comment_img", 'comment_id', '<p>Add Comment</p><textarea id="comment_id" style="max-width : 97%; min-width:97%;min-height:200px; max-height:200px;">', 'analysis','comment')
 
-            table.addCommentColumnHandler(tableId,"error_img", 'error_desc_id', '<p>Error description</p><textarea id="error_desc_id" style="max-width : 97%; min-width:97%;min-height:250px; max-height:250px;" readonly>', 'testresult','failuredescription')
+            table.addCommentColumnHandler(tableId,"error_img", 'error_desc_id', '<p>Error description</p><textarea id="error_desc_id" style="max-width : 97%; min-width:97%;min-height:200px; max-height:200px;" readonly>', 'testresult','failuredescription')
 
             table.addFiltering(tableId);
             table.addSwitchDataHandler(tableId)
@@ -57,8 +57,12 @@ $(function(){
 
   $('#analysistable'+i+'_wrapper div.toolbar_on_nok').html('<div style="margin-top:20px;" class="btn-group" data-toggle="buttons-radio"><button type="button" id="nok" class="btn btn-primary">Show NOK</button><button type="button" id="ok" class="btn btn-primary">Show OK</button><button id="ok_and_nok" type="button" class="btn btn-primary">Show ALL</button></div>');
 
+  $('#analysistable'+i+'_wrapper div.warning').html('<div style="margin-top:20px;"><div class="alert warningAnalysis"> <strong>Warning!</strong> Your changes are not saved. </div></div>');
+
+
   $('#analysistable'+i+'_wrapper div.toolbar_on_nok #nok').button('toggle')
-  $('<div class="alert warningAnalysis"> <strong>Warning!</strong> Your changes are not saved. </div>').insertAfter('#analysistable'+i);
+
+  // $('<div class="alert warningAnalysis"> <strong>Warning!</strong> Your changes are not saved. </div>').insertAfter('#analysistable'+i);
 
  }
 

@@ -23,6 +23,7 @@ function DataTable(){
 
                     $("#"+tableid+" tbody select").live("change", function()   
                     {   
+                        console.log("aaaaaaa")
                         $('#'+tableid+'_wrapper .warningAnalysis').css('display','block')
                     }); 
 
@@ -51,13 +52,14 @@ function DataTable(){
                  "bLengthChange": blenchChange,
                  "bPaginate" : bPaginate,
                  "bStateSave": true,
-                 // "iDisplayLength ":30,
-                   // "sScrollY": "350px",
-                    // "bScrollCollapse": true,
+                 "iDisplayLength ":25,
+                   "sScrollY": "300px",
+                    "bScrollCollapse": true,
                  "sDom": sDom,
                  "fnStateLoadParams": function (oSettings, oData) {
                     var searchVals = oData.aoSearchCols
-                    $("#"+tableid+" tfoot input").each( function (i) {
+                    $(".display tfoot input").each( function (i) {
+                        if(searchVals[i] != null){
                         if (searchVals[i].sSearch != "" ){
                             this.value = searchVals[i].sSearch
                             self.asInitVals[i] = this.value;
@@ -65,6 +67,7 @@ function DataTable(){
                             $(this).css('color',"black")
                             $(this).focus()
                         }
+                    }
                     })
                     self.asInitVals = asInitVals
                  },
@@ -81,18 +84,18 @@ function DataTable(){
         var self = this;
         // var asInitVals = self.asInitVals
             $(function(){
-                  $("#"+tableid+" tfoot input").keyup( function () {
+                  $(".display tfoot input").keyup( function () {
                         /* Filter on the column (the index) of this element */
-                        self.oTable.fnFilter( this.value, $("#"+tableid+" tfoot input").index(this) );
+                        self.oTable.fnFilter( this.value, $(".display tfoot input").index(this) );
                     } );
 
-                    $("#"+tableid+" tfoot input").each( function (i) {
+                    $(".display tfoot input").each( function (i) {
                         if(self.asInitVals[i] != null){
                             self.asInitVals[i] = this.value;
                         }
                     } );
                      
-                    $("#"+tableid+" tfoot input").focus( function () {
+                    $(".display tfoot input").focus( function () {
                         if ( this.className == "search_init_focus_of" )
                         {
                             $(this).css('color',"black")
@@ -101,7 +104,7 @@ function DataTable(){
                         }
                     } );
                      
-                    $("#"+tableid+" tfoot input").blur( function (i) {
+                    $(".display tfoot input").blur( function (i) {
                         if ( this.value == "" )
                         {
                              $(this).css('color',"#999")

@@ -59,6 +59,7 @@ def analysis():
 def saveAnalyze():
     logger.error("saveAnalyze")
     analysisListOfMaps = json.loads(request.vars.analysisMap)
+    logger.error(analysisListOfMaps)
     for map_item in analysisListOfMaps:
         testresult_id = map_item["testresult_id"]
         analysis_id = map_item["analysis_id"]

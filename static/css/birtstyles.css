@@ -55,6 +55,11 @@ table.display {
   table-layout: fixed;
 }
 
+table.display tbody {
+  height: 200px;
+}
+
+
 table.display thead th {
   padding: 3px 3px 3px 3px;
   cursor: pointer;
