@@ -4,6 +4,7 @@ import json
 
 
 def runs():
+    logger.error(request.application)
     return dict(message=T(""))
 
 
@@ -113,7 +114,7 @@ def removeLabelFromSession():
 
 
 def saveLabel():
-    db.label.insert(releasecandidatename=request.post_vars.labelname, user=request.post_vars.username)
+    db.label.insert(releasecandidatename=request.post_vars.labelname, user=request.post_vars.username, releasecomment = request.post_vars.releasecomment, commentswqs = request.post_vars.commentswqs)
     row = db(db.label.id).select().last()
 
     for k in session.label_preview_list.keys():
@@ -122,7 +123,7 @@ def saveLabel():
         #     label_id=row.id)
     session.label_preview_list = dict()
 
-    redirect(URL('web2py_birt', 'labels', 'list'))
+    redirect(URL(request.application, 'labels', 'list'))
 
 
 def checkifanalyzed():

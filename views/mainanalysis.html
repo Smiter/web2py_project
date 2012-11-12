@@ -1,12 +1,13 @@
 <script type="text/javascript">
 var testsuiteArray = {{=XML(response.json(testsuiteArray))}}
+var application_name = '{{=request.application}}'
 for(var i=0;i<testsuiteArray.length;i++){
             var testsuiteid = testsuiteArray[i].testsuite.id;
             var tableId = "analysistable"+i
             var analyzeButtonid = "Save"+i
             var analyzeButtonName = "Save"
             var analyzeButtonStyle = "btn btn-primary saveanalyze" 
-            var dataTableHandler = "/web2py_birt/fact/analyzeHandler"
+            var dataTableHandler = "/{{=request.application}}/fact/analyzeHandler"
             var sDom = '<"fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"lfri>t<"fg-toolbar ui-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"pT<"toolbar"><"warning"><"toolbar_on_nok">>'
 
             var tableColumns = [
@@ -34,7 +35,7 @@ for(var i=0;i<testsuiteArray.length;i++){
 
             var sorting = [[ 2,"desc" ]]
             var table = new DataTable();
-            table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[],testsuiteid,false,false,sDom);
+            table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[],testsuiteid,false,false,sDom,application_name);
             // table.addButton(analyzeButtonid,tableId,analyzeButtonStyle,"button",analyzeButtonName);
             table.addSaveButtonAjaxHandler(analyzeButtonid,tableId);
             table.addCommentColumnHandler(tableId,"comment_img", 'comment_id', '<p>Add Comment</p><textarea id="comment_id" style="max-width : 97%; min-width:97%;min-height:200px; max-height:200px;">', 'analysis','comment')

@@ -6,9 +6,10 @@ function fnFormatDetails (innerhtml,value)
 
 
 function DataTable(){
-    this.addDataTable = function(tableid,tableColumns,sorting,handler,buttons,testsuiteid,blenchChange,bPaginate,sDom){
+    this.addDataTable = function(tableid,tableColumns,sorting,handler,buttons,testsuiteid,blenchChange,bPaginate,sDom,app_name){
         var self = this;
         var asInitVals = new Array()
+        self.app_name = app_name
         self.asInitVals = asInitVals
         self.testresult = 'NOK'
             $(function(){
@@ -316,7 +317,7 @@ function DataTable(){
 
     this.addSaveButtonAjaxHandler = function(buttonid,tableid){
         var self = this;
-
+         console.log(self.app_name)
         $(function(){
 
             $('#'+buttonid).live('click',function () {
@@ -352,7 +353,7 @@ function DataTable(){
                 $.ajax({
                   type: "POST",
                   cache: false,
-                  url: "/web2py_birt/fact/saveAnalyze",
+                  url: '/'+self.app_name+'/fact/saveAnalyze',
                   data: {"analysisMap":JSON.stringify(analysisMap),"testsuiteid":testsuiteid}
                   }).done(function( msg ) {
                     $('#waitingModal').modal('hide')
@@ -389,13 +390,13 @@ function DataTable(){
 
     this.addGenerateReportButtonAjaxHandler = function(buttonid){
         var self = this;
-
+        console.log(self.app_name)
         $(function(){
 
             $('#'+buttonid).live('click',function () {
                  $.ajax({
                  type: "POST",
-                 url: "/web2py_birt/fact/checkifanalyzed",
+                 url: '/'+self.app_name+'/fact/checkifanalyzed',
                  data: "labelid="+self.rawData.id
                  }).done(function( isAnalyzed ) {
                   if (isAnalyzed == "True"){
@@ -406,7 +407,7 @@ function DataTable(){
 
                         $.ajax({
                         type: "POST",
-                        url: "/web2py_birt/labels/generateReport",
+                        url:'/'+self.app_name+'/labels/generateReport',
                         data: "labelid="+self.rawData.id
                         }).done(function( url ) {
                           $('#waitingModal').modal('hide')
