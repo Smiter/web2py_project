@@ -35,8 +35,7 @@ for(var i=0;i<testsuiteArray.length;i++){
 
             var sorting = [[ 2,"desc" ]]
             var table = new DataTable();
-            table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[],testsuiteid,false,false,sDom,application_name);
-            // table.addButton(analyzeButtonid,tableId,analyzeButtonStyle,"button",analyzeButtonName);
+            table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[],testsuiteid,false,false,sDom,application_name,"");
             table.addSaveButtonAjaxHandler(analyzeButtonid,tableId);
             table.addCommentColumnHandler(tableId,"comment_img", 'comment_id', '<p>Add Comment</p><textarea id="comment_id" style="max-width : 97%; min-width:97%;min-height:200px; max-height:200px;">', 'analysis','comment')
 
@@ -105,7 +104,7 @@ $(function(){
                   <tbody>
                     <tr>
                       <td >{{=testsuiteArray[i]['testsuite']['id']}}</td>
-                      <td >{{=testsuiteArray[i]['testsuite']['testsuitename']}}</td>
+                      <td width="430">{{=testsuiteArray[i]['testsuite']['testsuitename']}}</td>
                       <td >{{=testsuiteArray[i]['testsuite']['starttime']}}</td>
                       <td >{{=testsuiteArray[i]['testsuite']['endtime']}}</td>
                       <td >{{=testsuiteArray[i]['anaconda']['name']}}</td>

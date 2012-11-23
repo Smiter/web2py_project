@@ -20,13 +20,13 @@ var tableColumns = [
   { "sTitle": "Select", "bSortable": false ,"sWidth": "6%","mData" : null,
     "sDefaultContent": '<input type = "checkbox">'},
   { "sTitle": "Id",   "sWidth": "10%", "mData": "id" },
-  { "sTitle": "Name", "sWidth": "48%", "mData": "releasecandidatename" },
+  { "sTitle": "Name", "sWidth": "45%", "mData": "releasecandidatename" },
   { "sTitle": "Date", "sWidth": "20%", "mData": "date" },
   { "sTitle": "User", "sWidth": "30%","mData": "user" }]
 
 var sorting = [[ 1, "desc" ]]
 var table = new DataTable();
-table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid,generateReportButtonid],-1,true,true,sDom,application_name);
+table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid,generateReportButtonid],-1,true,true,sDom,application_name,"300px");
 // table.addButton(analyzeButtonid,tableId,generateReportStyle,"submit","Report Preview");
 // table.addButton(generateReportButtonid,tableId,showLabelStyle,"button","Generate Report");
 table.addSingleClickRawHandler([analyzeButtonid,generateReportButtonid],tableId);

@@ -7,14 +7,14 @@ $(function(){
 })
 var application_name = '{{=request.application}}'
 var tableColumns = [
-  { "sTitle": "Select", "bSortable": false ,"sWidth": "5%","mData" : null,
+  { "sTitle": "", "bSortable": false ,"sWidth": "2%","mData" : null,
     "sDefaultContent": '<input type = "checkbox">'},
   { "sTitle": "Id","sWidth": "5%", "mData": "testsuite.id" },
-  { "sTitle": "Name", "bSortable": false ,"sWidth": "30%", "mData": "testsuite.testsuitename" },
-  { "sTitle": "Start date" ,"sWidth": "7%", "mData": "testsuite.starttime" },
-  { "sTitle": "Finish date" ,"sWidth": "7%", "mData": "testsuite.endtime" },
+  { "sTitle": "Name", "bSortable": false ,"sWidth": "26%", "mData": "testsuite.testsuitename" },
+  { "sTitle": "Start date" ,"sWidth": "8%", "mData": "testsuite.starttime" },
+  { "sTitle": "Finish date" ,"sWidth": "8%", "mData": "testsuite.endtime" },
   { "sTitle": "Branch" , "bSortable": false,"sWidth": "8%", "mData": "anaconda.name" },
-  { "sTitle": "CL" , "bSortable": false,"sWidth": "6%", "mData": "anaconda.changelist" },
+  { "sTitle": "CL" , "bSortable": false,"sWidth": "8%", "mData": "anaconda.changelist" },
   { "sTitle": "Analyzed","sWidth": "7%", "mData": "testsuite.analyzed",
               "mRender": function ( data, type, full ) {
                 if (data == 0){
@@ -36,7 +36,7 @@ var dataTableHandler = "/{{=request.application}}/fact/runsHandler"
 
 var table = new DataTable();
 var sDom = '<"fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"lfri>t<"fg-toolbar ui-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"pT<"toolbar">>'
-table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid,addtolabelid],-1,true,true,sDom,application_name);
+table.addDataTable(tableId,tableColumns,sorting,dataTableHandler,[analyzeButtonid,addtolabelid],-1,true,true,sDom,application_name,"300px");
 // table.addButton(addtolabelid,tableId,"btn btn-primary secondButton","button","Add to report");
 // table.addButton(analyzeButtonid,tableId,"btn btn-primary firstButton","submit","Analyze");
 table.addMultiClickRawHandler([analyzeButtonid,addtolabelid],tableId);
