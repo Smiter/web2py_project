@@ -286,10 +286,11 @@ function DataTable(){
          var self = this;
         $('#'+tableid+ ' tbody td #'+imgid).live('click', function () {
                 var nTr = $(this).parents('tr')[0];
+                console
                 if ( self.oTable.fnIsOpen(nTr) )
                 {
                     if($(this).attr('id') == $(self.img_id).attr('id') ){
-                        self.oTable.fnGetData(nTr)[tablename][columnname] = $('#'+self.textareaid).val()
+                        self.oTable.fnGetData(nTr)[tablename][columnname] = $('#'+self.textareaid,$(nTr).next()).val()
                         this.src = "../static/images/details_open.png";
                         self.oTable.fnClose( nTr );
                     }else{
@@ -316,7 +317,6 @@ function DataTable(){
 
     this.addSaveButtonAjaxHandler = function(buttonid,tableid){
         var self = this;
-         console.log(self.app_name)
         $(function(){
 
             $('#'+buttonid).live('click',function () {
@@ -324,20 +324,21 @@ function DataTable(){
                 var aTrs = self.oTable.fnGetNodes();               
                 for ( var i=0 ; i<aTrs.length ; i++ )
                 {
-                    // if ( $(aTrs[i]).hasClass('datatablerowhighlight') )
-                    // {
                         var tempmap = {}
                         tempmap['errortype'] = $('#errortype',aTrs[i]).find('option:selected').text();
                         tempmap['jira_id'] = $('#jira_id',aTrs[i]).val();
-                        // tempmap['comment'] = $('#comment_id',aTrs[i]).val();
 
-                        tempmap['comment'] = self.oTable.fnGetData(aTrs[i]).analysis.comment;
-
+                        if( $("#comment_id",$(aTrs[i]).next()).val() )
+                        {
+                            tempmap['comment'] = $("#comment_id",$(aTrs[i]).next()).val()
+                        }
+                        else
+                        {
+                            tempmap['comment'] = self.oTable.fnGetData(aTrs[i]).analysis.comment;
+                        }
                         tempmap['testresult_id'] = self.oTable.fnGetData(aTrs[i]).testresult.id;
                         tempmap['analysis_id'] = self.oTable.fnGetData(aTrs[i]).analysis.id;
                         analysisMap.push( tempmap );
-                        
-                    // }
                 }
                 testsuiteid = -1
                 if($('#'+buttonid).parent().find('input:checkbox:first').is(':checked')== true){
