@@ -1,4 +1,4 @@
 web2py_birt
 ===========
 
-web2py bases web application
+web2py based web application. Using datatables, jquery, bootstrap, eclipse birt reporting.
