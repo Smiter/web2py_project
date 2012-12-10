@@ -183,10 +183,12 @@ db.anaconda.name.filter_out = lambda txt: txt[: txt.rfind('_')][txt.rfind('-')+1
 db.testsuite.endtime.filter_out = lambda number: "" if number is None else number
 db.anaconda.changelist.filter_out = lambda changelist: "unknown" if not changelist else changelist
 #db.testsuite.analyzed.filter_out = lambda analyzed: ANALYZED_IMAGE_NO if analyzed == 0 else ANALYZED_IMAGE_YES
-db.analysis.errortype.filter_out = lambda errortype: {'Unknown': BUG_TYPE % ("selected", "", ""),
-                                                      'Known Error': BUG_TYPE % ("", "selected", ""),
-                                                      'OK in Context': BUG_TYPE % ("", "", "selected"),
-                                                      None: BUG_TYPE % ("selected", "", "")}.get(errortype)
+db.analysis.errortype.filter_out = lambda errortype: {'Unknown': BUG_TYPE % ("selected", "", "", "", ""),
+                                                      'Known Error': BUG_TYPE % ("", "selected", "", "", ""),
+                                                      'OK in Context': BUG_TYPE % ("", "", "selected", "", ""),
+                                                      'New Error': BUG_TYPE % ("", "", "", "selected", ""),
+                                                      'Testcase Problem': BUG_TYPE % ("", "", "", "", "selected"),
+                                                      None: BUG_TYPE % ("selected", "", "", "", "")}.get(errortype)
 db.analysis.jira_id.filter_out = lambda jira_id: JIRA_ID % "" if jira_id is None else JIRA_ID % jira_id
 # db.analysis.comment.filter_out = lambda comment: COMMENT % "" if comment is None else COMMENT % comment
 

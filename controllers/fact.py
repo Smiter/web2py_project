@@ -127,8 +127,7 @@ def saveLabel():
 
 
 def checkifanalyzed():
-    left = db.testsuite.on(db.label.id == db.testsuite.label_id)
-    row = db(db.label.id == request.post_vars.labelid).select(db.testsuite.analyzed, left=left)
+    row = db((db.testsuite.id == db.labeltorun.testsuite_id) & (db.labeltorun.label_id == request.post_vars.labelid)).select(db.testsuite.analyzed)
     for r in row:
         if r.analyzed == 0:
             return False

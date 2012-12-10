@@ -25,6 +25,8 @@ BUG_TYPE = """<select name="combobox" id="errortype" style="width : 105px">
                            <option value="1" %s>Unknown</option>
                            <option value="2" %s>Known Error</option>
                            <option value="3" %s>OK in Context</option>
+                           <option value="4" %s>New Error</option>
+                           <option value="5" %s>Testcase Problem</option>
                            </select>"""
 JIRA_ID = '<input type="text" name="jira_id" id="jira_id" value="%s" style="width : 60px">'
 COMMENT = '<textarea id="comment_id" style="width : 100px">%s</textarea>'
