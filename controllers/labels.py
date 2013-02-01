@@ -24,4 +24,4 @@ def generateReport():
     left = [db.testsuite.on(db.label.id == db.testsuite.label_id), db.anaconda.on(db.anaconda.id == db.testsuite.anaconda_id)]
     rows = db(db.label.id == request.post_vars.labelid).select(left=left)  
 
-    return 'http://172.30.136.80:8080/birt2/frameset?__report=BirtReports/Designs/AnacondaTest/anaconda_limbo_report.rptdesign&Release Candidate=%s' % request.post_vars.labelid
+    return 'http://172.16.20.232:8080/birt2/frameset?__report=BirtReports/Designs/AnacondaTest/anaconda_limbo_report.rptdesign&Release Candidate=%s' % request.post_vars.labelid

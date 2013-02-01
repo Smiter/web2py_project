@@ -43,8 +43,8 @@ def analyzeHandler():
 
 def analysis():
     logger.error("analysis")
-    logger.error(request.post_vars)
-    result = json.loads(request.post_vars.testsuitelist)
+    # logger.error(request.post_vars)
+    result = json.loads(request.vars.testsuitelist)
     left = db.anaconda.on(db.anaconda.id == db.testsuite.anaconda_id)
     query = None
     for i in result:
@@ -116,11 +116,15 @@ def removeLabelFromSession():
 def saveLabel():
     db.label.insert(releasecandidatename=request.post_vars.labelname, user=request.post_vars.username, releasecomment = request.post_vars.releasecomment, commentswqs = request.post_vars.commentswqs)
     row = db(db.label.id).select().last()
-
     for k in session.label_preview_list.keys():
-        db.labeltorun.insert(label_id = row.id, testsuite_id = k)
-        # db(db.testsuite.id == k).update(
-        #     label_id=row.id)
+        db.labeltorun.insert(label_id = row.id, testsuite_id = k)        
+        idd = db(db.testsuite.id == k).select().last()
+        if request.post_vars.changelist != "":
+            db(db.anaconda.id ==int(idd.anaconda_id)).update(changelist=str(request.post_vars.changelist))
+        if request.post_vars.branch != "":
+            db(db.anaconda.id ==int(idd.anaconda_id)).update(name=request.post_vars.branch+"_"+request.post_vars.changelist)
+        db(db.testsuite.id == k).update(
+            label_id=row.id)
     session.label_preview_list = dict()
 
     redirect(URL(request.application, 'labels', 'list'))

@@ -56,6 +56,15 @@ function DataTable(){
                    "sScrollY": sScrollY,
                     "bScrollCollapse": true,
                  "sDom": sDom,
+
+                         "fnStateSave": function (oSettings, oData) {
+                            console.log(oData)
+                             localStorage.setItem( 'DataTables_'+window.location.pathname, JSON.stringify(oData) );
+                         },
+                         "fnStateLoad": function (oSettings) {
+                             return JSON.parse( localStorage.getItem('DataTables_'+window.location.pathname) );
+                         },
+
                  "fnStateLoadParams": function (oSettings, oData) {
                     var searchVals = oData.aoSearchCols
                     $(".display tfoot input").each( function (i) {
