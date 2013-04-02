@@ -43,6 +43,7 @@ function DataTable(){
                     },
                  "aoColumns": tableColumns,
                  "aaSorting": sorting,
+                 "bAutoWidth": false,
                  "bJQueryUI": true,
                  "bServerSide" : true,
                  "bProcessing" : true,
@@ -363,17 +364,23 @@ function DataTable(){
                   type: "POST",
                   cache: false,
                   url: '/'+self.app_name+'/fact/saveAnalyze',
-                  data: {"analysisMap":JSON.stringify(analysisMap),"testsuiteid":testsuiteid}
-                  }).done(function( msg ) {
-                    $('#waitingModal').modal('hide')
+                  data: {"analysisMap":JSON.stringify(analysisMap),"testsuiteid":testsuiteid},
+                  success: function(data, status, xml){
+                    // do something is successful
                     $('#'+tableid+'_wrapper .warningAnalysis').css('display','none')
-
                     if (testsuiteid!=-1){
                         $("#img"+testsuiteid).attr("src", "../static/images/yes2.jpg");
                     }
-                    // self.oTable.fnDraw(false); 
-                    self.oTable.fnReloadAjax()
-                  })
+                   },
+                   error: function(xml, status, error){
+                    // do something if there was an error
+                        window.alert('Something has gone wrong. Please try to click Save button again')
+                   },
+                   complete: function(xml, status){
+                    $('#waitingModal').modal('hide')
+                    // do something after success or error no matter what
+                   }
+                  })               
             });
         });
     };
@@ -397,7 +404,7 @@ function DataTable(){
     };
 
 
-    this.addGenerateReportButtonAjaxHandler = function(buttonid){
+    this.addGenerateReportButtonAjaxHandler = function(buttonid, report_design_name){
         var self = this;
         console.log(self.app_name)
         $(function(){
@@ -417,7 +424,7 @@ function DataTable(){
                         $.ajax({
                         type: "POST",
                         url:'/'+self.app_name+'/labels/generateReport',
-                        data: "labelid="+self.rawData.id
+                        data: {"labelid": self.rawData.id, "report_design_name": report_design_name}
                         }).done(function( url ) {
                           $('#waitingModal').modal('hide')
                           window.location.href = url

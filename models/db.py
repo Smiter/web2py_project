@@ -14,6 +14,39 @@ db.define_table('labeltorun',
                 Field('testsuite_id', type='integer'),
                  primarykey=['id', 'id'],
                 migrate=migrate)
+
+db.define_table('ctrs_snapshots',
+                Field('id', type='integer'),
+                Field('date', type='text'),
+                Field('num_affected', type='integer'),
+                Field('num_implemented', type='integer'),
+                Field('xml', type='text'),
+                 primarykey=['id', 'id'],
+                migrate=migrate)
+
+db.define_table('tools_analysis',
+                Field('id', type='integer'),
+                Field('label_id', type='integer'),
+                Field('fact_tool', type='integer'),
+                Field('nds_validation_tool', type='integer'),
+                Field('anaconda_wb_tool', type='integer'),
+                Field('mapviewer_tool', type='integer'),
+                Field('nds_validation_suite_tool', type='integer'),
+                 primarykey=['id', 'id'],
+                migrate=migrate)
+
+db.define_table('techs_analysis',
+                Field('id', type='integer'),
+                Field('label_id', type='integer'),
+                Field('raw_data_inspection', type='integer'),
+                Field('nds_specification', type='integer'),
+                Field('structure_and_content', type='integer'),
+                Field('comparision', type='integer'),
+                Field('visual', type='integer'),
+                Field('regression', type='integer'),
+                 primarykey=['id', 'id'],
+                migrate=migrate)
+
 db.define_table('anaconda',
                 Field('id', type='integer'),
                 Field('name', type='text'),

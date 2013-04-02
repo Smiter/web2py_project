@@ -1,6 +1,11 @@
 <script type="text/javascript">
 var testsuiteArray = {{=XML(response.json(testsuiteArray))}}
 var application_name = '{{=request.application}}'
+$(document).keypress(function(e) {
+   if(e.keyCode == 27) {
+     e.preventDefault();
+   }
+});
 for(var i=0;i<testsuiteArray.length;i++){
             var testsuiteid = testsuiteArray[i].testsuite.id;
             var tableId = "analysistable"+i
@@ -11,7 +16,7 @@ for(var i=0;i<testsuiteArray.length;i++){
             var sDom = '<"fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"lfri>t<"fg-toolbar ui-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"pT<"toolbar"><"warning"><"toolbar_on_nok">>'
 
             var tableColumns = [
-              { "sTitle": "Testcase name","sWidth": "25%","mData" : "testdescription.name"},
+              { "sTitle": "Testcase name","sWidth": "20%","mData" : "testdescription.name"},
               // { "sTitle": "Testcase description","bSortable": false,"sWidth": "20%", "mData": "testdescription.testdescription" },
               { "sTitle": "Status","sWidth": "6%", "mData": "testresult.testresult" },
               { "sTitle": "Error description", "bSortable": false, "sWidth": "6%", "mData": null,
@@ -116,7 +121,7 @@ $(function(){
             </div>
             <div id="collapseOne{{=i}}" class="collapse">
             <div class="collapse_inner_container">
-          <table  cellpadding="0" cellspacing="0" border="0" class="display" id="analysistable{{=i}}">
+          <table cellpadding="0" cellspacing="0" border="0" class="display" id="analysistable{{=i}}">
             <tbody>
               <tr>
                 <td colspan="55" class="dataTables_empty">Loading data from server</td>

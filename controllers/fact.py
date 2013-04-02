@@ -114,7 +114,8 @@ def removeLabelFromSession():
 
 
 def saveLabel():
-    db.label.insert(releasecandidatename=request.post_vars.labelname, user=request.post_vars.username, releasecomment = request.post_vars.releasecomment, commentswqs = request.post_vars.commentswqs)
+    ctrs = db(db.ctrs_snapshots.id).select().last()
+    db.label.insert(releasecandidatename=request.post_vars.labelname, user=request.post_vars.username, releasecomment = request.post_vars.releasecomment, commentswqs = request.post_vars.commentswqs, ctrssnapshotid=ctrs.id)
     row = db(db.label.id).select().last()
     for k in session.label_preview_list.keys():
         db.labeltorun.insert(label_id = row.id, testsuite_id = k)        
