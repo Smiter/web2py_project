@@ -30,3 +30,5 @@ BUG_TYPE = """<select name="combobox" id="errortype" style="width : 105px">
                            </select>"""
 JIRA_ID = '<input type="text" name="jira_id" id="jira_id" value="%s" style="width : 60px">'
 COMMENT = '<textarea id="comment_id" style="width : 100px">%s</textarea>'
+INCLUDE_TEST = '<input type="checkbox" name="include_test" id="include_test" %s>'
+

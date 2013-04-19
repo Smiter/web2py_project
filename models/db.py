@@ -5,6 +5,8 @@ from gluon import *
 #db = DAL("mysql://nds:test@172.30.136.176/ndsreport_new", pool_size=10)
 #db = DAL("mysql://root:111@localhost/test", pool_size=10)
 db = DAL("mysql://nds:test@oekalxap68/ndsreport", pool_size=10)
+# doors_db = DAL("mysql://nds:test@oekalxap68/doors", pool_size=10)
+
 
 migrate = False
 
@@ -15,14 +17,6 @@ db.define_table('labeltorun',
                  primarykey=['id', 'id'],
                 migrate=migrate)
 
-db.define_table('ctrs_snapshots',
-                Field('id', type='integer'),
-                Field('date', type='text'),
-                Field('num_affected', type='integer'),
-                Field('num_implemented', type='integer'),
-                Field('xml', type='text'),
-                 primarykey=['id', 'id'],
-                migrate=migrate)
 
 db.define_table('tools_analysis',
                 Field('id', type='integer'),
@@ -72,6 +66,7 @@ db.define_table('analysis',
                 Field('comment', type='text'),
                 Field('elvis_id', type='reference analysis'),
                 Field('jira_id', type='text'),
+                Field('include_test', type='integer'),
                 primarykey=['id', 'id'],
                 migrate=migrate)
 
@@ -132,6 +127,7 @@ db.define_table('test',
                 Field('testsuite_id', type='reference test'),
                 Field('testresult_id', type='reference test'),
                 Field('testdescription_id', type='reference test'),
+                Field('include_test', type='integer'),
                 primarykey=['id', 'id'],
                 migrate=migrate)
 
@@ -224,5 +220,4 @@ db.analysis.errortype.filter_out = lambda errortype: {'Unknown': BUG_TYPE % ("se
                                                       None: BUG_TYPE % ("selected", "", "", "", "")}.get(errortype)
 db.analysis.jira_id.filter_out = lambda jira_id: JIRA_ID % "" if jira_id is None else JIRA_ID % jira_id
 # db.analysis.comment.filter_out = lambda comment: COMMENT % "" if comment is None else COMMENT % comment
-
-
+db.test.include_test.filter_out = lambda include_test: INCLUDE_TEST % "" if include_test is 0 else INCLUDE_TEST % "checked"

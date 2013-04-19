@@ -29,20 +29,6 @@
         </thead>
         <tbody>
             <tr>
-                <td >FACT - automated tests</td>
-                <td>
-                    <div class="btn-group" data-toggle="buttons-radio">
-                    <button type="button" class="btn active passed_failed">Passed</button>
-                    <button type="button" class="btn passed_failed">Failed</button>
-                    </div>
-                </td>
-                <td>
-                    <input style=" width: 30px;" type="text">
-                    /
-                    <input style=" width: 30px" type="text">
-                </td>
-            </tr>
-            <tr>
                 <td>NDS Validation Tool</td>
                 <td>
                     <div class="btn-group" data-toggle="buttons-radio">
@@ -176,35 +162,28 @@ $(function(){
                 $('#techs_analysis #' + i).attr('checked',true)
         }
 
-
-        {{ if tools_result['fact_tool'] == 1:}}
+        {{ if tools_result['nds_validation_tool'] == 1:}}
             buttons[0].button('toggle')
         {{ else:}}
             buttons[1].button('toggle')
         {{pass}}
 
-        {{ if tools_result['nds_validation_tool'] == 1:}}
+        {{ if tools_result['anaconda_wb_tool'] == 1:}}
             buttons[2].button('toggle')
         {{ else:}}
             buttons[3].button('toggle')
         {{pass}}
 
-        {{ if tools_result['anaconda_wb_tool'] == 1:}}
+        {{ if tools_result['mapviewer_tool'] == 1:}}
             buttons[4].button('toggle')
         {{ else:}}
             buttons[5].button('toggle')
         {{pass}}
 
-        {{ if tools_result['mapviewer_tool'] == 1:}}
+        {{ if tools_result['nds_validation_suite_tool'] == 1:}}
             buttons[6].button('toggle')
         {{ else:}}
             buttons[7].button('toggle')
-        {{pass}}
-
-        {{ if tools_result['nds_validation_suite_tool'] == 1:}}
-            buttons[8].button('toggle')
-        {{ else:}}
-            buttons[9].button('toggle')
         {{pass}}
         $('#save_tools_button').live('click', function () {
         var result = []

@@ -20,7 +20,7 @@ def runsHandler():
 
 def analyzeHandler():
     logger.error("analyze Handler")
-    selectcolumns = (db.testdescription.name, db.analysis.id, db.analysis.jira_id, db.testdescription.testdescription, db.testresult.testresult, db.testresult.failuredescription, db.analysis.errortype, db.analysis.comment,db.testresult.id)
+    selectcolumns = (db.testdescription.name, db.analysis.id, db.analysis.jira_id, db.testdescription.testdescription, db.testresult.testresult, db.testresult.failuredescription, db.analysis.errortype, db.analysis.comment, db.testresult.id, db.test.include_test)
 
     query = (db.testsuite.id == db.test.testsuite_id) & (
         db.testdescription.id == db.test.testdescription_id) & (
@@ -67,7 +67,12 @@ def saveAnalyze():
         errortype = map_item["errortype"]
         comment = map_item["comment"]
         jira_id = map_item["jira_id"]
-
+        include_test = map_item["include_test"]
+        db(db.test.testresult_id == testresult_id).update(
+                            include_test=include_test)
+        if map_item["testresult"] == 'OK':
+            continue
+        logger.error(map_item["testresult"])
         if errortype == "OK in Context":
             db(db.testresult.id == testresult_id).update(
                             testresult='OK')
@@ -114,8 +119,7 @@ def removeLabelFromSession():
 
 
 def saveLabel():
-    ctrs = db(db.ctrs_snapshots.id).select().last()
-    db.label.insert(releasecandidatename=request.post_vars.labelname, user=request.post_vars.username, releasecomment = request.post_vars.releasecomment, commentswqs = request.post_vars.commentswqs, ctrssnapshotid=ctrs.id)
+    db.label.insert(releasecandidatename=request.post_vars.labelname, user=request.post_vars.username, releasecomment = request.post_vars.releasecomment, commentswqs = request.post_vars.commentswqs)
     row = db(db.label.id).select().last()
     for k in session.label_preview_list.keys():
         db.labeltorun.insert(label_id = row.id, testsuite_id = k)        
@@ -137,3 +141,11 @@ def checkifanalyzed():
         if r.analyzed == 0:
             return False
     return True
+
+def edit_testsuitename():
+    testsuite_id = request.post_vars.testsuite_id
+    testsuitename = request.post_vars.value
+    db(db.testsuite.id == int(testsuite_id)).update(
+                            testsuitename=testsuitename)
+    return testsuitename
+

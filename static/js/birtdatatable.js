@@ -17,6 +17,25 @@ function DataTable(){
 
                  "fnDrawCallback": function(){
 
+                    if (tableid == "testsuitetable"){
+
+                        $('td:eq(2)', self.oTable.fnGetNodes()).editable( '/'+self.app_name+'/fact/edit_testsuitename', {
+                                        "callback": function( sValue, y ) {
+                                            var aPos = self.oTable.fnGetPosition( this );
+                                            self.oTable.fnUpdate( sValue, aPos[0], aPos[1], false );
+                                        },
+                                        "submitdata": function ( value, settings ) {
+                                            var aPos = self.oTable.fnGetPosition( this );
+                                            testsuite_id = self.oTable.fnGetData(aPos[0]).testsuite.id
+                                            return { "testsuite_id": testsuite_id };
+                                        },
+                                        "height": "30px",
+                                        tooltip: 'Click to Edit',
+                                        cancel: 'Cancel',
+                                        submit: 'Save',
+                        } );
+                    }
+
 
                     $("#"+tableid+" tbody input").keyup(function() {
                        $('#'+tableid+'_wrapper .warningAnalysis').css('display','block')
@@ -257,21 +276,18 @@ function DataTable(){
 
                     for ( var i=0 ; i<aTrs.length ; i++ )
                     {
-                        // if ( $(aTrs[i]).hasClass('datatablerowhighlight') )
-                        // {
                             var tempmap = {}
                             tempmap['errortype'] = $('#errortype',aTrs[i]).find('option:selected').text();
                             tempmap['jira_id'] = $('#jira_id',aTrs[i]).val();
+                            tempmap['include_test'] = $('#include_test',aTrs[i]).prop('checked');
                             tempmap['comment'] = self.oTable.fnGetData(aTrs[i]).analysis.comment;
 
                             tempmap['testresult_id'] = self.oTable.fnGetData(aTrs[i]).testresult.id;
 
                             analysisMap.push( tempmap );
-                            
-                        // }
                     }
 
-                // console.log(analysisMap)
+                console.log(analysisMap)
                 if(analysisMap.length){
                     testsuiteid = -1
                     if($("#analyzedcheckbox").is(':checked') == true){
@@ -348,6 +364,9 @@ function DataTable(){
                         }
                         tempmap['testresult_id'] = self.oTable.fnGetData(aTrs[i]).testresult.id;
                         tempmap['analysis_id'] = self.oTable.fnGetData(aTrs[i]).analysis.id;
+                        tempmap['include_test'] = $('#include_test',aTrs[i]).prop('checked');
+                        tempmap['testresult'] = self.oTable.fnGetData(aTrs[i]).testresult.testresult;
+
                         analysisMap.push( tempmap );
                 }
                 testsuiteid = -1

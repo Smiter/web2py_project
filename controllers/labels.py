@@ -21,7 +21,6 @@ def showlabel():
     techs_result = db(db.techs_analysis.label_id == label_id).select().last()
     if not tools_result:
         tools_result = {
-            'fact_tool': 1,
             'nds_validation_tool': 1,
             'anaconda_wb_tool': 1,
             'mapviewer_tool': 1,
@@ -51,19 +50,17 @@ def save_tools_analysis():
         logging.error("tools_analysis_row INSERT")
         db.tools_analysis.insert(
                             label_id=int(label_id),
-                            fact_tool=int(tool_result[0]),
-                            nds_validation_tool=int(tool_result[1]),
-                            anaconda_wb_tool=int(tool_result[2]),
-                            mapviewer_tool=int(tool_result[3]),
-                            nds_validation_suite_tool=int(tool_result[4]))
+                            nds_validation_tool=int(tool_result[0]),
+                            anaconda_wb_tool=int(tool_result[1]),
+                            mapviewer_tool=int(tool_result[2]),
+                            nds_validation_suite_tool=int(tool_result[3]))
     else:
         logging.error("tools_analysis_row UPDATE")
         db(db.tools_analysis.label_id == label_id).update(
-                        fact_tool=int(tool_result[0]),
-                        nds_validation_tool=int(tool_result[1]),
-                        anaconda_wb_tool=int(tool_result[2]),
-                        mapviewer_tool=int(tool_result[3]),
-                        nds_validation_suite_tool=int(tool_result[4]))
+                        nds_validation_tool=int(tool_result[0]),
+                        anaconda_wb_tool=int(tool_result[1]),
+                        mapviewer_tool=int(tool_result[2]),
+                        nds_validation_suite_tool=int(tool_result[3]))
     if techs_analysis_row is None:
         logging.error("techs_analysis_row INSERT")
         db.techs_analysis.insert(
