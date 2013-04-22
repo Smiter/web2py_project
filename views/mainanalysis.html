@@ -1,55 +1,41 @@
 <script type="text/javascript">
-var testsuiteArray = {{=XML(response.json(testsuiteArray))}}
-appName = '{{=request.application}}'
-$(document).keypress(function(e) {
-   if(e.keyCode == 27) {
-     e.preventDefault();
-   }
-});
-for(var i=0;i<testsuiteArray.length;i++){
-            var testsuiteid = testsuiteArray[i].testsuite.id;
-            var table = new AnalysisDataTable(i, testsuiteid);
-            table.addSaveButtonAjaxHandler();
-            table.addCommentColumnHandler("comment_img", 'comment_id', '<p>Add Comment</p><textarea id="comment_id" style="max-width : 97%; min-width:97%;min-height:200px; max-height:200px;">', 'analysis','comment')
-            table.addCommentColumnHandler("error_img", 'error_desc_id', '<p>Error description</p><textarea id="error_desc_id" style="max-width : 97%; min-width:97%;min-height:200px; max-height:200px;" readonly>', 'testresult','failuredescription')
-            table.addFiltering();
-            table.addSwitchDataHandler()
-            table.testsuiteid = testsuiteid
+    appName = '{{=request.application}}'
+
+    //get testsuites as json from backend
+    var testsuiteArray = {{=XML(response.json(testsuiteArray))}}
+    
+    //prevent click on esc button on keyboard
+    $(document).keypress(function(e) {
+       if(e.keyCode == 27) {
+         e.preventDefault();
+       }
+    });
+
+    //init datatables 
+    for(var i=0;i<testsuiteArray.length;i++){
+      var testsuiteid = testsuiteArray[i].testsuite.id;
+      var table = new AnalysisDataTable(i, testsuiteid);
+      table.addSaveButtonAjaxHandler();
+      table.addCommentColumnHandler("comment_img", 'comment_id', '<p>Add Comment</p><textarea id="comment_id" style="max-width : 97%; min-width:97%;min-height:200px; max-height:200px;">', 'analysis','comment')
+      table.addCommentColumnHandler("error_img", 'error_desc_id', '<p>Error description</p><textarea id="error_desc_id" style="max-width : 97%; min-width:97%;min-height:200px; max-height:200px;" readonly>', 'testresult','failuredescription')
+      table.addFiltering();
+      table.addSwitchDataHandler()
     }
-$(function(){
-   $('#analysisback').live('click',function () {
-      history.back();
-   })
-
-for(var i=0;i<testsuiteArray.length;i++){
-  $('#analysistable'+i+'collapse_inner_container').html('<input id="analyzedcheckbox'+i+'" type="checkbox" class="analysis_checkbox"><p class="analysis_checkbox_name">Analyzed</p><button  id="Save' + i +'" type="button" class="btn btn-primary analysissavebutton">Save</button>');
-  $('#analysistable'+i+'collapse_inner_container').html('<div style="margin-top:20px;" class="btn-group" data-toggle="buttons-radio"><button type="button" id="nok" class="btn btn-primary">Show NOK</button><button type="button" id="ok" class="btn btn-primary">Show OK</button><button id="ok_and_nok" type="button" class="btn btn-primary">Show ALL</button></div>');
-  $('#analysistable'+i+'collapse_inner_container').html('<div style="margin-top:20px;"><div class="alert warningAnalysis"> <strong>Warning!</strong> Your changes are not saved. </div></div>');
-  $('#analysistable'+i+'collapse_inner_container #nok').button('toggle')
-}
-
- 
-
-  $('.collapse_button').find("img").click(function() {
-  // if($($(this).parent().attr("href")+'.collapse').length==0) 
-  }).toggle(function() { 
-      $(this).attr("src", "../static/images/close.png"); 
-      $($(this).parent().attr("href")).collapse('show')
-  }, function(){
-      $(this).attr("src", "../static/images/more.png");
-      $($(this).parent().attr("href")).collapse('hide')
-});
-})
+    $(function(){
+      $.fn.birt('analysisBackClickHandler');
+      $.fn.birt('ShowNOKTestsForAnalysisDatatablesByDefault', testsuiteArray.length);
+      $.fn.birt('addClickHandlerForCollapseTables');
+    })
 
 </script>
 
 <div id="mainanalysis" class="table_container">
     {{for i in range(len(testsuiteArray)):}}
         <div class="collapse_container">
-                <a class="collapse_button" href="#collapseOne{{=i}}">
-                <img alt="../static/images/close.png" src="../static/images/more.png">
-                </a>
-                <div class="collapse_header_table_div">
+          <a class="collapse_button" href="#collapseOne{{=i}}">
+          <img alt="../static/images/close.png" src="../static/images/more.png">
+          </a>
+            <div class="collapse_header_table_div">
                 <table>
                    <thead>
                      <tr>
@@ -77,27 +63,40 @@ for(var i=0;i<testsuiteArray.length;i++){
                 </table>
             </div>
             <div id="collapseOne{{=i}}" class="collapse">
-            <div class="collapse_inner_container">
-          <table cellpadding="0" cellspacing="0" border="0" class="display" id="analysistable{{=i}}">
-            <tbody>
-              <tr>
-                <td colspan="55" class="dataTables_empty">Loading data from server</td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <th><input type="text" name="search_name" value="Search" class="search_init_focus_of" /></th>
-                <th><input type="hidden" name="search_status" value="Search" class="search_init_focus_of" /></th>
-                <th><input type="hidden" name="search_error" value="Search" class="search_init_focus_of" /></th>
-                <th><input type="hidden"  name="search_bug_type" value="Search" class="search_init_focus_of" /></th>
-                <th><input type="hidden"  name="search_bug_type" value="Search" class="search_init_focus_of" /></th>
-                <th><input type="text" name="search_jira" value="Search" class="search_init_focus_of" /></th>
-                <th><input type="hidden" name="search_coment" value="Search" class="search_init_focus_of" /></th>
-                <th></th>
-              </tr>
-            </tfoot>
-          </table>
-            </div>
+                <div class="collapse_inner_container">
+                  <table cellpadding="0" cellspacing="0" border="0" class="display" id="analysistable{{=i}}">
+                    <tbody>
+                      <tr>
+                        <td colspan="55" class="dataTables_empty">Loading data from server</td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th><input type="text" name="search_name" value="Search" class="search_init_focus_of" /></th>
+                        <th><input type="hidden" name="search_status" value="Search" class="search_init_focus_of" /></th>
+                        <th><input type="hidden" name="search_error" value="Search" class="search_init_focus_of" /></th>
+                        <th><input type="hidden"  name="search_bug_type" value="Search" class="search_init_focus_of" /></th>
+                        <th><input type="hidden"  name="search_bug_type" value="Search" class="search_init_focus_of" /></th>
+                        <th><input type="text" name="search_jira" value="Search" class="search_init_focus_of" /></th>
+                        <th><input type="hidden" name="search_coment" value="Search" class="search_init_focus_of" /></th>
+                        <th></th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                  <div style="float:left; margin-bottom:10px">
+                    <input id="analyzedcheckbox{{=i}}" type="checkbox" class="analysis_checkbox">
+                    <p style="width:200px;" class="analysis_checkbox_name">Analyzed</p>
+                    <button  id="Save{{=i}}" type="button" class="btn btn-primary analysissavebutton">Save</button>
+                  </div>
+                  <div style="float:left; margin-left:200px"><div class="alert warningAnalysis">
+                    <strong>Warning!</strong> Your changes are not saved. </div>
+                  </div>
+                  <div style="float:right" class="btn-group" data-toggle="buttons-radio">
+                    <button type="button" id="nok" class="btn btn-primary">Show NOK</button>
+                    <button type="button" id="ok" class="btn btn-primary">Show OK</button>
+                    <button id="ok_and_nok" type="button" class="btn btn-primary">Show ALL</button>
+                  </div>
+                </div>
             </div>
         </div>
    {{pass}}

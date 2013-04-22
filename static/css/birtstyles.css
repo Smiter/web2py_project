@@ -485,11 +485,7 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAkCAQAAADif
 }
 
 .warningAnalysis{
-  width:300px;
   display:none;
-   position:absolute;
-  left:400px;
-  margin-top:15px;
 }
 
 #analysisback {

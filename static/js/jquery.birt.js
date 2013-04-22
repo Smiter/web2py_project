@@ -105,6 +105,38 @@
                   
                 });
            },
+
+           analysisBackClickHandler: function (){
+            /*
+            * Click handler for go back from analysis page
+            */
+                $('#analysisback').live('click',function () {
+                     history.back();
+                })
+           },
+
+           ShowNOKTestsForAnalysisDatatablesByDefault: function (testsuiteArray_size){
+            /*
+            * When we go to analysis page, show by default NOK tests
+            */
+                for(var i=0;i<testsuiteArray_size;i++){
+                  $('#collapseOne'+i+' #nok').click()
+                }
+           },
+
+           addClickHandlerForCollapseTables: function (testsuiteArray_size){
+            /*
+            * Click handler for analysis page collapse images (tables)
+            */
+                  $('.collapse_button').find("img").click(function() {
+                  }).toggle(function() { 
+                      $(this).attr("src", "../static/images/close.png"); 
+                      $($(this).parent().attr("href")).collapse('show')
+                  }, function(){
+                      $(this).attr("src", "../static/images/more.png");
+                      $($(this).parent().attr("href")).collapse('hide')
+                });
+           },
    
 
 

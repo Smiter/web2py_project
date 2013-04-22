@@ -378,7 +378,6 @@ function DataTable(){
                   backdrop: 'static',
                   keyboard: false
                 })
-
                 $.ajax({
                   type: "POST",
                   cache: false,
