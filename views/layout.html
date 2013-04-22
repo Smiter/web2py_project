@@ -9,9 +9,8 @@
   <!-- include stylesheets -->
   {{
   response.files.append(URL('static','css/bootstrap.css'))
-  response.files.append(URL('static','css/bootstrap-responsive.min.css'))
-  response.files.append(URL('static','css/demo_table_jui.css'))
-  response.files.append(URL('static','css/jquery-ui-1.8.4.custom.css'))
+  response.files.append(URL('static','css/demo_page.css'))
+  response.files.append(URL('static','css/demo_table.css'))
   response.files.append(URL('static','css/birtstyles.css'))
   }}
 
@@ -27,6 +26,8 @@
   response.files.insert(7,URL('static','js/bootstrap-datepicker.js'))
   response.files.insert(8,URL('static','js/jquery-ui-tabs.js'))
   response.files.insert(9,URL('static','js/jquery.jeditable.js'))
+  response.files.insert(10,URL('static','js/birt.js'))
+  response.files.insert(11,URL('static','js/jquery.birt.js'))
   response.include_meta()
   response.include_files()
   }}

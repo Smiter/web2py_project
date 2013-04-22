@@ -43,7 +43,7 @@ def analyzeHandler():
 
 def analysis():
     logger.error("analysis")
-    # logger.error(request.post_vars)
+    logger.error(request.vars.testsuitelist)
     result = json.loads(request.vars.testsuitelist)
     left = db.anaconda.on(db.anaconda.id == db.testsuite.anaconda_id)
     query = None
@@ -138,9 +138,9 @@ def saveLabel():
 def checkifanalyzed():
     row = db((db.testsuite.id == db.labeltorun.testsuite_id) & (db.labeltorun.label_id == request.post_vars.labelid)).select(db.testsuite.analyzed)
     for r in row:
-        if r.analyzed == 0:
-            return False
-    return True
+        if r.analyzed == 1:
+            return True
+    return False
 
 def edit_testsuitename():
     testsuite_id = request.post_vars.testsuite_id

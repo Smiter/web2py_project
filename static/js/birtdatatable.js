@@ -63,7 +63,7 @@ function DataTable(){
                  "aoColumns": tableColumns,
                  "aaSorting": sorting,
                  "bAutoWidth": false,
-                 "bJQueryUI": true,
+                 // "bJQueryUI": true,
                  "bServerSide" : true,
                  "bProcessing" : true,
                  "bFilter" : true,
@@ -75,7 +75,7 @@ function DataTable(){
                  "iDisplayLength ":25,
                    "sScrollY": sScrollY,
                     "bScrollCollapse": true,
-                 "sDom": sDom,
+                 "sDom": '<"top"li>rt<"bottom"p>',
 
                          "fnStateSave": function (oSettings, oData) {
                             console.log(oData)
