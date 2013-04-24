@@ -64,6 +64,7 @@
             </div>
             <div id="collapseOne{{=i}}" class="collapse">
                 <div class="collapse_inner_container">
+                  <div style="overflow:hidden" class="datatable_form">
                   <table cellpadding="0" cellspacing="0" border="0" class="display" id="analysistable{{=i}}">
                     <tbody>
                       <tr>
@@ -79,6 +80,10 @@
                         <th><input type="hidden"  name="search_bug_type" value="Search" class="search_init_focus_of" /></th>
                         <th><input type="text" name="search_jira" value="Search" class="search_init_focus_of" /></th>
                         <th><input type="hidden" name="search_coment" value="Search" class="search_init_focus_of" /></th>
+                        <th><input type="hidden" name="search_coment" value="Search" class="search_init_focus_of" /></th>
+                        <th><input type="hidden" name="search_coment" value="Search" class="search_init_focus_of" /></th>
+                        <th><input type="hidden" name="search_coment" value="Search" class="search_init_focus_of" /></th>
+                        
                         <th></th>
                       </tr>
                     </tfoot>
@@ -88,14 +93,15 @@
                     <p style="width:200px;" class="analysis_checkbox_name">Analyzed</p>
                     <button  id="Save{{=i}}" type="button" class="btn btn-primary analysissavebutton">Save</button>
                   </div>
-                  <div style="float:left; margin-left:200px"><div class="alert warningAnalysis">
+                  <div style="float:left; margin-left:200px; margin-top:20px;"><div class="alert warningAnalysis">
                     <strong>Warning!</strong> Your changes are not saved. </div>
                   </div>
-                  <div style="float:right" class="btn-group" data-toggle="buttons-radio">
+                  <div style="float:right; margin-top:20px" class="btn-group" data-toggle="buttons-radio">
                     <button type="button" id="nok" class="btn btn-primary">Show NOK</button>
                     <button type="button" id="ok" class="btn btn-primary">Show OK</button>
                     <button id="ok_and_nok" type="button" class="btn btn-primary">Show ALL</button>
                   </div>
+                </div>
                 </div>
             </div>
         </div>

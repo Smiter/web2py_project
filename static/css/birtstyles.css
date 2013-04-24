@@ -56,7 +56,7 @@ table.display {
 }
 
 table.display td {
-    padding: 0;
+    padding: 3px 10px;
 }
 
 .dataTables_filter {
@@ -64,16 +64,53 @@ display: none;
 }
 
 table.display thead th {
-    border-bottom: 1px solid black;
-    cursor: pointer;
-    font-weight: bold;
-    padding: 3px 18px 3px 10px;
+  padding: 3px 18px 3px 3px;
+  cursor: pointer;
+  * cursor: hand;
+  text-align: center;
+  border-top: 1px solid #AAAAAA;
+  border-left: 1px solid #AAAAAA;
+  border-right: 1px solid #AAAAAA;
+  border-bottom: 0px solid black;
+
+  /*border-bottom:1px solid rgb(170,170,170);*/
 }
 
 table.display tfoot th {
-    border-top: 1px solid black;
     font-weight: bold;
-    padding: 3px 18px 3px 10px;
+    padding: 3px 18px 3px 3px;
+    margin-bottom: 10px;
+  cursor: pointer;
+  * cursor: hand;
+  text-align: center;
+  border-bottom: 1px solid #AAAAAA;
+  border-left: 1px solid #AAAAAA;
+  border-right: 1px solid #AAAAAA;
+  border-top: 0px solid black;
+
+}
+
+.dataTables_info {
+    float: left;
+    width: 100%;
+}
+
+
+.datatable_form {
+  background: url("images/ui-bg_highlight-soft_75_cccccc_1x100.png") repeat-x scroll 50% 50% #CCCCCC;
+    border: 1px solid #AAAAAA;
+    color: #222222;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+}
+
+.dataTables_paginate {
+    float: right;
+    text-align: right;
+    margin-top: 10px;
 }
 
 /*table.display tbody {
@@ -484,8 +521,8 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAkCAQAAADif
   width:70px;
 }
 
-.warningAnalysis{
-  display:none;
+.warningAnalysis{ 
+  display:none;  
 }
 
 #analysisback {

@@ -1,4 +1,9 @@
 
+function fnFormatDetails (innerhtml,value)
+{
+    var sOut = innerhtml+value+'</textarea>'
+    return sOut;
+}
 
 function addFiltering(that){
   var self = that;
@@ -57,9 +62,6 @@ function TestRunsDataTable(){
           ]
         var sorting = [[ 1, "desc" ]]
         var tableid = "testsuitetable"
-        var analyzeButtonid = "analyzebutton"
-        var addtolabelid= 'addtolabel'
-        var buttonStyle = "analyzeButton btn btn-primary"
         var handler = "/" + appName + "/fact/runsHandler"
         var buttons = ['analyzebutton', 'addtolabel']
         var self = this;
@@ -75,7 +77,7 @@ function TestRunsDataTable(){
 
                     if (tableid == "testsuitetable"){
 
-                        $('td:eq(2)', self.oTable.fnGetNodes()).editable( '/'+self.app_name+'/fact/edit_testsuitename', {
+                        $('td:eq(2)', self.oTable.fnGetNodes()).editable( '/'+ appName +'/fact/edit_testsuitename', {
                                         "callback": function( sValue, y ) {
                                             var aPos = self.oTable.fnGetPosition( this );
                                             self.oTable.fnUpdate( sValue, aPos[0], aPos[1], false );
@@ -240,7 +242,7 @@ function TestRunsDataTable(){
               { "sTitle": "Id",   "sWidth": "10%", "mData": "id" },
               { "sTitle": "Name", "sWidth": "45%", "mData": "releasecandidatename" },
               { "sTitle": "Date", "sWidth": "20%", "mData": "date" },
-              { "sTitltableIde": "User", "sWidth": "30%","mData": "user" }]
+              { "sTitle": "User", "sWidth": "30%","mData": "user" }]
 
             var sorting = [[ 1, "desc" ]]
 
