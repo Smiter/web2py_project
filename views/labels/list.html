@@ -1,6 +1,7 @@
 {{extend 'layout.html'}}
 
 <script type="text/javascript">
+$(function(){
   $("#menu_reports_button").addClass("pushed_menu_button")
   appName = '{{=request.application}}'
   //init datatable for report list
@@ -10,6 +11,7 @@
   table.addShowReportButtonHandler()
   table.addGenerateReportButtonAjaxHandler('generateReport', "anaconda_limbo_report")
   table.addGenerateReportButtonAjaxHandler('generateNewReport', "new_report")
+});
 </script>
 
 <div id="label_list" class="table_container">

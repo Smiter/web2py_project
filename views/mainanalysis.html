@@ -1,4 +1,6 @@
 <script type="text/javascript">
+$(function(){
+  $('.tip').tooltip();
     appName = '{{=request.application}}'
 
     //get testsuites as json from backend
@@ -10,23 +12,23 @@
          e.preventDefault();
        }
     });
-
     //init datatables 
     for(var i=0;i<testsuiteArray.length;i++){
-      var testsuiteid = testsuiteArray[i].testsuite.id;
+      
+      
+        var testsuiteid = testsuiteArray[i].testsuite.id;
       var table = new AnalysisDataTable(i, testsuiteid);
       table.addSaveButtonAjaxHandler();
       table.addCommentColumnHandler("comment_img", 'comment_id', '<p>Add Comment</p><textarea id="comment_id" style="max-width : 97%; min-width:97%;min-height:200px; max-height:200px;">', 'analysis','comment')
       table.addCommentColumnHandler("error_img", 'error_desc_id', '<p>Error description</p><textarea id="error_desc_id" style="max-width : 97%; min-width:97%;min-height:200px; max-height:200px;" readonly>', 'testresult','failuredescription')
       table.addFiltering();
       table.addSwitchDataHandler()
+      table.addAutoComplite();
     }
-    $(function(){
       $.fn.birt('analysisBackClickHandler');
       $.fn.birt('ShowNOKTestsForAnalysisDatatablesByDefault', testsuiteArray.length);
       $.fn.birt('addClickHandlerForCollapseTables');
-    })
-
+ });
 </script>
 
 <div id="mainanalysis" class="table_container">
@@ -90,10 +92,44 @@
                   </table>
                   <div style="float:left; margin-bottom:10px">
                     <input id="analyzedcheckbox{{=i}}" type="checkbox" class="analysis_checkbox">
-                    <p style="width:200px;" class="analysis_checkbox_name">Analyzed</p>
+                    <p style="width:100px;" class="analysis_checkbox_name">Analyzed</p>
                     <button  id="Save{{=i}}" type="button" class="btn btn-primary analysissavebutton">Save</button>
                   </div>
-                  <div style="float:left; margin-left:200px; margin-top:20px;"><div class="alert warningAnalysis">
+                  <div style="float:left; width:350px;margin-left:10px; margin-top:20px;">
+                      <form id="autocomplite_form">
+                          <table style="border-left: 1px solid black; border-right: 1px solid black">
+                              <tr>
+                                <td style="text-align: center">
+                                  Testsuite name
+                                </td>
+                                <td style="text-align: center">
+                                  Testsuite id
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                    <input  id="autocomplite_by_name_input{{=i}}" class="input-xlarge" type="text" placeholder="Choose test run by name">
+                                </td>
+                                <td>
+                                    <input id="autocomplite_by_id_input{{=i}}" class="input-medium" type="text" placeholder="Choose test run by id">
+                                </td>
+                              </tr>
+                               <tr>
+                                <td>
+                                  <div id="suggestions_name{{=i}}" class="suggestions">
+                                  </div>
+                                 </td>
+                                <td>
+                                   <div id="suggestions_id{{=i}}" class="suggestions">
+                                    </div>
+                                </td>
+                              </tr>
+                          </table>
+                          <button type="button" id="autocomplite_btn{{=i}}" style="margin-left:100px;" class="btn btn-primary tip" data-placement="bottom" rel="tooltip" title="Please select test suite by id or name for autocompletion analysis data">Autocomplete analysis</button>
+                          <input value="{{=i}}" id="collapse_id{{=i}}" type="hidden">
+                      </form>
+                  </div>
+                  <div style="float:left; margin-left:120px; margin-top:20px;"><div class="alert warningAnalysis">
                     <strong>Warning!</strong> Your changes are not saved. </div>
                   </div>
                   <div style="float:right; margin-top:20px" class="btn-group" data-toggle="buttons-radio">

@@ -1,6 +1,8 @@
 {{extend 'layout.html'}}
 
 <script type="text/javascript">
+$(function(){
+
   appName = '{{=request.application}}'
   
   //it's for selecting button in menu
@@ -29,7 +31,7 @@
         });
     });
   {{pass}}
-
+});
 </script>
 
 <div id="fact_runnings" class="table_container"> 

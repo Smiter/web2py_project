@@ -1,3 +1,10 @@
+var delay = (function(){
+        var timer = 0;
+        return function(callback, ms){
+          clearTimeout (timer);
+          timer = setTimeout(callback, ms);
+        };
+})();
 
 function fnFormatDetails (innerhtml,value)
 {
@@ -7,7 +14,6 @@ function fnFormatDetails (innerhtml,value)
 
 function addFiltering(that){
   var self = that;
-      $(function(){
             $(".display tfoot input").keyup( function () {
                   /* Filter on the column (the index) of this element */
                   self.oTable.fnFilter( this.value, $(".display tfoot input").index(this) );
@@ -36,7 +42,6 @@ function addFiltering(that){
                       this.value = "Search"
                   }
               } );    
-     });
 }
 
 function TestRunsDataTable(){
@@ -56,7 +61,7 @@ function TestRunsDataTable(){
                         }
                         else{
                           return '<img style="width:22px; height:22px"  src="../static/images/yes2.jpg">'
-                        }sScrollY
+                        }
                       }
           }
           ]
@@ -70,28 +75,13 @@ function TestRunsDataTable(){
         self.asInitVals = asInitVals
         self.testresult = 'NOK'
 
-            $(function(){
                  self.oTable = $('#' + tableid).dataTable( {
 
                  "fnDrawCallback": function(){
 
                     if (tableid == "testsuitetable"){
-
-                        $('td:eq(2)', self.oTable.fnGetNodes()).editable( '/'+ appName +'/fact/edit_testsuitename', {
-                                        "callback": function( sValue, y ) {
-                                            var aPos = self.oTable.fnGetPosition( this );
-                                            self.oTable.fnUpdate( sValue, aPos[0], aPos[1], false );
-                                        },
-                                        "submitdata": function ( value, settings ) {
-                                            var aPos = self.oTable.fnGetPosition( this );
-                                            testsuite_id = self.oTable.fnGetData(aPos[0]).testsuite.id
-                                            return { "testsuite_id": testsuite_id };
-                                        },
-                                        "height": "30px",
-                                        tooltip: 'Click to Edit',
-                                        cancel: 'Cancel',
-                                        submit: 'Save',
-                        } );
+                        $.fn.birt('addEditable', self.oTable, 2, "testsuitename");
+                        $.fn.birt('addEditable', self.oTable, 6, "changelist");
                     }
 
                     $("#"+tableid+" tfoot input").each( function (i) {
@@ -148,7 +138,6 @@ function TestRunsDataTable(){
                 }
                             } );   
 
-            });
       
       this.addFiltering = function(){
           addFiltering(this)
@@ -157,7 +146,6 @@ function TestRunsDataTable(){
       this.addAnalyzeButtonHandler = function(){
         var self = this;
         var test_from = '#tests_run_form'
-        $(function(){
             $(test_from).submit( function() {
                 var aTrs = self.oTable.fnGetNodes();
                 var testsuiteList = new Array()
@@ -178,12 +166,10 @@ function TestRunsDataTable(){
                 .appendTo(test_from);
                 return true;
             } );
-        });
     };
 
         this.addMultiClickRawHandler = function(){
             var self = this;
-            $(function(){
 
                 $('#' + tableid+' tbody tr').filter(':has(:checkbox:checked)').end().live('click',function(event) {
                     self.rawData = self.oTable.fnGetData(this);
@@ -214,7 +200,6 @@ function TestRunsDataTable(){
                     }
                     
                 });        
-            });
         };
          
     };
@@ -246,7 +231,6 @@ function TestRunsDataTable(){
 
             var sorting = [[ 1, "desc" ]]
 
-                $(function(){
                      self.oTable = $('#' + tableid).dataTable( {
 
                      "fnDrawCallback": function(){
@@ -299,7 +283,6 @@ function TestRunsDataTable(){
                      },
                   } );   
 
-                });
           
           this.addFiltering = function(){
               addFiltering(this)
@@ -307,7 +290,6 @@ function TestRunsDataTable(){
 
           this.addSingleClickRawHandler = function(){
               var self = this;
-              $(function(){
 
                   $('#' + tableid+' tbody tr').filter(':has(:checkbox:checked)').end().live('click',function(event) {
                       
@@ -331,13 +313,11 @@ function TestRunsDataTable(){
                       }
                       self.rawData = self.oTable.fnGetData(this);
                   });        
-              });
           };
 
           this.addShowReportButtonHandler = function(){
               var self = this;
               var reportlist_form = '#report_list_form'
-              $(function(){
                   $(reportlist_form).submit( function() {
                       $('<input />').attr('type', 'hidden')
                       .attr('name', "labelid")
@@ -345,14 +325,12 @@ function TestRunsDataTable(){
                       .appendTo(reportlist_form);
                       return true;
                   } );
-              });
           };
 
 
 
         this.addGenerateReportButtonAjaxHandler = function(buttonid, report_design_name){
             var self = this;
-            $(function(){
 
                 $('#'+buttonid).live('click',function () {
                      $.ajax({
@@ -381,7 +359,6 @@ function TestRunsDataTable(){
                     
                      });
                 });
-            });
         };
              
         };
@@ -401,6 +378,7 @@ function TestRunsDataTable(){
         var analyzedCheckboxid = "analyzedcheckbox"+i
         var handler = "/" + appName + "/fact/analyzeHandler"
         var testsuiteid = testsuiteid
+        self.collapse_index = i
         var tableColumns = [
           { "sTitle": "Testcase name","sWidth": "20%","mData" : "testdescription.name"},
           // { "sTitle": "Testcase description","bSortable": false,"sWidth": "20%", "mData": "testdescription.testdescription" },
@@ -412,7 +390,16 @@ function TestRunsDataTable(){
           },
           { "sTitle": "Error description","bVisible" : false, "bSortable": false, "mData": "testresult.failuredescription" },
           { "sTitle": "Bug type","sWidth": "10%","bSortable": false, "mData": "analysis.errortype" },
-          { "sTitle": "Jira Id (number only)","sWidth": "7%", "bSortable": false,"mData": "analysis.jira_id" },
+          { "sTitle": "Jira Id (number only)","sWidth": "7%", "bSortable": false,"mData": "analysis.jira_id",
+                      "mRender": function ( data, type, full ) {
+                        if (data != null){
+                          return '<input type="text" name="jira_id" id="jira_id" value="'+ data +'" style="width : 60px">'
+                        }
+                        else{
+                          return '<input type="text" name="jira_id" id="jira_id" value="" style="width : 60px">'
+                        }
+                      }
+          },
           { "sTitle": "Comment", "bVisible" : false, "bSortable": false, "mData": "analysis.comment" },
           { "sTitle": "Testresult id", "bVisible" : false, "mData" : "testresult.id"},
           { "sTitle": "Analysis id", "bVisible" : false, "mData" : "analysis.id"},
@@ -428,7 +415,6 @@ function TestRunsDataTable(){
 
         var sorting = [[ 2,"desc" ]]
 
-            $(function(){
                  self.oTable = $('#' + tableid).dataTable( {
 
                  "fnDrawCallback": function(){
@@ -470,7 +456,6 @@ function TestRunsDataTable(){
 
               } );   
 
-            });
       
       this.addFiltering = function(){
           addFiltering(this)
@@ -479,8 +464,6 @@ function TestRunsDataTable(){
 
       this.addSaveButtonAjaxHandler = function(){
           var self = this;
-          $(function(){
-
               $('#'+analyzeButtonid).live('click',function () {
                   var analysisMap = new Array();
                   var aTrs = self.oTable.fnGetNodes();               
@@ -536,7 +519,6 @@ function TestRunsDataTable(){
                      }
                     })               
               });
-          });
       };
 
       this.addSwitchDataHandler = function(){
@@ -589,6 +571,72 @@ function TestRunsDataTable(){
                       }); 
                   }
               } );
+      };
+
+      this.addAutoComplite = function(){
+          var self = this;
+          $('#autocomplite_by_name_input' + self.collapse_index).keyup(function(){
+            var testsuitename = this.value
+            delay(function(){
+              $('#suggestions_id'+ self.collapse_index).empty();
+              $.ajax({
+                type: "POST",
+                url: '/' + appName + '/fact/get_testsuite_by_name',
+                data: {"auto_testsuitename": testsuitename,"collapse_id": $('#collapse_id' + self.collapse_index).val()},
+                success: function(msg){
+                  // do something is successful
+                  jQuery("#suggestions_name"+self.collapse_index).html(msg);
+                 },
+                 error: function(xml, status, error){
+                  // do something if there was an error
+                      window.alert('Something has gone wrong. Please try again')
+                 }
+                })
+          }, 500 );
+          });
+
+          $('#autocomplite_by_id_input' + self.collapse_index).keyup(function(){
+            var testsuiteid = this.value
+            delay(function(){
+              $('#suggestions_name'+ self.collapse_index).empty();
+              $.ajax({
+                type: "POST",
+                url: '/' + appName + '/fact/get_testsuite_by_id',
+                data: {"auto_testsuiteid": testsuiteid,"collapse_id": $('#collapse_id' + self.collapse_index).val()},
+                success: function(msg){
+                  // do something is successful
+                  jQuery("#suggestions_id"+self.collapse_index).html(msg);
+                 },
+                 error: function(xml, status, error){
+                  // do something if there was an error
+                      window.alert('Something has gone wrong. Please try again')
+                 }
+                })
+          }, 300 );
+          });
+
+          $('#autocomplite_btn' + self.collapse_index).live('click',function () {
+            console.log("BUT 1")
+            auto_test_id = $('#autocomplite_by_id_input' + self.collapse_index).val()
+            if (auto_test_id == '' || auto_test_id == undefined){
+              alert('Please select testsuite to make autocomplete for analysis (jira id, comment, errortype)');
+              return;
+            }
+             $.ajax({
+             type: "POST",
+             url: '/'+appName+'/fact/autocomplite_jiraids',
+             data: {"testsuiteid_origin": testsuiteid, "testsuiteid_autocomplited": auto_test_id},
+             success: function(msg){
+               // do something is successful
+                self.oTable.fnDraw(false);
+              },
+              error: function(xml, status, error){
+               // do something if there was an error
+                  window.alert('Something has gone wrong. Please try again')
+              }
+             });
+          });
+
       };
 
              

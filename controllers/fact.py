@@ -43,7 +43,6 @@ def analyzeHandler():
 
 def analysis():
     logger.error("analysis")
-    logger.error(request.vars.testsuitelist)
     result = json.loads(request.vars.testsuitelist)
     left = db.anaconda.on(db.anaconda.id == db.testsuite.anaconda_id)
     query = None
@@ -60,7 +59,6 @@ def analysis():
 def saveAnalyze():
     logger.error("saveAnalyze")
     analysisListOfMaps = json.loads(request.vars.analysisMap)
-    logger.error(analysisListOfMaps)
     for map_item in analysisListOfMaps:
         testresult_id = map_item["testresult_id"]
         analysis_id = map_item["analysis_id"]
@@ -76,8 +74,6 @@ def saveAnalyze():
         if errortype == "OK in Context":
             db(db.testresult.id == testresult_id).update(
                             testresult='OK')
-            continue
-
         if analysis_id is None:
             db.analysis.insert(
                             testresult_id=testresult_id,
@@ -142,10 +138,73 @@ def checkifanalyzed():
             return True
     return False
 
-def edit_testsuitename():
+def edit_cell_value():
+    logger.error(request.vars)
+    value = request.vars.value
+    column_name = request.vars.column_name
     testsuite_id = request.post_vars.testsuite_id
-    testsuitename = request.post_vars.value
-    db(db.testsuite.id == int(testsuite_id)).update(
-                            testsuitename=testsuitename)
-    return testsuitename
+    if column_name == "testsuitename":
+        db(db.testsuite.id == int(testsuite_id)).update(
+                                testsuitename=value)
+    if column_name == "changelist":
+        row = db(db.testsuite.id == int(testsuite_id)).select(db.testsuite.anaconda_id).last()
+        db(db.anaconda.id == int(row.anaconda_id)).update(
+                                changelist=value)
+    return value
+
+
+
+def get_testsuite_by_name():
+    if not request.vars.auto_testsuitename: return ''
+    selected = db(db.testsuite.testsuitename.contains(request.vars.auto_testsuitename)).select(db.testsuite.testsuitename, db.testsuite.id)
+    return ''.join([DIV(k.testsuitename,
+                 _onclick="jQuery('#autocomplite_by_name_input%s').val('%s'); jQuery('#autocomplite_by_id_input%s').val('%s'); jQuery('#suggestions_name%s').empty();" % (request.vars.collapse_id, k.testsuitename, request.vars.collapse_id, k.id, request.vars.collapse_id),
+                 _onmouseover="this.style.backgroundColor='yellow'",
+                 _onmouseout="this.style.backgroundColor='white';"
+                 ).xml() for k in selected])
+
+def get_testsuite_by_id():
+    if not request.vars.auto_testsuiteid: return ''
+    pattern = request.vars.auto_testsuiteid + '%'
+    selected = db(db.testsuite.id.like(pattern)).select(db.testsuite.id, db.testsuite.testsuitename)
+    return ''.join([DIV(k.id,
+                 _onclick="jQuery('#autocomplite_by_id_input%s').val('%s'); jQuery('#autocomplite_by_name_input%s').val('%s'); jQuery('#suggestions_id%s').empty();" % (request.vars.collapse_id, k.id, request.vars.collapse_id, k.testsuitename, request.vars.collapse_id),
+                 _onmouseover="this.style.backgroundColor='yellow'",
+                 _onmouseout="this.style.backgroundColor='white';"
+                 ).xml() for k in selected])
+
+def autocomplite_jiraids():
+    logger.error(request.vars)
+    s = "select vjira_id, ganalysis_id, gtestresult_id, verror, vcomment from (select testdescription.name as vname, analysis.jira_id as vjira_id,  analysis.errortype as verror, analysis.comment as vcomment from testsuite "
+    s += "left join test on testsuite.id = test.testsuite_id "
+    s += "left join testdescription on testdescription.id = test.testdescription_id "
+    s += "left join testresult on testresult.id = test.testresult_id "
+    s += "left join analysis on analysis.testresult_id = testresult.id "
+    s += "where testresult.testresult = 'NOK' and testsuite.id = " + request.vars.testsuiteid_autocomplited + " ) v "
+    s += "join (select testdescription.name as gname, analysis.id as ganalysis_id, analysis.jira_id as gjira_id, testresult.id as gtestresult_id from testsuite "
+    s += "left join test on testsuite.id = test.testsuite_id "
+    s += "left join testdescription on testdescription.id = test.testdescription_id "
+    s += "left join testresult on testresult.id = test.testresult_id "
+    s += "left join analysis on analysis.testresult_id = testresult.id "
+    s += "where testresult.testresult = 'NOK' and testsuite.id = "+ request.vars.testsuiteid_origin +" ) g  on v.vname = g.gname " 
+    results = db.executesql(s)
+    for i in results:
+        jira_id = i[0]
+        analysis_id = i[1]
+        testresult_id = i[2]
+        errortype = i[3]
+        comment = i[4]
+        if analysis_id is None:
+            db.analysis.insert(
+                            testresult_id=int(testresult_id),
+                            errortype=errortype,
+                            comment=comment,
+                            jira_id=jira_id)
+        else: 
+            db(db.analysis.id == analysis_id).update(
+                            testresult_id=int(testresult_id),
+                            errortype=errortype,
+                            comment=comment,
+                            jira_id=jira_id)
+
 

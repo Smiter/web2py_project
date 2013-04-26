@@ -218,6 +218,6 @@ db.analysis.errortype.filter_out = lambda errortype: {'Unknown': BUG_TYPE % ("se
                                                       'New Error': BUG_TYPE % ("", "", "", "selected", ""),
                                                       'Testcase Problem': BUG_TYPE % ("", "", "", "", "selected"),
                                                       None: BUG_TYPE % ("selected", "", "", "", "")}.get(errortype)
-db.analysis.jira_id.filter_out = lambda jira_id: JIRA_ID % "" if jira_id is None else JIRA_ID % jira_id
+# db.analysis.jira_id.filter_out = lambda jira_id: JIRA_ID % "" if jira_id is None else JIRA_ID % jira_id
 # db.analysis.comment.filter_out = lambda comment: COMMENT % "" if comment is None else COMMENT % comment
 db.test.include_test.filter_out = lambda include_test: INCLUDE_TEST % "" if include_test is 0 else INCLUDE_TEST % "checked"

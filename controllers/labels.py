@@ -35,8 +35,7 @@ def showlabel():
 
 def generateReport():
     logger.error("GENERATE REPORT")
-    logger.error(request.post_vars)
-    return 'http://172.30.136.225:8080/birt2/frameset?__report=BirtReports/Designs/AnacondaTest/%s.rptdesign&Release Candidate=%s' % (request.post_vars.report_design_name, request.post_vars.labelid)
+    return 'http://172.30.136.225:8080/birt2/frameset?__report=BirtReports/Designs/AnacondaTest/%s.rptdesign&Release Candidate=%s&__format=pdf' % (request.post_vars.report_design_name, request.post_vars.labelid)
 
 
 def save_tools_analysis():

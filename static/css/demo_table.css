@@ -266,6 +266,7 @@ tr.even {
 .dataTables_scrollBody {
 	*margin-top: -1px;
 	-webkit-overflow-scrolling: touch;
+	min-height: 100px !important;
 }
 
 /*.top, .bottom {
