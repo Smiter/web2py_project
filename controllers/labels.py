@@ -46,7 +46,6 @@ def save_tools_analysis():
     tools_analysis_row = db(db.tools_analysis.label_id == label_id).select().last()
     techs_analysis_row = db(db.techs_analysis.label_id == label_id).select().last()
     if tools_analysis_row is None:
-        logging.error("tools_analysis_row INSERT")
         db.tools_analysis.insert(
                             label_id=int(label_id),
                             nds_validation_tool=int(tool_result[0]),
@@ -54,14 +53,12 @@ def save_tools_analysis():
                             mapviewer_tool=int(tool_result[2]),
                             nds_validation_suite_tool=int(tool_result[3]))
     else:
-        logging.error("tools_analysis_row UPDATE")
         db(db.tools_analysis.label_id == label_id).update(
                         nds_validation_tool=int(tool_result[0]),
                         anaconda_wb_tool=int(tool_result[1]),
                         mapviewer_tool=int(tool_result[2]),
                         nds_validation_suite_tool=int(tool_result[3]))
     if techs_analysis_row is None:
-        logging.error("techs_analysis_row INSERT")
         db.techs_analysis.insert(
                             label_id=int(label_id),
                             raw_data_inspection=int(techs_result[0]),
@@ -71,7 +68,6 @@ def save_tools_analysis():
                             visual=int(techs_result[4]),
                             regression=int(techs_result[5]))
     else:
-        logging.error("techs_analysis_row UPDATE")
         db(db.techs_analysis.label_id == label_id).update(
                         raw_data_inspection=int(techs_result[0]),
                         nds_specification=int(techs_result[1]),

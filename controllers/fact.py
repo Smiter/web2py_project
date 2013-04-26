@@ -4,12 +4,10 @@ import json
 
 
 def runs():
-    logger.error(request.application)
     return dict(message=T(""))
 
 
 def runsHandler():
-    logger.error(request.post_vars)
     selectcolumns = (db.testsuite.id, db.testsuite.testsuitename, db.testsuite.starttime, db.testsuite.endtime, db.testsuite.analyzed, db.anaconda.name, db.anaconda.changelist)
     query = db.testsuite.anaconda_id == db.anaconda.id
     tableData = proccessTableQuery(query=query,
@@ -69,8 +67,9 @@ def saveAnalyze():
         db(db.test.testresult_id == testresult_id).update(
                             include_test=include_test)
         if map_item["testresult"] == 'OK':
-            continue
-        logger.error(map_item["testresult"])
+            if errortype in ["Known Error", "New Error", "Testcase Problem"]:
+                db(db.testresult.id == testresult_id).update(
+                            testresult='NOK')
         if errortype == "OK in Context":
             db(db.testresult.id == testresult_id).update(
                             testresult='OK')
@@ -139,7 +138,6 @@ def checkifanalyzed():
     return False
 
 def edit_cell_value():
-    logger.error(request.vars)
     value = request.vars.value
     column_name = request.vars.column_name
     testsuite_id = request.post_vars.testsuite_id
@@ -174,7 +172,6 @@ def get_testsuite_by_id():
                  ).xml() for k in selected])
 
 def autocomplite_jiraids():
-    logger.error(request.vars)
     s = "select vjira_id, ganalysis_id, gtestresult_id, verror, vcomment from (select testdescription.name as vname, analysis.jira_id as vjira_id,  analysis.errortype as verror, analysis.comment as vcomment from testsuite "
     s += "left join test on testsuite.id = test.testsuite_id "
     s += "left join testdescription on testdescription.id = test.testdescription_id "

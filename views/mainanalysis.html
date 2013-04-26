@@ -1,8 +1,6 @@
 <script type="text/javascript">
 $(function(){
-  $('.tip').tooltip();
-    appName = '{{=request.application}}'
-
+    $('.tip').tooltip();
     //get testsuites as json from backend
     var testsuiteArray = {{=XML(response.json(testsuiteArray))}}
     
@@ -14,9 +12,7 @@ $(function(){
     });
     //init datatables 
     for(var i=0;i<testsuiteArray.length;i++){
-      
-      
-        var testsuiteid = testsuiteArray[i].testsuite.id;
+      var testsuiteid = testsuiteArray[i].testsuite.id;
       var table = new AnalysisDataTable(i, testsuiteid);
       table.addSaveButtonAjaxHandler();
       table.addCommentColumnHandler("comment_img", 'comment_id', '<p>Add Comment</p><textarea id="comment_id" style="max-width : 97%; min-width:97%;min-height:200px; max-height:200px;">', 'analysis','comment')
