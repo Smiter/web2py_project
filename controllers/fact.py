@@ -25,10 +25,11 @@ def analyzeHandler():
             db.testresult.id == db.test.testresult_id) & (
                 db.testsuite.id == request.vars.testsuiteid) 
 
-    if request.vars.testresult == 'NOK' or request.vars.testresult == 'OK':
-        query &= db.testresult.testresult == request.vars.testresult
+    testresult = request.vars.testresult
+    if testresult == 'NOK' or testresult == 'OK' or testresult == 'Skipped':
+        query &= db.testresult.testresult == testresult
     else:
-        query &= (db.testresult.testresult == 'NOK' ) | (db.testresult.testresult == 'OK')
+        query &= (db.testresult.testresult == 'NOK' ) | (db.testresult.testresult == 'OK') | (db.testresult.testresult == 'Skipped')
 
     tableData = proccessTableQuery(
         query=query,

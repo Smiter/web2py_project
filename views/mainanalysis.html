@@ -1,4 +1,36 @@
 <script type="text/javascript">
+function analysisBackClickHandler(){
+ /*
+ * Click handler for go back from analysis page
+ */
+     $('#analysisback').live('click',function () {
+          history.back();
+     })
+}
+
+function ShowNOKTestsForAnalysisDatatablesByDefault(testsuiteArray_size){
+ /*
+ * When we go to analysis page, show by default NOK tests
+ */
+     for(var i=0;i<testsuiteArray_size;i++){
+       $('#collapseOne'+i+' #nok').click()
+     }
+}
+
+function addClickHandlerForCollapseTables(testsuiteArray_size){
+ /*
+ * Click handler for analysis page collapse images (tables)
+ */
+       $('.collapse_button').find("img").click(function() {
+       }).toggle(function() { 
+           $(this).attr("src", "../static/images/close.png"); 
+           $($(this).parent().attr("href")).collapse('show')
+       }, function(){
+           $(this).attr("src", "../static/images/more.png");
+           $($(this).parent().attr("href")).collapse('hide')
+     });
+}
+
 $(function(){
     $('.tip').tooltip();
     //get testsuites as json from backend
@@ -21,9 +53,9 @@ $(function(){
       table.addSwitchDataHandler()
       table.addAutoComplite();
     }
-      $.fn.birt('analysisBackClickHandler');
-      $.fn.birt('ShowNOKTestsForAnalysisDatatablesByDefault', testsuiteArray.length);
-      $.fn.birt('addClickHandlerForCollapseTables');
+      analysisBackClickHandler();
+      ShowNOKTestsForAnalysisDatatablesByDefault(testsuiteArray.length);
+      addClickHandlerForCollapseTables();
  });
 </script>
 
@@ -131,6 +163,7 @@ $(function(){
                   <div style="float:right; margin-top:20px" class="btn-group" data-toggle="buttons-radio">
                     <button type="button" id="nok" class="btn btn-primary">Show NOK</button>
                     <button type="button" id="ok" class="btn btn-primary">Show OK</button>
+                    <button id="skipped" type="button" class="btn btn-primary">Show Skipped</button>
                     <button id="ok_and_nok" type="button" class="btn btn-primary">Show ALL</button>
                   </div>
                 </div>

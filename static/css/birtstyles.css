@@ -536,6 +536,8 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAkCAQAAADif
 
 #analysis_tab{
   margin-top: 10px;
+  margin-bottom: 50px;
+
 }
 #analysis_tab a{
   color: #0088CC;
@@ -587,10 +589,22 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAkCAQAAADif
           border-radius: 4px 0 4px 0;
 }
 
-.test-tools:after{
-  content: "Test tools";
-}
-
 .test-techs:after{
   content: "Test techniques";
+  color: blue;
+}
+
+.first-page:after{
+  content: "First page";
+  color: blue;
+}
+
+.second-page:after{
+  content: "Second page";
+  color: blue;
+}
+
+.third-page:after {
+  content: "Third page";
+  color: blue;
 }

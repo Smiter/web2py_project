@@ -15,22 +15,21 @@ def labelHandler():
 
 def showlabel():
     logger.error("showLabel")
-    rows = db((db.testsuite.id == db.labeltorun.testsuite_id) & (db.testsuite.anaconda_id == db.anaconda.id) & (db.labeltorun.label_id == request.post_vars.labelid)).select()
+    rows = db((db.testsuite.id == db.labeltorun.testsuite_id) & (db.label.id == request.post_vars.labelid) & (db.testsuite.anaconda_id == db.anaconda.id) & (db.databaseundertest.id == db.testsuite.dut_id) & (db.testenviroment.id == db.testsuite.enviroment_id) & (db.labeltorun.label_id == request.post_vars.labelid)).select()
     label_id = request.post_vars.labelid
     tools_result = db(db.tools_analysis.label_id == label_id).select().last()
     techs_result = db(db.techs_analysis.label_id == label_id).select().last()
-    if not tools_result:
-        tools_result = {
-            'nds_validation_tool': 1,
-            'anaconda_wb_tool': 1,
-            'mapviewer_tool': 1,
-            'nds_validation_suite_tool': 1
-        }
     if techs_result:
         techs_result = techs_result.as_dict()
     else:
         techs_result = {}
-    return dict(testsuiteArray=rows.as_list(), labelid=label_id, tools_result=tools_result, techs_result=techs_result)
+    if tools_result:
+        tools_result = tools_result.as_dict()
+    else:
+        tools_result = {}
+    if len(rows) > 0:
+        anaconda_id = rows[0]['anaconda']['id']
+    return dict(testsuiteArray=rows, labelid=label_id, anaconda_id=anaconda_id, tools_result=tools_result, techs_result=techs_result)
 
 
 def generateReport():
@@ -38,11 +37,25 @@ def generateReport():
     return 'http://172.30.136.225:8080/birt2/frameset?__report=BirtReports/Designs/AnacondaTest/%s.rptdesign&Release Candidate=%s&__format=pdf' % (request.post_vars.report_design_name, request.post_vars.labelid)
 
 
-def save_tools_analysis():
-    logging.error("save_tools_analysis")
-    tool_result = request.post_vars['tool_result[]']
-    techs_result = request.post_vars['techs_result[]']
-    label_id = request.post_vars['labelid']
+def save_edit_report():
+    logging.error("save_edit_report")
+    result = json.loads(request.post_vars.result)
+    tool_result = result["tool_result"]
+    techs_result = result['techs_result']
+    label_id = result['labelid']
+    anaconda_id = result['anaconda_id']
+    db(db.label.id == label_id).update(
+        title=result['title'],
+        releasecomment=result['comment_release'],
+        commentswqs=result['comment_incident'],
+        user=result['analysed_by']
+    )
+    db(db.anaconda.id == anaconda_id).update(
+        name=result['version_name'],
+        changelist=result['changelist'],
+        branch=result['branch']
+    )
+    
     tools_analysis_row = db(db.tools_analysis.label_id == label_id).select().last()
     techs_analysis_row = db(db.techs_analysis.label_id == label_id).select().last()
     if tools_analysis_row is None:

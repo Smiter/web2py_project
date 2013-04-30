@@ -1,4 +1,94 @@
 {{extend 'layout.html'}}
+<script type="text/javascript">
+    function fillsToolsWithValues(){
+    /*
+     * Fills tools with values from database when page loads
+     *
+     */
+        var techs_result_array = {{=XML(response.json(techs_result))}}
+        var tools_result_array = {{=XML(response.json(tools_result))}}
+
+        for(i in techs_result_array){
+            if (techs_result_array[i] == 1){
+                $('#techs_analysis #' + i).attr('checked',true)
+            }
+        }
+
+        for(i in tools_result_array){
+            if (tools_result_array[i] == 1){
+                $('#tools_analysis #' + i + "_passed").button('toggle')
+            }
+            else{
+                $('#tools_analysis #' + i + "_failed").button('toggle')
+            }
+        }
+    }
+
+    function addSaveClickHandler(){
+    /*
+     * Add click handler when press on save button.
+     * Ajax call with values from all inputs on the page
+     */
+        $('#save_edit_report_btn').live('click', function () {
+            var result = {}
+            var tool_result = []
+            $("#tools_analysis .btn-group > button.active").each( function (i) {
+                if ($(this).text() == "Passed")
+                    tool_result.push(1)
+                else
+                    tool_result.push(0)
+            });
+
+            var test_techs = []
+            $("#techs_analysis input").each( function (i) {
+                isChecked = $(this).is(':checked')
+                if (isChecked == true)
+                    test_techs.push(1)
+                else
+                    test_techs.push(0)
+            });
+
+            result["tool_result"] = tool_result
+            result["techs_result"] = test_techs
+            result["labelid"] = {{=labelid}}
+            result["anaconda_id"] = {{=anaconda_id}}
+            result["title"] = $("#title_input").val()
+            result["comment_release"] = $("#comment_release_input").val()
+            result["comment_incident"] = $("#comment_incident_input").val()
+            result["version_name"] = $("#version_name_input").val()
+            result["changelist"] = $("#changelist_input").val()
+            result["branch"] = $("#branch_input").val()
+            result["analysed_by"] = $("#analysed_by_input").val()
+
+
+            $.ajax({
+                type: "POST",
+                url: '/{{=request.application}}/labels/save_edit_report',
+                data: {"result": JSON.stringify(result) },
+                success: function(result) {
+                     $('#success_message').css('display','block')
+                },
+                error: function(result) {
+                     $('#error_message').css('display','block')
+                }
+            })
+        })
+    }
+    $(function(){
+        $('#edit_report_tab').tooltip('show');  
+
+        fillsToolsWithValues()
+        addSaveClickHandler()
+
+        $('.passed_failed').live('click', function () {
+            $('#success_message').css('display','none')
+            $('#error_message').css('display','none')
+        })
+
+     });
+</script>
+
+
 
 <div class="page-header">
     <h3 class="pagetitle">
@@ -9,16 +99,75 @@
 	</button>
 </div>
 <ul class="nav nav-tabs" id="analysis_tab">
-<li class="active"><a href="#fact" data-toggle="tab">FACT run analysis</a></li>
-<li><a href="#tools" data-toggle="tab">Test stage analysis</a></li>
+<li class="active"><a href="#fact" data-toggle="tab">FACT runs analysis</a></li>
+<li><a href="#tools" id="edit_report_tab" data-toggle="tab" data-placement="bottom" title="Click to edit report (title and other)">Edit report</a></li>
 </ul>
  
 <div class="tab-content">
 <div class="tab-pane active" id="fact">
  {{include 'mainanalysis.html'}}
 </div>
+
 <div class="tab-pane" id="tools">
-    <div class="test-tools bs-docs-example">
+
+    <div class="first-page bs-docs-example">
+        <table style="width:540px;text-align: center; margin-left:50px;" class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td>Title</td>
+                    <td>
+                        <input id="title_input" type="text" class="input-xlarge tip" data-placement="top" title="By default, there is ndsversion" value="{{ if testsuiteArray[0]['label']['title']:}} {{=testsuiteArray[0]['label']['title']}}  {{else:}}{{=testsuiteArray[0]['databaseundertest']['ndsversion']}} {{pass}}"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="second-page bs-docs-example">
+        <table style="width:540px;text-align: center; margin-left:50px;" class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td>Comment of Release manager</td>
+                    <td>
+                        <input id="comment_release_input" type="text" class="input-xlarge" value="{{=testsuiteArray[0]['label']['releasecomment']}}"/>
+                    </td>
+                </tr>
+                <tr>
+
+                    <td>Comment of Incident manager</td>
+                    <td>
+                        <input id="comment_incident_input" type="text" class="input-xlarge" value="{{=testsuiteArray[0]['label']['commentswqs']}}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Version Name</td>
+                    <td>
+                        <input id="version_name_input" type="text" class="input-xlarge" value="{{=testsuiteArray[0]['anaconda']['name']}}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>P4 Changelist</td>
+                    <td>
+                        <input id="changelist_input" type="text" class="input-xlarge" value="{{=testsuiteArray[0]['anaconda']['changelist']}}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Branch</td>
+                    <td>
+                        <input id="branch_input" type="text" class="input-xlarge" value="{{=testsuiteArray[0]['anaconda']['branch']}}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Analysed by</td>
+                    <td>
+                        <input id="analysed_by_input" type="text" class="input-xlarge" value="{{=testsuiteArray[0]['label']['user']}}"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="third-page bs-docs-example">
     <table id="tools_analysis" style="width:540px;text-align: center; margin-left:50px;" class="table table-bordered">
         <thead>
             <tr>
@@ -32,8 +181,8 @@
                 <td>NDS Validation Tool</td>
                 <td>
                     <div class="btn-group" data-toggle="buttons-radio">
-                    <button type="button" class="btn active passed_failed">Passed</button>
-                    <button type="button" class="btn passed_failed">Failed</button>
+                    <button id="nds_validation_tool_passed" type="button" class="btn active passed_failed">Passed</button>
+                    <button id="nds_validation_tool_failed" type="button" class="btn passed_failed">Failed</button>
                     </div>
                 </td>
                 <td>
@@ -46,8 +195,8 @@
                 <td>Anaconda Workbench</td>
                 <td>
                     <div class="btn-group" data-toggle="buttons-radio">
-                    <button type="button" class="btn active passed_failed">Passed</button>
-                    <button type="button" class="btn passed_failed">Failed</button>
+                    <button id="anaconda_wb_tool_passed" type="button" class="btn active passed_failed">Passed</button>
+                    <button id="anaconda_wb_tool_failed" type="button" class="btn passed_failed">Failed</button>
                     </div>
                 </td>
                 <td>
@@ -60,8 +209,8 @@
                 <td>MapViewer Simulation</td>
                 <td>
                     <div class="btn-group" data-toggle="buttons-radio">
-                    <button type="button" class="btn active passed_failed">Passed</button>
-                    <button type="button" class="btn passed_failed">Failed</button>
+                    <button id="mapviewer_tool_passed" type="button" class="btn active passed_failed">Passed</button>
+                    <button id="mapviewer_tool_failed" type="button" class="btn passed_failed">Failed</button>
                     </div>
                 </td>
                 <td>
@@ -74,8 +223,8 @@
                 <td>NDS Validation Suite</td>
                 <td>
                     <div class="btn-group" data-toggle="buttons-radio">
-                    <button type="button" class="btn active passed_failed">Passed</button>
-                    <button type="button" class="btn passed_failed">Failed</button>
+                    <button id="nds_validation_suite_tool_passed" type="button" class="btn active passed_failed">Passed</button>
+                    <button id="nds_validation_suite_tool_failed" type="button" class="btn passed_failed">Failed</button>
                     </div>
                 </td>
                 <td>
@@ -86,9 +235,6 @@
             </tr>
         </tbody>
     </table>
-     </div>
-
-    <div class="test-techs bs-docs-example">
         <table id="techs_analysis" style="width:250px;text-align: center; margin-left:50px;" class="table table-bordered">
         <thead>
             <tr>
@@ -137,7 +283,7 @@
     </table>
     </div>
     <div style="margin: 10px 0 0 50px">
-        <button style="float: left;margin-bottom: 50px"  class="btn btn-primary" id="save_tools_button">Save</button>
+        <button style="float: left;margin-bottom: 50px"  class="btn btn-primary" id="save_edit_report_btn">Save</button>
         <div id="success_message" style="float: left; margin: 0 0 13px 30px;display:none"  class="alert alert-success">
             <strong>Well done!</strong> Your chages are saved 
         </div>
@@ -147,78 +293,3 @@
     </div>
 </div>
 </div>
-    
-
-<script type="text/javascript">
-
-$(function(){
-    var buttons = [];
-        $("#tools_analysis .btn-group > button").each( function (i) {
-            buttons.push($(this))
-        } );
-        var testsuiteArray = {{=XML(response.json(techs_result))}}
-        for(i in testsuiteArray){
-            if (testsuiteArray[i] == 1)
-                $('#techs_analysis #' + i).attr('checked',true)
-        }
-
-        {{ if tools_result['nds_validation_tool'] == 1:}}
-            buttons[0].button('toggle')
-        {{ else:}}
-            buttons[1].button('toggle')
-        {{pass}}
-
-        {{ if tools_result['anaconda_wb_tool'] == 1:}}
-            buttons[2].button('toggle')
-        {{ else:}}
-            buttons[3].button('toggle')
-        {{pass}}
-
-        {{ if tools_result['mapviewer_tool'] == 1:}}
-            buttons[4].button('toggle')
-        {{ else:}}
-            buttons[5].button('toggle')
-        {{pass}}
-
-        {{ if tools_result['nds_validation_suite_tool'] == 1:}}
-            buttons[6].button('toggle')
-        {{ else:}}
-            buttons[7].button('toggle')
-        {{pass}}
-        $('#save_tools_button').live('click', function () {
-        var result = []
-        $("#tools_analysis .btn-group > button.active").each( function (i) {
-            if ($(this).text() == "Passed")
-                result.push(1)
-            else
-                result.push(0)
-        } );
-
-        var test_techs = []
-        $("#techs_analysis input").each( function (i) {
-            isChecked = $(this).is(':checked')
-            if (isChecked == true)
-                test_techs.push(1)
-            else
-                test_techs.push(0)
-        } );
-
-        $.ajax({
-            type: "POST",
-            url: '/{{=request.application}}/labels/save_tools_analysis',
-            data: {"tool_result": result, "techs_result":test_techs, "labelid": {{=labelid}} },
-            success: function(result) {
-                 $('#success_message').css('display','block')
-            },
-            error: function(result) {
-                 $('#error_message').css('display','block')
-            }
-        })
-    })
-    $('.passed_failed').live('click', function () {
-        $('#success_message').css('display','none')
-        $('#error_message').css('display','none')
-    })
-});
-
-</script>

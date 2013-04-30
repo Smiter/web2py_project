@@ -52,7 +52,18 @@ function TestRunsDataTable(){
           { "sTitle": "Name", "bSortable": false ,"sWidth": "26%", "mData": "testsuite.testsuitename" },
           { "sTitle": "Start date" ,"sWidth": "8%", "mData": "testsuite.starttime" },
           { "sTitle": "Finish date" ,"sWidth": "8%", "mData": "testsuite.endtime" },
-          { "sTitle": "Branch" , "bSortable": false,"sWidth": "8%", "mData": "anaconda.name" },
+          { "sTitle": "Branch" , "bSortable": false,"sWidth": "8%", "mData": "anaconda.name",
+                    "mRender": function ( data, type, full ) {
+                        if (data == "__"){
+                          return 'unknown'
+                        }
+                        else{
+                          data = data.substring(data.lastIndexOf("-")+1)
+                          data = data.substring(0, data.lastIndexOf("_"))
+                          return data
+                        }
+                      }
+          },
           { "sTitle": "CL" , "bSortable": false,"sWidth": "8%", "mData": "anaconda.changelist" },
           { "sTitle": "Analyzed","sWidth": "7%", "mData": "testsuite.analyzed",
                       "mRender": function ( data, type, full ) {
@@ -339,18 +350,17 @@ function TestRunsDataTable(){
                      data: "labelid="+self.rawData.id
                      }).done(function( isAnalyzed ) {
                       if (isAnalyzed == "True"){
-                            $('#waitingModal').modal({
-                              backdrop: 'static',
-                              keyboard: false
-                            })
-
+                            
                             $.ajax({
                             type: "POST",
                             url:'/'+appName+'/labels/generateReport',
                             data: {"labelid": self.rawData.id, "report_design_name": report_design_name}
                             }).done(function( url ) {
-                              $('#waitingModal').modal('hide')
                               window.location.href = url
+                              $('#waitingModal').modal({
+                              backdrop: 'static',
+                              keyboard: false
+                            })
                             })
                       }
                       else{
@@ -530,6 +540,11 @@ function TestRunsDataTable(){
 
           $('#' + collapseid +' #ok').live('click',function () {
               self.testresult = 'OK'
+              self.oTable.fnDraw(false);
+          })
+
+          $('#' + collapseid +' #skipped').live('click',function () {
+              self.testresult = 'Skipped'
               self.oTable.fnDraw(false);
           })
 
