@@ -525,6 +525,7 @@ function TestRunsDataTable(){
                      },
                      complete: function(xml, status){
                       $('#waitingModal').modal('hide')
+                      self.oTable.fnDraw(false);
                       // do something after success or error no matter what
                      }
                     })               
