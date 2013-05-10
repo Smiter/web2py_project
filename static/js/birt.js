@@ -51,7 +51,16 @@ function TestRunsDataTable(){
           { "sTitle": "Id","sWidth": "5%", "mData": "testsuite.id" },
           { "sTitle": "Name", "bSortable": false ,"sWidth": "26%", "mData": "testsuite.testsuitename" },
           { "sTitle": "Start date" ,"sWidth": "8%", "mData": "testsuite.starttime" },
-          { "sTitle": "Finish date" ,"sWidth": "8%", "mData": "testsuite.endtime" },
+          { "sTitle": "Finish date" ,"sWidth": "8%", "mData": "testsuite.endtime", 
+                    "mRender": function ( data, type, full ) {
+                        if (data == null){
+                          return ''
+                        }
+                        else{
+                          return data
+                        }
+                      }
+          },
           { "sTitle": "Branch" , "bSortable": false,"sWidth": "8%", "mData": "anaconda.name",
                     "mRender": function ( data, type, full ) {
                         if (data == "__"){
@@ -64,7 +73,16 @@ function TestRunsDataTable(){
                         }
                       }
           },
-          { "sTitle": "CL" , "bSortable": false,"sWidth": "8%", "mData": "anaconda.changelist" },
+          { "sTitle": "CL" , "bSortable": false,"sWidth": "8%", "mData": "anaconda.changelist",
+            "mRender": function ( data, type, full ) {
+                        if (data == null){
+                          return 'unknown'
+                        }
+                        else{
+                          return data
+                        }
+                      }
+          },
           { "sTitle": "Analyzed","sWidth": "7%", "mData": "testsuite.analyzed",
                       "mRender": function ( data, type, full ) {
                         if (data == 0){
@@ -76,9 +94,7 @@ function TestRunsDataTable(){
                       }
           }
           ]
-        var sorting = [[ 1, "desc" ]]
         var tableid = "testsuitetable"
-        var handler = "/" + appName + "/fact/runsHandler"
         var buttons = ['analyzebutton', 'addtolabel']
         var self = this;
         var asInitVals = new Array()
@@ -105,13 +121,13 @@ function TestRunsDataTable(){
 
                     },
                  "aoColumns": tableColumns,
-                 "aaSorting": sorting,
+                 "aaSorting": [[ 1, "desc" ]],
                  "bAutoWidth": false,
                  // "bJQueryUI": true,
                  "bServerSide" : true,
                  "bProcessing" : true,
                  "bFilter" : true,
-                 "sAjaxSource" : handler,
+                 "sAjaxSource" : "/" + appName + "/fact_runs/rpc_testruns",
                  "sPaginationType": "full_numbers",
                  "bLengthChange": true,
                  "bPaginate" : true,
@@ -215,20 +231,9 @@ function TestRunsDataTable(){
          
     };
 
-
-
-
-
-
-
-
-
-
-
     function ReportListDataTable(){
             var self = this;
             var tableid = "reporttableid"
-            var handler = "/" + appName + "/labels/labelHandler"
             var asInitVals = new Array()
             self.asInitVals = asInitVals
             var buttons = ['analyzeReportButton', 'generateReport', 'generateNewReport']
@@ -239,8 +244,6 @@ function TestRunsDataTable(){
               { "sTitle": "Name", "sWidth": "45%", "mData": "releasecandidatename" },
               { "sTitle": "Date", "sWidth": "20%", "mData": "date" },
               { "sTitle": "User", "sWidth": "30%","mData": "user" }]
-
-            var sorting = [[ 1, "desc" ]]
 
                      self.oTable = $('#' + tableid).dataTable( {
 
@@ -255,12 +258,12 @@ function TestRunsDataTable(){
 
                         },
                      "aoColumns": tableColumns,
-                     "aaSorting": sorting,
+                     "aaSorting": [[ 1, "desc" ]],
                      "bAutoWidth": false,
                      "bServerSide" : true,
                      "bProcessing" : true,
                      "bFilter" : true,
-                     "sAjaxSource" : handler,
+                     "sAjaxSource" : "/" + appName + "/reports/rpc_reports",
                      "sPaginationType": "full_numbers",
                      "bLengthChange": true,
                      "bPaginate" : true,
@@ -331,7 +334,7 @@ function TestRunsDataTable(){
               var reportlist_form = '#report_list_form'
                   $(reportlist_form).submit( function() {
                       $('<input />').attr('type', 'hidden')
-                      .attr('name', "labelid")
+                      .attr('name', "report_id")
                       .attr('value',  self.rawData.id)
                       .appendTo(reportlist_form);
                       return true;
@@ -346,15 +349,15 @@ function TestRunsDataTable(){
                 $('#'+buttonid).live('click',function () {
                      $.ajax({
                      type: "POST",
-                     url: '/'+appName+'/fact/checkifanalyzed',
-                     data: "labelid="+self.rawData.id
+                     url: '/'+appName+'/reports/rpc_check_if_report_analyzed',
+                     data: "report_id="+self.rawData.id
                      }).done(function( isAnalyzed ) {
                       if (isAnalyzed == "True"){
                             
                             $.ajax({
                             type: "POST",
-                            url:'/'+appName+'/labels/generateReport',
-                            data: {"labelid": self.rawData.id, "report_design_name": report_design_name}
+                            url:'/'+appName+'/reports/rpc_generate_report',
+                            data: {"report_id": self.rawData.id, "report_design_name": report_design_name}
                             }).done(function( url ) {
                               window.location.href = url
                               $('#waitingModal').modal({
@@ -373,11 +376,16 @@ function TestRunsDataTable(){
              
         };
 
-
-
-
-
-
+    
+    function errorTypeSelect(unknown, known, ok, new_error, testcase){
+      return '<select name="combobox" id="errortype" style="width : 105px">'
+         + '<option value="1" '+ unknown + '>Unknown</option>'
+         + '<option value="2" '+ known + '>Known Error</option>'
+         + '<option value="3" '+ ok + '>OK in Context</option>'
+         + '<option value="4" '+ new_error + '>New Error</option>'
+         + '<option value="5" '+ testcase + '>Testcase Problem</option>'
+      + '</select>'
+    }
     function AnalysisDataTable(i, testsuiteid){
         var self = this;
         var asInitVals = new Array()
@@ -386,9 +394,9 @@ function TestRunsDataTable(){
         var collapseid = "collapseOne"+i
         var analyzeButtonid = "Save"+i
         var analyzedCheckboxid = "analyzedcheckbox"+i
-        var handler = "/" + appName + "/fact/analyzeHandler"
         var testsuiteid = testsuiteid
         self.collapse_index = i
+
         var tableColumns = [
           { "sTitle": "Testcase name","sWidth": "20%","mData" : "testdescription.name"},
           // { "sTitle": "Testcase description","bSortable": false,"sWidth": "20%", "mData": "testdescription.testdescription" },
@@ -399,7 +407,25 @@ function TestRunsDataTable(){
             }
           },
           { "sTitle": "Error description","bVisible" : false, "bSortable": false, "mData": "testresult.failuredescription" },
-          { "sTitle": "Bug type","sWidth": "10%","bSortable": false, "mData": "analysis.errortype" },
+          { "sTitle": "Bug type","sWidth": "10%","bSortable": false, "mData": "analysis.errortype",
+           "mRender": function ( data, type, full ) {
+                      if (data == 'Unknown' || data == null){
+                          return errorTypeSelect("selected", "", "", "", "")
+                      }
+                      else if (data == 'Known Error'){
+                          return errorTypeSelect("", "selected", "", "", "")
+                      }
+                      else if (data == 'OK in Context'){
+                          return errorTypeSelect("", "", "selected", "", "")
+                      }
+                      else if (data == 'New Error'){
+                          return errorTypeSelect("", "", "", "selected", "")
+                      }
+                      else if (data == 'Testcase Problem'){
+                          return errorTypeSelect("", "", "", "", "selected")
+                      }
+             },
+          },
           { "sTitle": "Jira Id (number only)","sWidth": "7%", "bSortable": false,"mData": "analysis.jira_id",
                       "mRender": function ( data, type, full ) {
                         if (data != null){
@@ -418,12 +444,17 @@ function TestRunsDataTable(){
                 return '<img id="comment_img" style="width:22px; height:22px"  src="../static/images/details_open.png">'
             }
           },
-          { "sTitle": "On/Off","sWidth": "3%","bSortable": false, "mData": "test.include_test" },
-
-
+          { "sTitle": "On/Off","sWidth": "3%","bSortable": false, "mData": "test.include_test",
+            "mRender": function ( data, type, full ) {
+                        if (data === 0){
+                          return '<input type="checkbox" name="include_test" id="include_test" >'
+                        }
+                        else{
+                          return '<input type="checkbox" name="include_test" id="include_test" checked>'
+                        }
+            }
+          },
           ]
-
-        var sorting = [[ 2,"desc" ]]
 
                  self.oTable = $('#' + tableid).dataTable( {
 
@@ -449,15 +480,15 @@ function TestRunsDataTable(){
 
                     },
                  "aoColumns": tableColumns,
-                 "aaSorting": sorting,
+                 "aaSorting": [[ 2,"desc" ]],
                  "bAutoWidth": false,
                  "bServerSide" : true,
                  "bProcessing" : true,
                  "bFilter" : true,
-                 "sAjaxSource" : handler,
+                 "sAjaxSource" : "/" + appName + "/report_analysis/rpc_analysis",
                  "bPaginate" : false,
                  "iDisplayLength ":25,
-                    "bScrollCollapse": true,
+                 "bScrollCollapse": true,
                  "sDom": '<"top"li>rt<"bottom"p>',
 
                  "fnServerParams": function ( aoData ) {
@@ -510,7 +541,7 @@ function TestRunsDataTable(){
                   $.ajax({
                     type: "POST",
                     cache: false,
-                    url: '/'+ appName +'/fact/saveAnalyze',
+                    url: '/'+ appName +'/report_analysis/rpc_save_analysis',
                     data: {"analysisMap":JSON.stringify(analysisMap),"testsuiteid":testsuite_id},
                     success: function(data, status, xml){
                       // do something is successful
@@ -597,7 +628,7 @@ function TestRunsDataTable(){
               $('#suggestions_id'+ self.collapse_index).empty();
               $.ajax({
                 type: "POST",
-                url: '/' + appName + '/fact/get_testsuite_by_name',
+                url: '/' + appName + '/report_analysis/rpc_get_testsuite_by_name',
                 data: {"auto_testsuitename": testsuitename,"collapse_id": $('#collapse_id' + self.collapse_index).val()},
                 success: function(msg){
                   // do something is successful
@@ -617,7 +648,7 @@ function TestRunsDataTable(){
               $('#suggestions_name'+ self.collapse_index).empty();
               $.ajax({
                 type: "POST",
-                url: '/' + appName + '/fact/get_testsuite_by_id',
+                url: '/' + appName + '/report_analysis/rpc_get_testsuite_by_id',
                 data: {"auto_testsuiteid": testsuiteid,"collapse_id": $('#collapse_id' + self.collapse_index).val()},
                 success: function(msg){
                   // do something is successful
@@ -633,22 +664,22 @@ function TestRunsDataTable(){
 
           $('#autocomplite_btn' + self.collapse_index).live('click',function () {
             console.log("BUT 1")
-            auto_test_id = $('#autocomplite_by_id_input' + self.collapse_index).val()
-            if (auto_test_id == '' || auto_test_id == undefined){
+            previous_test_suite_id = $('#autocomplite_by_id_input' + self.collapse_index).val()
+            if (previous_test_suite_id == '' || previous_test_suite_id == undefined){
               alert('Please select testsuite to make autocomplete for analysis (jira id, comment, errortype)');
               return;
             }
              $.ajax({
              type: "POST",
-             url: '/'+appName+'/fact/autocomplite_jiraids',
-             data: {"testsuiteid_origin": testsuiteid, "testsuiteid_autocomplited": auto_test_id},
+             url: '/'+appName+'/report_analysis/rpc_autocomplite_analysis',
+             data: {"current_testsuiteid": testsuiteid, "previous_testsuiteid": previous_test_suite_id},
              success: function(msg){
                // do something is successful
                 self.oTable.fnDraw(false);
               },
               error: function(xml, status, error){
                // do something if there was an error
-                  window.alert('Something has gone wrong. Please try again')
+                  window.alert('Something has gone wrong. Please try again.')
               }
              });
           });

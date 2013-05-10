@@ -7,7 +7,7 @@
 (function($){
     $.birt = {
            addEditable: function(table, cell_index, column_name){
-             $('td:eq(' + cell_index + ')', table.fnGetNodes()).editable( '/'+ appName +'/fact/edit_cell_value', {
+             $('td:eq(' + cell_index + ')', table.fnGetNodes()).editable( '/'+ appName +'/fact_runs/rpc_edit_cell_value', {
                   "callback": function( sValue, y ) {
                       var aPos = table.fnGetPosition( this );
                       table.fnUpdate( sValue, aPos[0], aPos[1], false );

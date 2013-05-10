@@ -1,4 +1,4 @@
- General styles */
+/* General styles */
 html {
   height: 100%;
 }
@@ -46,13 +46,6 @@ tfoot input.search_init_focus_on {
   width: 70%;
 }
 
-
-#suggestions { position: relative; }
-.suggestions { background: white; border: solid 0px #55A6C8; }
-.suggestions DIV { padding: 2px 4px 2px 4px; }
-
-
-
 table.display {
   /*border:1px solid rgb(170,170,170);*/
   line-height: 15px;
@@ -95,46 +88,6 @@ table.display tfoot th {
 
 }
 
-.dataTables_info {
-    float: left;
-    width: 100%;
-}
-
-
-.datatable_form {
-  background: url("images/ui-bg_highlight-soft_75_cccccc_1x100.png") repeat-x scroll 50% 50% #CCCCCC;
-    border: 1px solid #AAAAAA;
-    color: #222222;
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-
-}
-
-.dataTables_paginate {
-    float: right;
-    text-align: right;
-    margin-top: 10px;
-}
-
-/*table.display tbody {
-  height: 200px;
-}
-*/
-
-/*table.display thead th {
-  padding: 3px 3px 3px 3px;
-  cursor: pointer;
-  * cursor: hand;
-  text-align: center;
-}*/
-/*
-table.display thead th div.DataTables_sort_wrapper {
-  position: relative;
-  padding-right: 5px;
-}*/
-
 table.display tr.odd {
     background-color: #E2E4FF;
     border-top:1px solid rgb(170,170,170);
@@ -154,29 +107,28 @@ table.display tbody td {
     text-align: center;
 }
 
-/* ovverite style of border for header of table.*/
-/*table .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
-    border-right:1px solid rgb(170,170,170);
-    border-left:1px solid rgb(170,170,170);
-}*/
-
-.toolbar {
-  float: left;
-  width: 500px;
-  height: 50px;
+.dataTables_info {
+    float: left;
+    width: 100%;
 }
 
-.toolbar_on_nok {
-  float: right;
-  width: 200px;
-  height: 50px;
-  margin-right: 100px;
+
+.datatable_form {
+  background: url("../images/ui-bg_highlight-soft_75_cccccc_1x100.png") repeat-x scroll 50% 50% #CCCCCC;
+    border: 1px solid #AAAAAA;
+    color: #222222;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
 }
 
-.toolbarbutton {
-  margin: 10px 10px 0 10px;
+.dataTables_paginate {
+    float: right;
+    text-align: right;
+    margin-top: 10px;
 }
-
 
 .table_container {
   margin-right: 20px;
@@ -189,43 +141,6 @@ table.display tbody td {
     background-color: #E6FF99 !important;
 }
 
-/*.dataTables_info {
-  float: left;
-  width: 230px;
-  margin-top: 15px;
-  margin-left: 120px;
-}*/
-
-.ui-helper-clearfix:after {
-    clear: both;
-    content: ".";
-    display: block;
-    height: 20px;
-    visibility: hidden;
-}
-
-/*
-.paging_full_numbers {
-    width: 300px !important;
-}
-
-.dataTables_length {
-  width: 40%;
-  float: left;
-  margin-bottom: -25px;
-}*/
-
-.firstButton {
-  float: left;
-  width:140px;
-  margin: 20px 10px -20px 10px;
-}
-
-.secondButton{
-  float: left;
-  width:140px;
-  margin: 20px 10px -20px 10px;
-}
 
 /* Header */
 
@@ -499,7 +414,7 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAkCAQAAADif
 }
 
 .collapse_header_table_div table th {
-  background: url("images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 50% #E6E6E6;
+  background: url("../images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 50% #E6E6E6;
   border-left: 1px solid #AAAAAA;
 }
 
@@ -509,21 +424,6 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAkCAQAAADif
   margin-top: 10px;
   margin-right: 10px;
   margin-left: 10px;
-}
-
-.analysis_checkbox_name {
-  margin-top: 8px;
-}
-
-.analysissavebutton {
-   margin-left: 10px;
-}
-
-.saveanalyze {
-  position: absolute;
-  left:30px;
-  bottom:8px;
-  width:70px;
 }
 
 .warningAnalysis{ 
@@ -573,7 +473,7 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAkCAQAAADif
           border-radius: 4px;
 }
 
-/* Echo out a label for the example */
+
 .bs-docs-example:after {
   position: absolute;
   top: -1px;
@@ -607,4 +507,33 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAkCAQAAADif
 .third-page:after {
   content: "Third page";
   color: blue;
+}
+
+#suggestions { 
+  position: relative;
+}
+
+.suggestions {
+  background: white; border: solid 0px #55A6C8;
+}
+
+.suggestions DIV {
+  padding: 2px 4px 2px 4px;
+}
+
+.toolbar {
+  float: left;
+  width: 500px;
+  height: 50px;
+}
+
+.toolbar_on_nok {
+  float: right;
+  width: 200px;
+  height: 50px;
+  margin-right: 100px;
+}
+
+.toolbarbutton {
+  margin: 10px 10px 0 10px;
 }

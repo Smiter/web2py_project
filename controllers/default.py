@@ -3,4 +3,7 @@ from gluon import *
 
 
 def index():
-    return dict(message=T(""))
+    """
+    Used for rendering views/default/index.html page
+    """
+    return dict()

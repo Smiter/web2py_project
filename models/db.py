@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
+
+# desc: database models definitions
+# author: <SMikhaylenko@luxoft.com>
+
+# from gluon.custom_import import track_changes
+# track_changes(True)
 from gluon import *
+import local_settings
 
-
-#db = DAL("mysql://nds:test@172.30.136.176/ndsreport_new", pool_size=10)
-# db = DAL("mysql://root:111@localhost/test", pool_size=10)
-db = DAL("mysql://nds:test@oekalxap68/ndsreport", pool_size=10)
-# doors_db = DAL("mysql://nds:test@oekalxap68/doors", pool_size=10)
-
+#prodaction server: "mysql://nds:test@oekalxap68/ndsreport"
+db = DAL(local_settings.my_db_name, pool_size=10)
 
 migrate = False
 
@@ -55,9 +58,6 @@ db.define_table('anaconda',
                 Field('md5checksum', type='text', unique=True),
                 primarykey=['id', 'id'],
                 migrate=migrate)
-
-#logging.error(db().select(db.anaconda.ALL))
-#    logging.error(row.id)
 
 db.define_table('analysis',
                 Field('id', type='integer'),
@@ -206,19 +206,3 @@ db.define_table('testsuite',
                 Field('endtime', type='text'),
                 primarykey=['id', 'id'],
                 migrate=migrate)
-
-
-# db.anaconda.name.filter_out = lambda txt: txt[: txt.rfind('_')][txt.rfind('-')+1:] if txt != "__" else "unknown"
-#db.testsuite.timestamp.filter_out = lambda number: "unknown" if number == 0 else datetime.datetime.fromtimestamp(number / 1000).strftime('%d/%m/%Y, %H:%M:%S')
-db.testsuite.endtime.filter_out = lambda number: "" if number is None else number
-db.anaconda.changelist.filter_out = lambda changelist: "unknown" if not changelist else changelist
-#db.testsuite.analyzed.filter_out = lambda analyzed: ANALYZED_IMAGE_NO if analyzed == 0 else ANALYZED_IMAGE_YES
-db.analysis.errortype.filter_out = lambda errortype: {'Unknown': BUG_TYPE % ("selected", "", "", "", ""),
-                                                      'Known Error': BUG_TYPE % ("", "selected", "", "", ""),
-                                                      'OK in Context': BUG_TYPE % ("", "", "selected", "", ""),
-                                                      'New Error': BUG_TYPE % ("", "", "", "selected", ""),
-                                                      'Testcase Problem': BUG_TYPE % ("", "", "", "", "selected"),
-                                                      None: BUG_TYPE % ("selected", "", "", "", "")}.get(errortype)
-# db.analysis.jira_id.filter_out = lambda jira_id: JIRA_ID % "" if jira_id is None else JIRA_ID % jira_id
-# db.analysis.comment.filter_out = lambda comment: COMMENT % "" if comment is None else COMMENT % comment
-db.test.include_test.filter_out = lambda include_test: INCLUDE_TEST % "" if include_test is 0 else INCLUDE_TEST % "checked"
