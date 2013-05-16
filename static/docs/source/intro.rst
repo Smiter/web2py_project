@@ -7,8 +7,7 @@ Installing web2py framework
 ======================================
 
 * Install python 2.7
-* Download web2py python web framework: http://www.web2py.com/examples/default/download
-* Read instructions on the link above how to run it.
+* Download web2py python web framework: http://www.web2py.com/examples/static/web2py_src.zip
 * Download last sources from PERFORCE: ``//CoC_Navigation/DigitalMap/Nds/Anaconda/Tools/BIRT/BIRT_SRC/``
 * Put all code into your folder inside ``web2py/application`` directory like this:
 
@@ -21,7 +20,7 @@ Installing web2py framework
 ::
 
     >>> cd $HOME_WEB2PY_DIRECTORY
-    >>> python web2py
+    >>> python web2py.py
 
 * Go to the browser and enter http://127.0.0.1:8000/birt/
 
@@ -60,5 +59,8 @@ Installing Apache Tomcat web server
 ======================================
 
 * Install last Tomcat server: http://tomcat.apache.org/download-60.cgi
+* Download birt web application for deploing on Tomcat: At this link http://download.eclipse.org/birt/downloads/ click on Runtime button to download zip archive.
+* Open archive and copy birt.war to ``$HOME_TOMCAT/webapps/``. Restart tomcat server using ``$HOME_TOMCAT/bin/startup.bat`` and ``$HOME_TOMCAT/bin/shutdown.bat``
 * Copy ``BirtReports`` folder to ``$HOME_TOMCAT/webapps/birt/``
-* Run Tomcat using ``$HOME_TOMCAT/bin/startup.bat`` or stop using ``$HOME_TOMCAT/bin/shutdown.bat``
+* Download http://dev.mysql.com/downloads/connector/j/ and copy it to the ``$HOME_TOMCAT/webapps/birt/WEB-INF/lib/``
+* Restart tomcat

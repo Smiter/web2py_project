@@ -105,7 +105,7 @@ def rpc_save_report():
             db(db.anaconda.id == int(testsuite.anaconda_id)).update(name=branch + "_" + changelist)
         db(db.testsuite.id == testsuite_id).update(label_id=last_report.id)
     session.label_preview_list = dict()
-    redirect(URL(request.application, 'reports', 'list'))
+    redirect(URL(request.application, 'reports', 'view_reports'))
 
 
 def rpc_edit_cell_value():
