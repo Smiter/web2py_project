@@ -376,7 +376,121 @@ function TestRunsDataTable(){
              
         };
 
-    
+    function ReleaseNoteDataTable () {
+            var self = this;
+            var tableid = "releasenotetableid"
+            var asInitVals = new Array()
+            self.asInitVals = asInitVals
+            var buttons = ['generateReleaseNotes', 'edit_release_note_btn']
+
+            var tableColumns = [
+              { "sTitle": "Select", "bSortable": false ,"sWidth": "6%","mData" : null,
+                "sDefaultContent": '<input type = "checkbox">'},
+              { "sTitle": "Id",   "sWidth": "10%", "mData": "id" },
+              { "sTitle": "Name", "sWidth": "45%", "mData": "release_note_name" },
+              { "sTitle": "Date", "sWidth": "20%", "mData": "date" },
+              { "sTitle": "User", "sWidth": "30%","mData": "user_name" }]
+
+                     self.oTable = $('#' + tableid).dataTable( {
+
+                     "fnDrawCallback": function(){
+                        $("#"+tableid+" tfoot input").each( function (i) {
+                            if(this.value == ""){
+                                self.asInitVals[i] = "Search"
+                                $(this).blur(); 
+                                $(this).css('color',"#999")
+                            }
+                        } );
+
+                        },
+                     "aoColumns": tableColumns,
+                     "aaSorting": [[ 1, "desc" ]],
+                     "bAutoWidth": false,
+                     "bServerSide" : true,
+                     "bProcessing" : true,
+                     "bFilter" : true,
+                     "sAjaxSource" : "/" + appName + "/release_notes/rpc_release_notes",
+                     "sPaginationType": "full_numbers",
+                     "bLengthChange": true,
+                     "bPaginate" : true,
+                     "bStateSave": true,
+                     "iDisplayLength ":25,
+                       "sScrollY": "300px",
+                        "bScrollCollapse": true,
+                     "sDom": '<"top"li>rt<"bottom"p>',
+
+                     "fnStateSave": function (oSettings, oData) {
+                         localStorage.setItem( 'DataTables_'+window.location.pathname, JSON.stringify(oData) );
+                     },
+                     "fnStateLoad": function (oSettings) {
+                         return JSON.parse( localStorage.getItem('DataTables_'+window.location.pathname) );
+                     },
+
+                     "fnStateLoadParams": function (oSettings, oData) {
+                        var searchVals = oData.aoSearchCols
+                        $(".display tfoot input").each( function (i) {
+                            if(searchVals[i] != null){
+                            if (searchVals[i].sSearch != "" ){
+                                this.value = searchVals[i].sSearch
+                                self.asInitVals[i] = this.value;
+                                this.className = "search_init_focus_on";
+                                $(this).css('color',"black")
+                                $(this).focus()
+                            }
+                        }
+                        })
+                        self.asInitVals = asInitVals
+                     },
+                  } );   
+
+           this.addFiltering = function(){
+              addFiltering(this)
+            };
+
+           this.addSingleClickRawHandler = function(){
+              var self = this;
+
+                  $('#' + tableid+' tbody tr').filter(':has(:checkbox:checked)').end().live('click',function(event) {
+                      
+                      if($(':checkbox', this).is(':checked') == false) {
+                            for (var i in buttons){
+                                $('#' + buttons[i]).attr('disabled',true);  
+                            }
+                          $(this).removeClass('datatablerowhighlight');
+                      }
+                      else
+                      {
+                          $('#' + tableid+' tbody tr').parent().children().each(function(){
+                              $(this).removeClass('datatablerowhighlight');
+                              $(':checkbox', this).attr('checked',false)
+                          });
+                          for (var i in buttons){
+                              $('#' + buttons[i]).attr('disabled',false)
+                          }
+                          $(':checkbox', this).attr('checked',true)
+                          $(this).addClass('datatablerowhighlight');
+                      }
+                      self.rawData = self.oTable.fnGetData(this);
+
+                  });        
+            };
+
+           this.addGenerateNotePDfButtonHandler = function(){
+                var self = this;
+                $('#generateReleaseNotes').live('click',function () {               
+                window.location.href = "/" + appName + "/release_notes/generate_report?note_id="+self.rawData.id
+                })
+            };
+
+            this.addEditNoteButtonHandler = function(){
+                var self = this;
+                $('#edit_release_note_btn').live('click',function () {               
+                window.location.href = "/" + appName + "/release_notes/create_edit_report?note_id="+self.rawData.id
+                })
+            };
+      
+    };
+
     function errorTypeSelect(unknown, known, ok, new_error, testcase){
       return '<select name="combobox" id="errortype" style="width : 105px">'
          + '<option value="1" '+ unknown + '>Unknown</option>'

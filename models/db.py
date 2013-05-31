@@ -3,13 +3,16 @@
 # desc: database models definitions
 # author: <SMikhaylenko@luxoft.com>
 
-# from gluon.custom_import import track_changes
-# track_changes(True)
 from gluon import *
 import local_settings
 
-#prodaction server: "mysql://nds:test@oekalxap68/ndsreport"
-db = DAL(local_settings.my_db_name, pool_size=10)
+ndsreport_path = "mysql://nds:test@oekalxap68/ndsreport"
+release_note_path = "mysql://nds:test@oekalxap68/release_notes_test"
+
+#production server: "mysql://nds:test@oekalxap68/ndsreport"
+db = DAL(ndsreport_path, pool_size=10)
+#release_note TEST server: "mysql://nds:test@oekalxap68/release_notes_test"
+release_note_db = DAL(release_note_path, pool_size=10)
 
 migrate = False
 
@@ -206,3 +209,113 @@ db.define_table('testsuite',
                 Field('endtime', type='text'),
                 primarykey=['id', 'id'],
                 migrate=migrate)
+
+release_note_db.define_table('release_note',
+                Field('id', type='integer'),
+                Field('release_note_name', type='text'),
+                Field('date',type='date'),
+                Field('user_name', type='text'),
+                Field('version', type='text'),
+                Field('owner', type='text'),
+                Field('approved_by', type='text'),
+                primarykey=['id', 'id'],
+                migrate=migrate)
+
+release_note_db.define_table('database_info',
+                Field('id', type='integer'),
+                Field('note_id', type='integer'),
+                Field('compiler_release', type='text'),
+                Field('country_list',type='text'),
+                Field('customer', type='text'),
+                Field('db_release', type='text'),
+                Field('region', type='text'),
+                Field('db_size', type='text'),
+                Field('elvis_tickets', type='text'),
+                Field('map_data_supplier', type='text'),
+                Field('pon', type='integer'),
+                Field('db_type', type='text'),
+                primarykey=['id', 'id'],
+                migrate=migrate)
+
+release_note_db.define_table('features_info',
+                Field('id', type='integer'),
+                Field('note_id', type='integer'),
+                Field('advanced__shadedmap', type='text'),
+                Field('advanced_dtm',type='text'),
+                Field('advanced_integrate_ecm_acm', type='integer'),
+                Field('advanced_integrate_features', type='text'),
+                Field('advanced_integrate_landmarks', type='integer'),
+                Field('advanced_integrate_scm_nt', type='integer'),
+                Field('advanced_sat', type='text'),
+                Field('advanced_textures_format', type='text'),
+                Field('amd_2d_landmark_icons', type='integer'),
+                Field('amd_3d_bridges', type='text'),
+                Field('amd_3d_city_models', type='integer'),
+                Field('amd_3d_landmarks', type='integer'),
+                Field('amd_3d_tunnels', type='integer'),
+                Field('amd_aerial_photos', type='integer'),
+                Field('amd_enhanced_3d_city_models', type='integer'),
+                Field('amd_flat_dtm', type='integer'),
+                Field('amd_motorway_junction_objects', type='integer'),
+                Field('amd_normal_dtm', type='integer'),
+                Field('amd_oem_specific_enhancements', type='integer'),
+                Field('amd_road_furniture', type='integer'),
+                Field('amd_sat_images', type='integer'),
+                Field('amd_shaded_maps', type='integer'),
+                Field('amd_superelevation', type='integer'),
+                Field('basic_nds_adas', type='integer'),
+                Field('basic_nds_bmd', type='integer'),
+                Field('basic_nds_phonemes', type='integer'),
+                Field('basic_nds_poi', type='integer'),
+                Field('basic_nds_routing', type='integer'),
+                Field('basic_nds_traffic_information', type='integer'),
+                primarykey=['id', 'id'],
+                migrate=migrate)
+
+release_note_db.define_table('known_issues',
+                Field('id', type='integer'),
+                Field('note_id', type='integer'),
+                Field('ki_amd_3d_city_model', type='text'),
+                Field('ki_amd_3d_enhanced_city_model',type='text'),
+                Field('ki_amd_3d_landmark', type='text'),
+                Field('ki_amd_dtm', type='text'),
+                Field('ki_amd_sat', type='text'),
+                Field('ki_amd_shaded_map', type='text'),
+                Field('ki_amd_tunnels_and_bridges', type='text'),
+                Field('ki_basic_nds_adas', type='text'),
+                Field('ki_basic_nds_bmd', type='text'),
+                Field('ki_basic_nds_naming', type='text'),
+                Field('ki_basic_nds_phonemes', type='text'),
+                Field('ki_basic_nds_poi', type='text'),
+                Field('ki_basic_nds_routing', type='text'),
+                Field('ki_basic_nds_ti', type='text'),
+                primarykey=['id', 'id'],
+                migrate=migrate)
+
+release_note_db.define_table('nds_file_structure',
+                Field('id', type='integer'),
+                Field('note_id', type='integer'),
+                Field('amd', type='text'),
+                Field('amd_db_files_compressed',type='text'),
+                Field('amd_db_files_uncompressed', type='text'),
+                Field('nds_compression', type='integer'),
+                Field('nds_compression_mode', type='integer'),
+                Field('omb', type='text'),
+                Field('product_file', type='text'),
+                Field('root_file', type='text'),
+                Field('ur_01', type='text'),
+                Field('ur_02', type='text'),
+                Field('ur_03', type='text'),
+                Field('ur_04', type='text'),
+                Field('ur_05', type='text'),
+                Field('ur_06', type='text'),
+                Field('ur_07', type='text'),
+                Field('ur_08', type='text'),
+                Field('ur_09', type='text'),
+                Field('ur_10', type='text'),
+                Field('ur_11', type='text'),
+                Field('ur_12', type='text'),
+                primarykey=['id', 'id'],
+                migrate=migrate)
+
+

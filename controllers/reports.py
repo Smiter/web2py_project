@@ -63,3 +63,5 @@ def rpc_check_if_report_analyzed():
         if r.analyzed == 0:
             return False
     return True
+
+

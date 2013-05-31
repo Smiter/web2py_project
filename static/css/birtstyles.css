@@ -489,6 +489,13 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAkCAQAAADif
           border-radius: 4px 0 4px 0;
 }
 
+.general-info {
+    font-size: 20px;
+    width: 540px;
+    margin-left: 50px;
+    text-align: center;
+  }
+
 .test-techs:after{
   content: "Test techniques";
   color: blue;
@@ -536,4 +543,8 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAkCAQAAADif
 
 .toolbarbutton {
   margin: 10px 10px 0 10px;
+}
+
+.datepicker{
+  z-index:1151;
 }

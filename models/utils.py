@@ -37,7 +37,7 @@ def getLimit():
                 + int(request.vars['iDisplayLength']))
 
 
-def getOrder(columns):
+def getOrder(columns, db):
     orderby = None
     for i in range(int(request.vars['iSortingCols'])):
         if request.vars['bSortable_' + str(request.vars['iSortCol_' + str(i)])] == "true":
@@ -49,7 +49,7 @@ def getOrder(columns):
     return orderby
 
 
-def getFilter(columns):
+def getFilter(columns, db):
     like = None
     for i in range(len(columns) + 1):
         if request.vars['bSearchable_' + str(i)] and request.vars['bSearchable_' + str(i)] == "true" and request.vars['sSearch_' + str(i)] != '':
@@ -61,10 +61,10 @@ def getFilter(columns):
     return like
 
 
-def proccessTableQuery(query=None, countBeforeFilter=None, left=None, columns=None, selectcolumns=None):
+def proccessTableQuery(query=None, countBeforeFilter=None, left=None, columns=None, selectcolumns=None, db=db):
     limitby = getLimit()
-    orderby = getOrder(columns)
-    filterby = getFilter(columns)
+    orderby = getOrder(columns, db)
+    filterby = getFilter(columns, db)
     rows = db(filterby)(query).select(*selectcolumns,limitby=limitby, orderby=orderby, left=left)
     beforeFilter = db(countBeforeFilter).count()
     if filterby is None:

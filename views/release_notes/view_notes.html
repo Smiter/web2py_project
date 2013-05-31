@@ -1,0 +1,40 @@
+{{extend 'layout.html'}}
+
+<script type="text/javascript">
+  $(function(){
+    $("#menu_vs_button").addClass("pushed_menu_button")
+      //init datatable for report list
+    var table = new ReleaseNoteDataTable()
+    table.addSingleClickRawHandler()
+    table.addFiltering()
+    table.addGenerateNotePDfButtonHandler()
+    table.addEditNoteButtonHandler()
+  });
+</script>
+
+<div id="label_list" class="table_container">
+  <form class="datatable_form" id="report_list_form" method = "GET" action = "/{{=request.application}}/reports/generate_report">
+    <table cellpadding="0" cellspacing="0" border="0" class="display" id="releasenotetableid">
+      <tbody>
+        <tr>
+          <td colspan="55" class="dataTables_empty">Loading data from server</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th><input type="hidden" name="search_id" class="search_init_focus_of"/></th>
+          <th><input type="text" name="search_id" value="Search" class="search_init_focus_of" /></th>
+          <th><input type="text" name="search_name" value="Search" class="search_init_focus_of" /></th>
+          <th><input type="text" name="search_starttime" value="Search" class="search_init_focus_of" /></th>
+          <th><input type="text" name="search_endtime" value="Search" class="search_init_focus_of" /></th>
+        </tr>
+      </tfoot>
+    </table>
+    <a href="/{{=request.application}}/release_notes/create_edit_report" type="button" id="analyzeNoteButton" class="btn btn-primary toolbarbutton" >Create new Release Note</a>
+    <button id="edit_release_note_btn" type="button" class="btn btn-primary toolbarbutton" disabled>Edit Release Notes</button>
+    <button id="generateReleaseNotes" type="button" class="btn btn-primary toolbarbutton" disabled>Generate Release Notes PDF</button>
+    <!-- <button  id="generateReport" type="button" class="btn btn-primary toolbarbutton" disabled>Generate Report</button> -->
+    <!-- <button  id="generateNewReport" type="button" class="btn btn-primary toolbarbutton" disabled>Generate New Report</button> -->
+  </form>
+</div>
+

@@ -1,0 +1,62 @@
+<script type="text/javascript">
+$("#savelabelbutton").live('click', function(){
+
+        var res = {};
+        res["release_note_name"] = $("#release_note_name").val()
+        res["release_note_date"] = $("#release_note_date").val()
+        res["release_note_user_name"] = $("#release_note_user_name").val()
+        $.ajax({
+                type: "POST",
+                url: '/{{=request.application}}/release_notes/rpc_add_new_note',
+                data: {"res": JSON.stringify(res) },
+                success: function(not_id) {
+                  $("#note_id").val(not_id)
+                  $("#noteModalForm").modal('hide');
+                },
+                error: function(res) {
+                }
+        }) 
+})
+
+$(function(){
+  $('#release_note_date').datepicker({format:'dd.mm.yyyy'})
+});
+
+</script>
+<form method="POST" class="modal hide fade" id="noteModalForm">
+     <div class="modal-header">
+       <h3>Create new release note</h3>
+     </div>
+     <div class="modal-body">
+        <table>
+          <tr>
+                 <td><label>Release Note name: </label></td>
+                 <td><input  style="width:230px" type="text" name="note_name" value="" id="release_note_name"/></td>
+                 <td></td>
+          </tr>
+          <tr>
+                 <td><label>Date: </label></td>
+                 <td>
+                    <div class="input-append">
+                    <input class="input-small" type="text" name="date" id="release_note_date"/>
+                    <span class="add-on">
+                    <i class="icon-calendar"></i>
+                    </span>
+                    </div>
+                  </td>
+                 <td></td>
+          </tr>
+
+           <tr>
+                 <td><label>User Name: </label></td>
+                 <td><input style="width:230px" type="text" name="user_name" value="" id="release_note_user_name"/></td>
+                 <td></td>
+          </tr>
+
+        </table>
+     </div>
+     <div class="modal-footer">
+        <a href="/{{=request.application}}/release_notes/view_notes" class="btn">Go back</a>
+       <button id="savelabelbutton" type="button" class="btn btn-primary">Add new Release Note</button>
+     </div>
+</form>

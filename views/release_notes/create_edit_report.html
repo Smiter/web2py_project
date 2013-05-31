@@ -1,0 +1,870 @@
+{{extend 'layout.html'}}
+
+<script type="text/javascript">
+	function addNewNoteClickHandler(){
+    /*
+     * Add click handler when press on save button.
+     * Ajax call with values from all inputs on the page
+     */
+        // $('#analyzeNoteButton').live('click', function () {
+        $('#noteModalForm').modal({
+            keyboard: false,
+            backdrop: 'static'
+        })
+        $('#noteModalForm').modal('show');
+    }
+
+  function addSaveClickHandler(){
+    /*
+     * Add click handler when press on save button.
+     * Ajax call with values from all inputs on the page
+     */
+
+        $('#save_release_note_btn').live('click', function () {
+            $('#success_message_oem').css('display','none')
+            $('#error_message_oem').css('display','none')
+            var result = {};
+            var button_db_type_result = [];
+            var button_result = [];
+            var test_techs = [];
+
+            $("#general_info_table #button_db_type > button.active").each( function (i) {
+                button_db_type_result.push($(this).text())
+            });
+
+            $("#general_info_table #button_nds_compression > button.active").each( function (i) {
+                if ($(this).text() == "Yes")
+                    button_result.push(1)
+                else
+                    button_result.push(0)
+            });
+
+            $("#amd_features input[type=checkbox], #basic_features input[type=checkbox], #advanced_info input[type=checkbox]").each( function (i) {
+                isChecked = $(this).is(':checked')
+                if (isChecked == true)
+                    test_techs.push(1)
+                else
+                    test_techs.push(0)
+            });
+			
+			database_info = {}
+			database_info["region"] = $("#region").val()
+			database_info["compiler_release"] = $("#compiler_release").val()
+			database_info["country_list"] = $("#update_region").val()
+			database_info["customer"] = $("#customer").val()
+			database_info["db_release"] = $("#db_release").val()
+			database_info["db_size"] = $("#db_size").val()
+			database_info["elvis_tickets"] = $("#fixed_tickets").val()
+			database_info["map_data_supplier"] = $("#map_data_supplier").val()
+			database_info["db_type"] = button_db_type_result[0]
+			database_info["pon"] = $("#pon").val()
+			database_info["note_id"] = $("#note_id").val();
+			
+			
+            result["database_info"] = database_info
+			
+			nds_file_structure = {}
+			
+			nds_file_structure["amd"] = $("#amd").val()
+			nds_file_structure["amd_db_files_compressed"] = $("#amd_files_compressed").val()
+			nds_file_structure["amd_db_files_uncompressed"] = $("#amd_files_uncompressed").val()
+			nds_file_structure["nds_compression"] = button_result[0]
+			nds_file_structure["nds_compression_mode"] = $("#ndsc_mode").val()
+			nds_file_structure["omb"] = $("#omb").val()
+			nds_file_structure["product_file"] = $("#full_nds_product_file").val()
+			nds_file_structure["root_file"] = $("#full_nds_root_file").val()
+			nds_file_structure["ur_01"] = $("#ur_1").val()
+			nds_file_structure["ur_02"] = $("#ur_2").val()
+			nds_file_structure["ur_03"] = $("#ur_3").val()
+			nds_file_structure["ur_04"] = $("#ur_4").val()
+			nds_file_structure["ur_05"] = $("#ur_5").val()
+			nds_file_structure["ur_06"] = $("#ur_6").val()
+			nds_file_structure["ur_07"] = $("#ur_7").val()
+			nds_file_structure["ur_08"] = $("#ur_8").val()
+			nds_file_structure["ur_09"] = $("#ur_9").val()
+			nds_file_structure["ur_10"] = $("#ur_10").val()
+			nds_file_structure["ur_11"] = $("#ur_11").val()
+			nds_file_structure["ur_12"] = $("#ur_12").val()
+			nds_file_structure["note_id"] = $("#note_id").val();
+			
+			result["nds_file_structure"] = nds_file_structure
+						
+			known_issues = {}			
+			
+			known_issues["ki_amd_3d_city_model"] = $("#ki_amd_3d_city_model").val()
+			known_issues["ki_amd_3d_enhanced_city_model"] = $("#ki_amd_3d_enhanced_city_model").val()
+			known_issues["ki_amd_3d_landmark"] = $("#ki_amd_3d_landmark").val()
+			known_issues["ki_amd_dtm"] = $("#ki_amd_dtm").val()
+			known_issues["ki_amd_sat"] = $("#ki_amd_sat").val()
+			known_issues["ki_amd_shaded_map"] = $("#ki_amd_shaded_map").val()
+			known_issues["ki_amd_tunnels_and_bridges"] = $("#ki_amd_tunnels_and_bridges").val()
+			known_issues["ki_basic_nds_adas"] = $("#ki_basic_nds_adas").val()
+			known_issues["ki_basic_nds_bmd"] = $("#ki_basic_nds_bmd").val()
+			known_issues["ki_basic_nds_naming"] = $("#ki_basic_nds_naming").val()
+			known_issues["ki_basic_nds_phonemes"] = $("#ki_basic_nds_phonemes").val();
+			known_issues["ki_basic_nds_poi"] = $("#ki_basic_nds_poi").val();
+			known_issues["ki_basic_nds_routing"] = $("#ki_basic_nds_routing").val();
+			known_issues["ki_basic_nds_ti"] = $("#ki_basic_nds_ti").val();
+			known_issues["note_id"] = $("#note_id").val();
+						
+			result["known_issues"] = known_issues
+			
+			
+			features_info = {}			
+			features_info["advanced__shadedmap"] = $("#shadedmap_levels").val();
+			features_info["advanced_dtm"] = $("#dtm_levels").val();
+			features_info["advanced_integrate_features"] = $("#integrate_features").val();
+			features_info["advanced_sat"] = $("#sat_levels").val();
+			features_info["advanced_textures_format"] = $("#images_format").val();
+			features_info["amd_3d_bridges"] = $("#3d_bridges_tunnels").val();			
+			
+			features_info["amd_normal_dtm"] = test_techs[0]
+			features_info["amd_flat_dtm"] = test_techs[1]
+			features_info["amd_sat_images"] = test_techs[2]
+			features_info["amd_aerial_photos"] = test_techs[3]
+			features_info["amd_3d_landmarks"] = test_techs[4]
+			features_info["amd_3d_city_models"] = test_techs[5]
+			features_info["amd_enhanced_3d_city_models"] = test_techs[6]
+			features_info["amd_road_furniture"] = test_techs[7]
+			features_info["amd_oem_specific_enhancements"] = test_techs[8]
+			features_info["amd_shaded_maps"] = test_techs[9]
+			features_info["amd_3d_tunnels"] = test_techs[10]
+			features_info["amd_motorway_junction_objects"] = test_techs[11]
+			features_info["amd_superelevation"] = test_techs[12]
+			features_info["amd_2d_landmark_icons"] = test_techs[13]
+			features_info["basic_nds_bmd"] = test_techs[14]
+			features_info["basic_nds_poi"] = test_techs[15]
+			features_info["basic_nds_routing"] = test_techs[16]
+			features_info["basic_nds_adas"] = test_techs[17]
+			features_info["basic_nds_phonemes"] = test_techs[18]
+			features_info["basic_nds_traffic_information"] = test_techs[19]
+			features_info["advanced_integrate_landmarks"] = test_techs[20]
+			features_info["advanced_integrate_ecm_acm"] = test_techs[21]
+			features_info["advanced_integrate_scm_nt"] = test_techs[22]
+			features_info["note_id"] = $("#note_id").val();
+			result["features_info"] = features_info
+            
+            result["note_id"] = $("#note_id").val();
+
+            $.ajax({
+                type: "POST",
+                url: '/{{=request.application}}/release_notes/rpc_save_note',
+                data: {"result": JSON.stringify(result) },
+                success: function(result) {
+                     $('#success_message_oem').css('display','block')
+                },
+                error: function(result) {
+                     $('#error_message_oem').css('display','block')
+                }
+            })
+        })
+        
+        $('#save_cover_note_btn').live('click', function () {
+            var result = {};
+            result["release_note_date"] = $("#note_date_picker").val()
+            result["version"] = $("#version").val()
+            result["owner"] = $("#owner").val()
+            result["approved_by"] = $("#approved_by").val()
+            result["note_id"] = $("#note_id").val()
+
+            $('#success_message').css('display','none')
+            $('#error_message').css('display','none')
+
+            $.ajax({
+                type: "POST",
+                url: '/{{=request.application}}/release_notes/rpc_save_cover_note',
+                data: {"result": JSON.stringify(result) },
+                success: function(result) {
+                     $('#success_message').css('display','block')
+                },
+                error: function(result) {
+                     $('#error_message').css('display','block')
+                }
+            })
+	    })
+
+    }
+    $(function(){
+
+        $('#note_date_picker').datepicker({format:'dd.mm.yyyy'})
+
+    	$("#general_info_table #button_nds_compression > button").on('click', function(){
+            if ($(this).text() == "No"){
+            	$("#ndsc_mode").attr('disabled','disabled')
+            }
+            else{
+            	$("#ndsc_mode").removeAttr('disabled')
+ 
+            }
+    	})
+        {{if not note_result: }}
+            addNewNoteClickHandler()
+        {{else:}}
+               $("#note_date_picker").val("{{=note_result['release_note']['date']}}")
+               $("#version").val("{{=note_result['release_note']['version']}}")
+               $("#owner").val("{{=note_result['release_note']['owner']}}")
+               $("#approved_by").val("{{=note_result['release_note']['approved_by']}}")
+               $("#note_id").val("{{=note_result['release_note']['id']}}")
+
+               var db_type = "{{=note_result['database_info']['db_type']}}"
+               if (db_type == "AMD"){
+                   $("#button_db_type #amd_button").button('toggle')
+               }
+               else{
+                   $("#button_db_type #full_nds_button").button('toggle')	
+               }
+
+               $("#pon").val("{{=note_result['database_info']['pon']}}")
+               $("#customer").val("{{=note_result['database_info']['customer']}}")
+               $("#map_data_supplier").val("{{=note_result['database_info']['pon']}}")
+               $("#db_release").val("{{=note_result['database_info']['db_release']}}")
+               $("#region").val("{{=note_result['database_info']['region']}}")
+               $("#update_region").val("{{=note_result['database_info']['country_list']}}")
+               $("#compiler_release").val("{{=note_result['database_info']['compiler_release']}}")
+               $("#db_size").val("{{=note_result['database_info']['db_size']}}")
+               $("#fixed_tickets").val("{{=note_result['database_info']['elvis_tickets']}}")
+
+               var nds_compression = {{=note_result['nds_file_structure']['nds_compression']}}
+               if (nds_compression  == 1){
+                   $("#button_compression_yes").button('toggle')
+                   $("#ndsc_mode").val("{{=note_result['nds_file_structure']['nds_compression_mode']}}")
+               }
+               else{
+                   $("#button_compression_no").button('toggle')
+                   $("#ndsc_mode").val("").attr('disabled','disabled')
+               }
+
+               $("#full_nds_root_file").val("{{=note_result['nds_file_structure']['root_file']}}")
+               $("#full_nds_product_file").val("{{=note_result['nds_file_structure']['product_file']}}")
+               $("#amd").val("{{=note_result['nds_file_structure']['amd']}}")
+               $("#amd_files_compressed").val("{{=note_result['nds_file_structure']['amd_db_files_compressed']}}")
+               $("#amd_files_uncompressed").val("{{=note_result['nds_file_structure']['amd_db_files_uncompressed']}}")
+               $("#omb").val("{{=note_result['nds_file_structure']['omb']}}")
+               $("#ur_1").val("{{=note_result['nds_file_structure']['ur_01']}}")
+               $("#ur_2").val("{{=note_result['nds_file_structure']['ur_02']}}")
+               $("#ur_3").val("{{=note_result['nds_file_structure']['ur_03']}}")
+               $("#ur_4").val("{{=note_result['nds_file_structure']['ur_04']}}")
+               $("#ur_5").val("{{=note_result['nds_file_structure']['ur_05']}}")
+               $("#ur_6").val("{{=note_result['nds_file_structure']['ur_06']}}")
+               $("#ur_7").val("{{=note_result['nds_file_structure']['ur_07']}}")
+               $("#ur_8").val("{{=note_result['nds_file_structure']['ur_08']}}")
+               $("#ur_9").val("{{=note_result['nds_file_structure']['ur_09']}}")
+               $("#ur_10").val("{{=note_result['nds_file_structure']['ur_10']}}")
+               $("#ur_11").val("{{=note_result['nds_file_structure']['ur_11']}}")
+               $("#ur_12").val("{{=note_result['nds_file_structure']['ur_12']}}")
+
+               var techs_result_array = {{=XML(response.json(check_res))}}
+               
+                for(i in techs_result_array){
+                    if (techs_result_array[i] == 1){
+                        $('#oem #' + i).attr('checked',true)
+                    }
+                }
+
+               $("#3d_bridges_tunnels").val("{{=note_result['features_info']['amd_3d_bridges']}}")
+               $("#dtm_levels").val("{{=note_result['features_info']['advanced_dtm']}}")
+               $("#integrate_features").val("{{=note_result['features_info']['advanced_integrate_features']}}")
+               $("#sat_levels").val("{{=note_result['features_info']['advanced_sat']}}")
+               $("#shadedmap_levels").val("{{=note_result['features_info']['advanced__shadedmap']}}")
+               $("#images_format").val("{{=note_result['features_info']['advanced_textures_format']}}")
+
+               $("#ki_amd_3d_city_model").val("{{=note_result['known_issues']['ki_amd_3d_city_model']}}")
+               $("#ki_amd_3d_enhanced_city_model").val("{{=note_result['known_issues']['ki_amd_3d_enhanced_city_model']}}")
+               $("#ki_amd_3d_landmark").val("{{=note_result['known_issues']['ki_amd_3d_landmark']}}")
+               $("#ki_amd_dtm").val("{{=note_result['known_issues']['ki_amd_dtm']}}")
+               $("#ki_amd_sat").val("{{=note_result['known_issues']['ki_amd_sat']}}")
+               $("#ki_amd_shaded_map").val("{{=note_result['known_issues']['ki_amd_shaded_map']}}")
+               $("#ki_amd_tunnels_and_bridges").val("{{=note_result['known_issues']['ki_amd_tunnels_and_bridges']}}")
+               $("#ki_basic_nds_adas").val("{{=note_result['known_issues']['ki_basic_nds_adas']}}")
+               $("#ki_basic_nds_bmd").val("{{=note_result['known_issues']['ki_basic_nds_bmd']}}")
+               $("#ki_basic_nds_naming").val("{{=note_result['known_issues']['ki_basic_nds_naming']}}")
+               $("#ki_basic_nds_phonemes").val("{{=note_result['known_issues']['ki_basic_nds_phonemes']}}")
+               $("#ki_basic_nds_poi").val("{{=note_result['known_issues']['ki_basic_nds_poi']}}")
+               $("#ki_basic_nds_routing").val("{{=note_result['known_issues']['ki_basic_nds_routing']}}")
+               $("#ki_basic_nds_ti").val("{{=note_result['known_issues']['ki_basic_nds_ti']}}")
+
+        {{pass}}
+
+        addSaveClickHandler()
+
+     });
+
+</script>
+<div class="page-header">
+    <h3 class="pagetitle">
+        Release note creation/editing
+    </h3>
+ </div>
+
+ <ul class="nav nav-tabs" id="analysis_tab">
+	<li class="active"><a href="#cover" data-toggle="tab">Cover</a></li>
+	<li><a href="#oem" id="edit_report_tab" data-toggle="tab" data-placement="bottom" title="Click to edit report (title and other)">OEM</a></li>
+	<li><a href="#change_version" id="edit_report_tab" data-toggle="tab" data-placement="bottom" title="Click to edit report (title and other)">ChangeVersion</a></li>
+	<li><a href="#nds_files" id="edit_report_tab" data-toggle="tab" data-placement="bottom" title="Click to edit report (title and other)">NDS files</a></li>
+	<li><a href="#requirements" id="edit_report_tab" data-toggle="tab" data-placement="bottom" title="Click to edit report (title and other)">Requirements</a></li>
+	<li><a href="#full_nds" id="edit_report_tab" data-toggle="tab" data-placement="bottom" title="Click to edit report (title and other)">Full-NDS</a></li>
+	<li><a href="#coordinates" id="edit_report_tab" data-toggle="tab" data-placement="bottom" title="Click to edit report (title and other)">Coordinates</a></li>
+	<li><a href="#errors" id="edit_report_tab" data-toggle="tab" data-placement="bottom" title="Click to edit report (title and other)">Errors</a></li>
+	<li><a href="#visual_tests" id="edit_report_tab" data-toggle="tab" data-placement="bottom" title="Click to edit report (title and other)">Visual tests</a></li>
+	<li><a href="#elements_count" id="edit_report_tab" data-toggle="tab" data-placement="bottom" title="Click to edit report (title and other)">Elements count</a></li>
+	<li><a href="#validation" id="edit_report_tab" data-toggle="tab" data-placement="bottom" title="Click to edit report (title and other)">Validation</a></li>
+	<li><a href="#external_references" id="edit_report_tab" data-toggle="tab" data-placement="bottom" title="Click to edit report (title and other)">External references</a></li>
+</ul>
+
+<div class="tab-content">
+	<div class="tab-pane active" id="cover">
+
+		<div class="bs-docs-example">
+			<h1 class="general-info">CONFIDENTIAL</h1>
+			<table style="width:540px; text-align:center; margin-left:50px;" class="table table-bordered">
+				<tbody>
+					<tr>
+						<td>Date:</td>
+						<td>
+							  <input id="note_date_picker" type="text" class="input-small" >
+						</td>
+					</tr>
+					<tr>
+						<td>Version:</td>
+						<td>
+							<input id="version" type="text" class="input-small" data-placement="top" value=""/>	
+						</td>
+					</tr>
+					<tr>
+						<td>Owner:</td>
+						<td>
+							<input id="owner" type="text" class="input-xlarge" data-placement="top" value=""/>
+						</td>
+					</tr>
+					<tr>
+						<td>Approved by:</td>
+						<td>
+							 <input id="approved_by" type="text" class="input-xlarge" data-placement="top" value=""/>
+						</td>
+					</tr>
+
+
+				</tbody>
+
+			</table>
+		</div>
+
+		 <div style="margin: 10px 0 0 50px">
+	        <button style="float: left;margin-bottom: 50px"  class="btn btn-primary" id="save_cover_note_btn">Save</button>
+	        <div id="success_message" style="float: left; margin: 0 0 13px 30px;display:none"  class="alert alert-success">
+	            <strong>Well done!</strong> Your chages are saved 
+	        </div>
+	        <div id="error_message" style="float: left; margin: 0 0 13px 30px;display:none"  class="alert alert-error">
+	            <strong>Error!</strong> Your chages are not saved. Please try again.
+	        </div>
+        </div>
+		 
+	</div>
+
+	<div class="tab-pane" id="oem">
+
+		<div class="bs-docs-example">
+			<h1 class="general-info">General Information</h1>
+	        <table style="width:540px;text-align: center; margin-left:50px;" class="table table-bordered" id="general_info_table">
+	            <tbody>
+                            <td>DB Type</td>
+                                <td>
+                                    <div class="btn-group" data-toggle="buttons-radio" id="button_db_type">
+                                        <button id="amd_button" type="button" class="btn active passed_failed">AMD</button>
+                                        <button id="full_nds_button" type="button" class="btn passed_failed">Full-NDS</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+			                <tr>
+			                    <td>PON#</td>
+			                    <td>
+			                        <input id="pon" type="text" style="width: 50px;" data-placement="top" value=""/>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>Customer</td>
+			                    <td>
+			                        <input id="customer" type="text" class="input-xlarge" data-placement="top" value=""/>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>Map Data Supplier</td>
+			                    <td>
+			                        <input id="map_data_supplier" type="text" class="input-xlarge" data-placement="top" value=""/>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>DB Release</td>
+			                    <td>
+			                        <input id="db_release" type="text" class="input-xlarge" data-placement="top" value=""/>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>Region</td>
+			                    <td>
+			                        <input id="region" type="text" class="input-xlarge" data-placement="top" value=""/>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>UpdateRegion/Country List</td>
+			                    <td>
+			                        <textarea id="update_region"  data-placement="top" value=""></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>Compiler Release</td>
+			                    <td>
+			                        <input id="compiler_release" type="text" class="input-xlarge" data-placement="top" value=""/>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>Full NDS ROOT file</td>
+			                    <td>
+			                        <input id="full_nds_root_file" type="text" class="input-xlarge" data-placement="top" value=""/>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>Full NDS Product file</td>
+			                    <td>
+			                        <textarea id="full_nds_product_file"  data-placement="top" value=""></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>AMD</td>
+			                    <td>
+			                        <textarea id="amd"  data-placement="top" value=""></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>AMD NDS DB files compressed</td>
+			                    <td>
+			                        <textarea id="amd_files_compressed"  data-placement="top" value=""></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>AMD NDS DB files uncompressed</td>
+			                    <td>
+			                        <textarea id="amd_files_uncompressed"  data-placement="top" value=""></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>NDS compression</td>
+			                    <td>
+			                        <div class="btn-group" data-toggle="buttons-radio" id="button_nds_compression">
+                                        <button id="button_compression_yes" type="button" class="btn active passed_failed">Yes</button>
+                                        <button id="button_compression_no" type="button" class="btn passed_failed">No</button>
+                                    </div>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>NDSC mode</td>
+			                    <td>
+			                        <input id="ndsc_mode" type="text" class="input-xlarge" data-placement="top" value=""/>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>OMB</td>
+			                    <td>
+			                        <textarea id="omb"  data-placement="top" value=""></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>UR 01</td>
+			                    <td>
+			                        <textarea id="ur_1"  data-placement="top" value=""></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>UR 02</td>
+			                    <td>
+			                        <textarea id="ur_2"  data-placement="top" value=""></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>UR 03</td>
+			                    <td>
+			                        <textarea id="ur_3"  data-placement="top" value=""></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>UR 04</td>
+			                    <td>
+			                        <textarea id="ur_4"  data-placement="top" value=""></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>UR 05</td>
+			                    <td>
+			                        <textarea id="ur_5"  data-placement="top" value=""></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>UR 06</td>
+			                    <td>
+			                        <textarea id="ur_6"  data-placement="top" value=""></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>UR 07</td>
+			                    <td>
+			                        <textarea id="ur_7"  data-placement="top" value=""></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>UR 08</td>
+			                    <td>
+			                        <textarea id="ur_8"  data-placement="top" value=""></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>UR 09</td>
+			                    <td>
+			                        <textarea id="ur_9"  data-placement="top" value=""></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>UR 10</td>
+			                    <td>
+			                        <textarea id="ur_10"  data-placement="top" value=""></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>UR 11</td>
+			                    <td>
+			                        <textarea id="ur_11"  data-placement="top" value=""></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>UR 12</td>
+			                    <td>
+			                        <textarea id="ur_12"  data-placement="top" value=""></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>DB size</td>
+			                    <td>
+			                        <input id="db_size" type="text" class="input-xlarge" data-placement="top" value=""/>
+			                    </td>
+			                </tr>
+	            </tbody>
+	        </table>
+
+	        <h1 class="general-info">AMD Features</h1>
+	        <table id ="amd_features" style="width:540px;text-align: center; margin-left:50px;" class="table table-bordered">
+	            <tbody>
+			                <tr>
+			                    <td>“normal” DTM</td>
+			                    <td>
+			                        <input id="amd_normal_dtm" type="checkbox" />
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>“flat” DTM  (no elevation/depth levels)</td>
+			                    <td>
+			                        <input id="amd_flat_dtm" type="checkbox" />
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>SAT images</td>
+			                    <td>
+			                        <input id="amd_sat_images" type="checkbox" />
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>aerial photos</td>
+			                    <td>
+			                        <input id="amd_aerial_photos" type="checkbox" />
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>3D landmarks</td>
+			                    <td>
+			                        <input id="amd_3d_landmarks" type="checkbox" />
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>3D city models</td>
+			                    <td>
+			                        <input id="amd_3d_city_models" type="checkbox" />
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>enhanced 3D city models</td>
+			                    <td>
+			                        <input id="amd_enhanced_3d_city_models" type="checkbox" />
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>road furniture to enhanced 3D city model</td>
+			                    <td>
+			                        <input id="amd_road_furniture" type="checkbox" />
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>OEM specific enhancements for shoebox city models</td>
+			                    <td>
+			                        <input id="amd_oem_specific_enhancements" type="checkbox" />
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>shaded maps</td>
+			                    <td>
+			                        <input id="amd_shaded_maps" type="checkbox" />
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>3D bridges and tunnels </td>
+			                    <td>
+			                        <input id="3d_bridges_tunnels" type="text" class="input-xlarge" data-placement="top" value=""/>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>3D tunnels</td>
+			                    <td>
+			                        <input id="amd_3d_tunnels" type="checkbox" />
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>motorway junction objects (MoJO)</td>
+			                    <td>
+			                        <input id="amd_motorway_junction_objects" type="checkbox" />
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>superelevation</td>
+			                    <td>
+			                        <input id="amd_superelevation" type="checkbox" />
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>2D landmark icons</td>
+			                    <td>
+			                        <input id="amd_2d_landmark_icons" type="checkbox" />
+			                    </td>
+			                </tr>
+	            </tbody>
+	        </table>
+
+	        <h1 class="general-info">Basic-NDS Features</h1>
+	        <table id ="basic_features" style="width:540px;text-align: center; margin-left:50px;" class="table table-bordered">
+	            <tbody>
+			                <tr>
+			                    <td>BMD</td>
+			                    <td>
+			                        <input id="basic_nds_bmd" type="checkbox" />
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>POI</td>
+			                    <td>
+			                        <input id="basic_nds_poi" type="checkbox" />
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>Routing</td>
+			                    <td>
+			                        <input id="basic_nds_routing" type="checkbox" />
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>ADAS</td>
+			                    <td>
+			                        <input id="basic_nds_adas" type="checkbox" />
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>Phonemes</td>
+			                    <td>
+			                        <input id="basic_nds_phonemes" type="checkbox" />
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>Traffic Information</td>
+			                    <td>
+			                        <input id="basic_nds_traffic_information" type="checkbox" />
+			                    </td>
+			                </tr>
+	            </tbody>
+	        </table>
+
+	        <h1 class="general-info">Advanced Information</h1>
+	        <table id ="advanced_info" style="width:540px;text-align: center; margin-left:50px;" class="table table-bordered">
+	            <tbody>
+			                <tr>
+			                    <td>DTM (base level, upper level)</td>
+			                    <td>
+			                        <input id="dtm_levels" type="text" class="input-xlarge" data-placement="top" value=""/>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>Integrate features into DTM</td>
+			                    <td>
+			                        <input id="integrate_features" type="text" class="input-xlarge" data-placement="top" value=""/>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>Integrate landmarks into DTM</td>
+			                    <td>
+			                        <input id="advanced_integrate_landmarks" type="checkbox" />
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>Integrate ECM/ACM into DTM</td>
+			                    <td>
+			                        <input id="advanced_integrate_ecm_acm" type="checkbox" />
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>Integrate SCM/NT Footprint into DTM</td>
+			                    <td>
+			                        <input id="advanced_integrate_scm_nt" type="checkbox" />
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>SAT (base level, upper level)</td>
+			                    <td>
+			                        <input id="sat_levels" type="text" class="input-xlarge" data-placement="top" value=""/>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>ShadedMap (base level, upper level)</td>
+			                    <td>
+			                        <input id="shadedmap_levels" type="text" class="input-xlarge" data-placement="top" value=""/>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>Images/Textures Format</td>
+			                    <td>
+			                        <input id="images_format" type="text" class="input-xlarge" data-placement="top" value=""/>
+			                    </td>
+			                </tr>
+	            </tbody>
+	        </table>
+
+	        <h1 class="general-info">ELVIS</h1>
+	        <table style="width:540px;text-align: center; margin-left:50px;" class="table table-bordered">
+	            <tbody>
+			                <tr>
+			                    <td>Fixed tickets #</td>
+			                    <td>
+			                        <textarea id="fixed_tickets" data-placement="top" ></textarea>
+			                    </td>
+			                </tr>
+	            </tbody>
+	        </table>
+
+	        <h1 class="general-info">AMD Known Issues</h1>
+	        <table style="width:540px;text-align: center; margin-left:50px;" class="table table-bordered">
+	            <tbody>
+			                <tr>
+			                    <td>3D City Model</td>
+			                    <td>
+			                        <textarea id="ki_amd_3d_city_model" data-placement="top" ></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td> 3D Enhanced City Model</td>
+			                    <td>
+			                        <textarea id="ki_amd_3d_enhanced_city_model" data-placement="top" ></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>3D Landmark</td>
+			                    <td>
+			                        <textarea id="ki_amd_3d_landmark" data-placement="top" ></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>Tunnels and bridges</td>
+			                    <td>
+			                        <textarea id="ki_amd_tunnels_and_bridges" data-placement="top" ></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>SAT</td>
+			                    <td>
+			                        <textarea id="ki_amd_sat" data-placement="top" ></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>DTM</td>
+			                    <td>
+			                        <textarea id="ki_amd_dtm" data-placement="top" ></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>ShadedMap</td>
+			                    <td>
+			                        <textarea id="ki_amd_shaded_map" data-placement="top" ></textarea>
+			                    </td>
+			                </tr>
+	            </tbody>
+	        </table>
+
+	        <h1 class="general-info">Basic-NDS Known Issues</h1>
+	        <table style="width:540px;text-align: center; margin-left:50px;" class="table table-bordered">
+	            <tbody>
+			                <tr>
+			                    <td>BMD</td>
+			                    <td>
+			                        <textarea id="ki_basic_nds_bmd" data-placement="top" ></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>POI</td>
+			                    <td>
+			                        <textarea id="ki_basic_nds_poi" data-placement="top" ></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>Naming</td>
+			                    <td>
+			                        <textarea id="ki_basic_nds_naming" data-placement="top" ></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>Routing</td>
+			                    <td>
+			                        <textarea id="ki_basic_nds_routing" data-placement="top" ></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>ADAS</td>
+			                    <td>
+			                        <textarea id="ki_basic_nds_adas" data-placement="top" ></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>Phonemes</td>
+			                    <td>
+			                        <textarea id="ki_basic_nds_phonemes" data-placement="top" ></textarea>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>TI</td>
+			                    <td>
+			                        <textarea id="ki_basic_nds_ti" data-placement="top" ></textarea>
+			                    </td>
+			                </tr>
+	            </tbody>
+	        </table>
+	    </div>
+
+	    <div style="margin: 10px 0 0 50px">
+	        <button style="float: left;margin-bottom: 50px"  class="btn btn-primary" id="save_release_note_btn">Save</button>
+	        <div id="success_message_oem" style="float: left; margin: 0 0 13px 30px;display:none"  class="alert alert-success">
+	            <strong>Well done!</strong> Your chages are saved 
+	        </div>
+	        <div id="error_message_oem" style="float: left; margin: 0 0 13px 30px;display:none"  class="alert alert-error">
+	            <strong>Error!</strong> Your chages are not saved. Please try again.
+	        </div>
+        </div>
+
+	</div><!-- END TAB-PANE-->
+
+<input type="hidden" id="note_id">
+
+</div><!-- END TAB-CONTENT-->
+
+{{include 'releasenotesubmitform.html'}}
